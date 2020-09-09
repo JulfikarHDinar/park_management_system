@@ -26,7 +26,7 @@ CREATE TABLE Staff_info(
 CREATE TABLE Visitor_Info(
 	visitor_id int  IDENTITY(1,1) PRIMARY KEY,
 	visitor_name varchar(50) NOT NULL,
-	visitor_phone int NOT NULL,
+	visitor_phone varchar(20) NOT NULL,
 	visitor_gender varchar(10) NOT NULL CHECK (visitor_gender IN('Male','Female','Other')),
 	visitor_age int NOT NULL 
 )

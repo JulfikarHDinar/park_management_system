@@ -34,7 +34,7 @@ public class visitorInfoPanel extends javax.swing.JPanel {
             
             Visitor visitor;
             while(rs.next()){
-                visitor=new Visitor(rs.getInt("visitor_id"), rs.getString("visitor_name"),rs.getInt("visitor_phone"),rs.getString("visitor_gender"),rs.getInt("visitor_age"));
+                visitor=new Visitor(rs.getInt("visitor_id"), rs.getString("visitor_name"),rs.getString("visitor_phone"),rs.getString("visitor_gender"),rs.getInt("visitor_age"));
                 visitorsList.add(visitor);
             }
             
