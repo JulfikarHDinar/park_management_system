@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package MenuItems;
+
+import AddButtonItems.addVisitorInfoPanel;
 import Mainpackage.*;
-/**
- *
- * @author Julfikar
- */
+
 public class visitorInfoPanel extends javax.swing.JPanel {
 
     /**
@@ -16,7 +10,7 @@ public class visitorInfoPanel extends javax.swing.JPanel {
      */
     public visitorInfoPanel() {
         initComponents();
-        
+
     }
 
     /**
@@ -109,6 +103,11 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         addButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         addButton.setForeground(new java.awt.Color(255, 255, 255));
         addButton.setText("ADD");
+        addButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(addButton);
         addButton.setBounds(240, 400, 70, 33);
 
@@ -128,6 +127,12 @@ public class visitorInfoPanel extends javax.swing.JPanel {
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
+
+    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+        //This will bring the frame which was implemented for add button into the screen in Nimbus look 
+        String[] args = null;
+        new addVisitorInfoPanel().main(args);
+    }//GEN-LAST:event_addButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

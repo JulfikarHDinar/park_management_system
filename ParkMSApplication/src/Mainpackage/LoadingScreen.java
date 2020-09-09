@@ -20,9 +20,9 @@ public class LoadingScreen extends javax.swing.JFrame {
             //This will close the loading screen
             dispose();
             
-            //This will bring the application frame (TheFrame) into the screen in Nimbus look 
+            //This will bring the loginAuth frame into the screen in Nimbus look 
             String[] args = null;
-            new TheFrame().main(args);
+            new LoginAuth().main(args);
             
         } catch (InterruptedException ex) {
             Logger.getLogger(TheFrame.class.getName()).log(Level.SEVERE, null, ex);
