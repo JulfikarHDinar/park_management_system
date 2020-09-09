@@ -2,6 +2,13 @@ package MenuItems;
 
 import AddButtonItems.addVisitorInfoPanel;
 import Mainpackage.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 public class visitorInfoPanel extends javax.swing.JPanel {
 
@@ -10,7 +17,47 @@ public class visitorInfoPanel extends javax.swing.JPanel {
      */
     public visitorInfoPanel() {
         initComponents();
+        show_visitor();
 
+    }
+    public ArrayList<Visitor> visitorList(){
+        ArrayList<Visitor> visitorsList = new ArrayList<>();
+        try {
+          
+               Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:sqlserver://localhost:1433;databaseName=Park_MS;selectMethod=cursor", "sa", "123456");
+ 	    Statement statement = connection.createStatement();
+            
+            String showvisitorinfoquery= "SELECT * FROM Visitor_Info"; 
+            ResultSet rs= statement.executeQuery(showvisitorinfoquery);
+            
+            Visitor visitor;
+            while(rs.next()){
+                visitor=new Visitor(rs.getInt("visitor_id"), rs.getString("visitor_name"),rs.getInt("visitor_phone"),rs.getString("visitor_gender"),rs.getInt("visitor_age"));
+                visitorsList.add(visitor);
+            }
+            
+        }
+        catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+        return visitorsList;
+    }
+    public void show_visitor(){
+        ArrayList<Visitor> list = visitorList();
+        DefaultTableModel model = (DefaultTableModel) visito_infoTable.getModel();
+        Object[] row = new Object[5];
+        for(int i=0;i<list.size();i++){
+            row[0]=list.get(i).getvisitor_id();
+            row[1]=list.get(i).getvisitor_name();
+            row[2]=list.get(i).getvisitor_phone();
+            row[3]=list.get(i).getvisitor_gender();
+            row[4]=list.get(i).getvisitor_age();
+            
+            model.addRow(row);
+        }
     }
 
     /**
@@ -29,7 +76,7 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         tableScrollPanel = new javax.swing.JScrollPane();
-        dataTable = new javax.swing.JTable();
+        visito_infoTable = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
         searchButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
@@ -52,7 +99,6 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         jPanel1.setBounds(10, 10, 510, 10);
 
         jLabel1.setFont(new java.awt.Font("Gadugi", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Visitor's Information");
         contentPanel.add(jLabel1);
@@ -76,25 +122,15 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
 
-        dataTable.setBackground(new java.awt.Color(255, 255, 255));
-        dataTable.setForeground(new java.awt.Color(255, 255, 255));
-        dataTable.setModel(new javax.swing.table.DefaultTableModel(
+        visito_infoTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
                 "ID", "Name", "Phone", "Sex", "Age"
             }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tableScrollPanel.setViewportView(dataTable);
+        ));
+        tableScrollPanel.setViewportView(visito_infoTable);
 
         contentPanel.add(tableScrollPanel);
         tableScrollPanel.setBounds(10, 90, 510, 300);
@@ -109,21 +145,21 @@ public class visitorInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(240, 400, 70, 33);
+        addButton.setBounds(240, 400, 70, 25);
 
         searchButton.setBackground(new java.awt.Color(65, 40, 107));
         searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("SEARCH");
         contentPanel.add(searchButton);
-        searchButton.setBounds(320, 400, 90, 33);
+        searchButton.setBounds(320, 400, 90, 25);
 
         deleteButton.setBackground(new java.awt.Color(65, 40, 107));
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("DELETE");
         contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 400, 90, 33);
+        deleteButton.setBounds(420, 400, 90, 25);
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
@@ -138,7 +174,6 @@ public class visitorInfoPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JPanel contentPanel;
-    private javax.swing.JTable dataTable;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
@@ -147,5 +182,6 @@ public class visitorInfoPanel extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JButton searchButton;
     private javax.swing.JScrollPane tableScrollPanel;
+    private javax.swing.JTable visito_infoTable;
     // End of variables declaration//GEN-END:variables
 }

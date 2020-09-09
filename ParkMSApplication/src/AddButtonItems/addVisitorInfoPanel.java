@@ -1,6 +1,13 @@
 package AddButtonItems;
 
 import Mainpackage.*;
+import Mainpackage.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
 
 public class addVisitorInfoPanel extends javax.swing.JFrame {
 
@@ -151,11 +158,27 @@ public class addVisitorInfoPanel extends javax.swing.JFrame {
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         try {
-            //write database operation here
+          
+               Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+            Connection connection = DriverManager.getConnection(
+                    "jdbc:sqlserver://localhost:1433;databaseName=Park_MS;selectMethod=cursor", "sa", "123456");
+ 	    Statement statement = connection.createStatement();
+            String addvisitorinfoquery ="insert into visitor_info (visitor_name,visitor_phone,visitor_age,visitor_gender) values(?,?,?,?)";
+            PreparedStatement pst= connection.prepareStatement(addvisitorinfoquery);
+            pst.setString(1,visitorNameField.getText());
+            pst.setString(2,visitorPhoneField.getText());
+            pst.setString(3,visitorAgeField.getText());
             
-            //after executing database operation, closing the additem's window
+            String visitor_sex;
+            visitor_sex=visitorSexField.getSelectedItem().toString();
+            pst.setString(4, visitor_sex);
+            
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null,"Visitor Info inserted successfully !");
+            
             dispose();
         } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();
         }
     }//GEN-LAST:event_confirmButtonActionPerformed
