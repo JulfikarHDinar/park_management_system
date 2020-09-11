@@ -1,7 +1,6 @@
 package Mainpackage;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -14,14 +13,18 @@ public class LoginAuth extends javax.swing.JFrame {
         passwordField.setText("123456");
     }
 
-    private void dbConnect() {
+    private void dbConnect() throws SQLException {
+        String username = usernameField.getText().trim();
+        String password = passwordField.getText().trim();
+        //connection with user inputted username and password
+        DatabaseConnection dbc = new DatabaseConnection();
+        Connection connection = dbc.dbConnectionWAuth(username, password);
+
         try {
-            String username = usernameField.getText().trim();
-            String password = passwordField.getText().trim();
-
-            String url = "jdbc:sqlserver://localhost:1433;databaseName=park_ms";
-            Connection connection = DriverManager.getConnection(url, username, password);
-
+            //if username or password is incorrect, or there is some problem with db, then the connection will be null
+            if (connection == null) {
+                throw new Exception();
+            }
             //this will close the login window
             dispose();
 
@@ -30,11 +33,14 @@ public class LoginAuth extends javax.swing.JFrame {
             new TheFrame().main(args);
 
             //closing db connection
-            connection.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(LoginAuth.class.getName()).log(Level.SEVERE, null, ex);
+            dbc.dbClose();
+        } catch (Exception e) {
+            e.printStackTrace();
             //will show error text in the UI panel
             errorText.setVisible(true);
+            
+            //closing db connection
+            dbc.dbClose();
         }
     }
 
@@ -136,7 +142,7 @@ public class LoginAuth extends javax.swing.JFrame {
 
         errorText.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         errorText.setForeground(new java.awt.Color(255, 0, 51));
-        errorText.setText("An Error Occured");
+        errorText.setText("Failed to log in");
         loginPanel.add(errorText);
         errorText.setBounds(90, 250, 140, 30);
 
@@ -411,7 +417,11 @@ public class LoginAuth extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        dbConnect();
+        try {
+            dbConnect();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     /**

@@ -157,14 +157,10 @@ public class addVisitorInfoPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+        DatabaseConnection dbc = new DatabaseConnection();
         try {
-          
-               Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection connection = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=Park_MS;selectMethod=cursor", "sa", "123456");
- 	    Statement statement = connection.createStatement();
             String addvisitorinfoquery ="insert into visitor_info (visitor_name,visitor_phone,visitor_age,visitor_gender) values(?,?,?,?)";
-            PreparedStatement pst= connection.prepareStatement(addvisitorinfoquery);
+            PreparedStatement pst= dbc.preparedStatementQuery(addvisitorinfoquery);
             pst.setString(1,visitorNameField.getText());
             pst.setString(2,visitorPhoneField.getText());
             pst.setString(3,visitorAgeField.getText());
@@ -181,6 +177,8 @@ public class addVisitorInfoPanel extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();
         }
+        //closing database connection
+        dbc.dbClose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     /**

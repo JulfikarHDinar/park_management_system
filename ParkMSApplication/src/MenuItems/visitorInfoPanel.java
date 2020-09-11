@@ -2,16 +2,12 @@ package MenuItems;
 
 import AddButtonItems.addVisitorInfoPanel;
 import Mainpackage.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class visitorInfoPanel extends javax.swing.JPanel {
-
     /**
      * Creates new form visitorInfoPanel
      */
@@ -22,27 +18,25 @@ public class visitorInfoPanel extends javax.swing.JPanel {
     }
     public ArrayList<Visitor> visitorList(){
         ArrayList<Visitor> visitorsList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
         try {
-          
-               Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            Connection connection = DriverManager.getConnection(
-                    "jdbc:sqlserver://localhost:1433;databaseName=Park_MS;selectMethod=cursor", "sa", "123456");
- 	    Statement statement = connection.createStatement();
-            
             String showvisitorinfoquery= "SELECT * FROM Visitor_Info"; 
-            ResultSet rs= statement.executeQuery(showvisitorinfoquery);
+            ResultSet rs = dbc.resultSetQuery(showvisitorinfoquery);
             
             Visitor visitor;
             while(rs.next()){
                 visitor=new Visitor(rs.getInt("visitor_id"), rs.getString("visitor_name"),rs.getString("visitor_phone"),rs.getString("visitor_gender"),rs.getInt("visitor_age"));
                 visitorsList.add(visitor);
             }
-            
         }
         catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();
         }
+        
+        //closing database
+        dbc.dbClose();
+ 
         return visitorsList;
     }
     public void show_visitor(){
@@ -145,21 +139,21 @@ public class visitorInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(240, 400, 70, 25);
+        addButton.setBounds(240, 400, 70, 33);
 
         searchButton.setBackground(new java.awt.Color(65, 40, 107));
         searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("SEARCH");
         contentPanel.add(searchButton);
-        searchButton.setBounds(320, 400, 90, 25);
+        searchButton.setBounds(320, 400, 90, 33);
 
         deleteButton.setBackground(new java.awt.Color(65, 40, 107));
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("DELETE");
         contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 400, 90, 25);
+        deleteButton.setBounds(420, 400, 90, 33);
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
