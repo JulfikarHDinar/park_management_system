@@ -1,12 +1,7 @@
 package AddButtonItems;
 
 import Mainpackage.*;
-import Mainpackage.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
 
 public class addVisitorInfoPanel extends javax.swing.JFrame {
@@ -62,7 +57,7 @@ public class addVisitorInfoPanel extends javax.swing.JFrame {
         jPanel1.add(visitorAgeField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, 210, 30));
 
         visitorSexField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        visitorSexField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Others" }));
+        visitorSexField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Other" }));
         jPanel1.add(visitorSexField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 280, 90, 30));
 
         confirmButton.setBackground(new java.awt.Color(65, 40, 107));
@@ -157,25 +152,61 @@ public class addVisitorInfoPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+        //creating database object
         DatabaseConnection dbc = new DatabaseConnection();
+
         try {
-            String addvisitorinfoquery ="insert into visitor_info (visitor_name,visitor_phone,visitor_age,visitor_gender) values(?,?,?,?)";
-            PreparedStatement pst= dbc.preparedStatementQuery(addvisitorinfoquery);
-            pst.setString(1,visitorNameField.getText());
-            pst.setString(2,visitorPhoneField.getText());
-            pst.setString(3,visitorAgeField.getText());
-            
-            String visitor_sex;
-            visitor_sex=visitorSexField.getSelectedItem().toString();
+            //checking if the field's are empty or not
+            InvalidInputExceptions iie = new InvalidInputExceptions();
+            if (iie.checkIfEmptyField(visitorNameField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Visitor's Name");
+            }
+            if (iie.checkIfEmptyField(visitorPhoneField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Visitor's Phone Number");
+            }
+            if (iie.checkIfEmptyField(visitorAgeField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Visitor's Age");
+            }
+
+            //checking if name is valid or not
+            if (iie.checkIfInvalidName(visitorNameField.getText()) == true) {
+                throw new InvalidInputExceptions("Invalid Visitor's Name");
+            }
+
+            //checking if phone is valid or not
+            if (iie.checkIfInvalidPhone(visitorPhoneField.getText()) == true) {
+                throw new InvalidInputExceptions("Invalid Visitor's Phone Number");
+            }
+
+            //checking if Age is valid or not
+            if (iie.checkIfInvalidAge(visitorAgeField.getText()) == true) {
+                throw new InvalidInputExceptions("Invalid Visitor's Age");
+            }
+
+            //inserting values to database
+            //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+            //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+            String addvisitorinfoquery = "insert into visitor_info (visitor_name,visitor_phone,visitor_age,visitor_gender) values(?,?,?,?)";
+            PreparedStatement pst = dbc.preparedStatementQuery(addvisitorinfoquery);
+            pst.setString(1, visitorNameField.getText().trim());
+            pst.setString(2, visitorPhoneField.getText().trim().replaceAll("\\s+", ""));
+            pst.setString(3, visitorAgeField.getText().trim().replaceAll("\\s+", ""));
+            String visitor_sex = visitorSexField.getSelectedItem().toString();
             pst.setString(4, visitor_sex);
-            
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null,"Visitor Info inserted successfully !");
-            
+
+            //showing insertion successful
+            JOptionPane.showMessageDialog(null, "Visitor's Information inserted successfully !");
+
+            //disposing the additems panel
             dispose();
-        } catch (Exception e) {
+        } catch (InvalidInputExceptions e) {
+            //catches the user defined input exception
             JOptionPane.showMessageDialog(null, e);
-            e.printStackTrace();
+
+        } catch (Exception e) {
+            //catches all other exceptions
+            JOptionPane.showMessageDialog(null, e);
         }
         //closing database connection
         dbc.dbClose();

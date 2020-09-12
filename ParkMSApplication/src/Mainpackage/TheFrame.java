@@ -6,15 +6,16 @@ import javax.swing.JPanel;
 import MenuItems.*;
 
 public class TheFrame extends javax.swing.JFrame {
+
     //menuState is a variable which will determine the current screen on refreshing operation
     int menuState = 0;
     //for storing the desired menu item object on refreshing operation
     JPanel desiredItem;
 
-    public void setmenuItemWindow(JPanel menuItemWindow) {
-        //This function is created for removing all contents of current jpanel
-        //and set object of another panel. By this, we will be able to change 
-        //windows dynamically.
+    private void setmenuItemWindow(JPanel menuItemWindow) {
+        /*This function is created for removing all contents of current jpanel
+        and set object of another panel. By this, we will be able to change 
+        windows dynamically.*/
         this.menuItemWindow.removeAll();
         this.menuItemWindow.setSize(menuItemWindow.getSize());
         this.menuItemWindow.add(menuItemWindow);
@@ -22,7 +23,7 @@ public class TheFrame extends javax.swing.JFrame {
         this.menuItemWindow.revalidate();
     }
 
-    public void highlightMenuButton(JPanel menuButton) {
+    private void highlightMenuButton(JPanel menuButton) {
         //default menu panel RGB color
         int defR = 65;
         int defG = 40;
@@ -49,8 +50,10 @@ public class TheFrame extends javax.swing.JFrame {
 
     public TheFrame() {
         initComponents();
+        
         //Setting the icon image for the application
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("/AppIcons/logo.png")));
+        
         //setting the loading screen in the middle of the screen
         setLocationRelativeTo(null);
     }
@@ -572,7 +575,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void visitorInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitorInfoButtonMousePressed
         highlightMenuButton(visitorInfoButton);
-
+        
         //showing the following menu item after the mouse click
         visitorInfoPanel ob = new visitorInfoPanel();
         menuItemWindow.removeAll();
@@ -582,7 +585,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void parkingInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_parkingInfoButtonMousePressed
         highlightMenuButton(parkingInfoButton);
-
+        
         //showing the following menu item after the mouse click
         parkingInfoPanel ob = new parkingInfoPanel();
         menuItemWindow.removeAll();
@@ -592,7 +595,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void visitorFeedbackButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitorFeedbackButtonMousePressed
         highlightMenuButton(visitorFeedbackButton);
-
+        
         //showing the following menu item after the mouse click
         visitorFeedbackPanel ob = new visitorFeedbackPanel();
         menuItemWindow.removeAll();
@@ -602,7 +605,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void staffInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffInfoButtonMousePressed
         highlightMenuButton(staffInfoButton);
-
+        
         //showing the following menu item after the mouse click
         staffInfoPanel ob = new staffInfoPanel();
         menuItemWindow.removeAll();
@@ -612,7 +615,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void staffPaymentButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffPaymentButtonMousePressed
         highlightMenuButton(staffPaymentButton);
-
+        
         //showing the following menu item after the mouse click
         staffPaymentPanel ob = new staffPaymentPanel();
         menuItemWindow.removeAll();
@@ -622,7 +625,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void regionInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regionInfoButtonMousePressed
         highlightMenuButton(regionInfoButton);
-
+        
         //showing the following menu item after the mouse click
         regionInfoPanel ob = new regionInfoPanel();
         menuItemWindow.removeAll();
@@ -632,7 +635,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void entryTicketInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entryTicketInfoButtonMousePressed
         highlightMenuButton(entryTicketInfoButton);
-
+        
         //showing the following menu item after the mouse click
         entryTicketInfoPanel ob = new entryTicketInfoPanel();
         menuItemWindow.removeAll();
@@ -642,7 +645,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void entryCounterButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entryCounterButtonMousePressed
         highlightMenuButton(entryCounterButton);
-
+        
         //showing the following menu item after the mouse click
         entryCounterPanel ob = new entryCounterPanel();
         menuItemWindow.removeAll();
@@ -652,7 +655,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void rideInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rideInfoButtonMousePressed
         highlightMenuButton(rideInfoButton);
-
+        
         //showing the following menu item after the mouse click
         rideInfoPanel ob = new rideInfoPanel();
         menuItemWindow.removeAll();
@@ -662,7 +665,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void rideCounterButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rideCounterButtonMousePressed
         highlightMenuButton(rideCounterButton);
-
+        
         //showing the following menu item after the mouse click
         rideCounterPanel ob = new rideCounterPanel();
         menuItemWindow.removeAll();
@@ -672,7 +675,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void foodInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_foodInfoButtonMousePressed
         highlightMenuButton(foodInfoButton);
-
+        
         //showing the following menu item after the mouse click
         foodInfoPanel ob = new foodInfoPanel();
         menuItemWindow.removeAll();
@@ -682,7 +685,7 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void foodCounterButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_foodCounterButtonMousePressed
         highlightMenuButton(foodCounterButton);
-
+        
         //showing the following menu item after the mouse click
         foodCounterPanel ob = new foodCounterPanel();
         menuItemWindow.removeAll();
@@ -691,8 +694,6 @@ public class TheFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_foodCounterButtonMousePressed
 
     private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
-        
-        
         //choosing desired menu items based on menu state
         if (menuState == 1) {
             visitorInfoPanel ob = new visitorInfoPanel();

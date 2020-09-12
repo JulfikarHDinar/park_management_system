@@ -10,7 +10,9 @@ public class LoadingScreen extends javax.swing.JFrame {
             //This will make the title appear under the logo
             TitleName.setText("Park Management System");
             
-            Thread.sleep(1500); //default 1000
+            //this will make 1.5 second delay
+            Thread.sleep(1500); 
+            
             //this is used for stopping the logo's movement
             LoadingPanel.removeAll();
             

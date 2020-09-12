@@ -2,8 +2,6 @@ package Mainpackage;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class LoginAuth extends javax.swing.JFrame {
 
@@ -19,12 +17,12 @@ public class LoginAuth extends javax.swing.JFrame {
         //connection with user inputted username and password
         DatabaseConnection dbc = new DatabaseConnection();
         Connection connection = dbc.dbConnectionWAuth(username, password);
-
         try {
             //if username or password is incorrect, or there is some problem with db, then the connection will be null
             if (connection == null) {
                 throw new Exception();
             }
+
             //this will close the login window
             dispose();
 
@@ -38,7 +36,7 @@ public class LoginAuth extends javax.swing.JFrame {
             e.printStackTrace();
             //will show error text in the UI panel
             errorText.setVisible(true);
-            
+
             //closing db connection
             dbc.dbClose();
         }
@@ -49,8 +47,10 @@ public class LoginAuth extends javax.swing.JFrame {
 
         //setting the login screen in the middle of the screen
         setLocationRelativeTo(null);
+        
         //setting username and password in the textfeild for avoiding typing hassle
         loadAuth();
+        
         //hiding the error text at the beginning
         errorText.setVisible(false);
     }

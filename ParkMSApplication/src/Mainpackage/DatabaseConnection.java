@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DatabaseConnection {
+
     //variables initialization
     String url = "jdbc:sqlserver://localhost:1433;databaseName=park_ms";
     String username = "sa";
@@ -39,7 +40,7 @@ public class DatabaseConnection {
             if (resultSet != null) {
                 resultSet.close();
             }
-            if ( preparedStatement != null) {
+            if (preparedStatement != null) {
                 preparedStatement.close();
             }
         } catch (SQLException ex) {
@@ -69,8 +70,8 @@ public class DatabaseConnection {
         }
         return resultSet;
     }
-    
-    public PreparedStatement preparedStatementQuery(String queryString){
+
+    public PreparedStatement preparedStatementQuery(String queryString) {
         //this method is needed for returning desired Prepared Statement for a specific Query
         try {
             //connection with pre inputted username and password

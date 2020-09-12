@@ -7,7 +7,43 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+//Getter method's class for Visitor Info
+class VisitorInfoModel {
+
+    private int visitor_id, visitor_age;
+    private String visitor_name, visitor_phone, visitor_gender;
+
+    public VisitorInfoModel(int visitor_id, String visitor_name, String visitor_phone, String visitor_gender, int visitor_age) {
+        this.visitor_id = visitor_id;
+        this.visitor_name = visitor_name;
+        this.visitor_phone = visitor_phone;
+        this.visitor_gender = visitor_gender;
+        this.visitor_age = visitor_age;
+    }
+
+    public int getvisitor_id() {
+        return visitor_id;
+    }
+
+    public String getvisitor_name() {
+        return visitor_name;
+    }
+
+    public String getvisitor_phone() {
+        return visitor_phone;
+    }
+
+    public String getvisitor_gender() {
+        return visitor_gender;
+    }
+
+    public int getvisitor_age() {
+        return visitor_age;
+    }
+}
+
 public class visitorInfoPanel extends javax.swing.JPanel {
+
     /**
      * Creates new form visitorInfoPanel
      */
@@ -16,40 +52,41 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         show_visitor();
 
     }
-    public ArrayList<Visitor> visitorList(){
-        ArrayList<Visitor> visitorsList = new ArrayList<>();
+
+    private ArrayList<VisitorInfoModel> visitorList() {
+        ArrayList<VisitorInfoModel> visitorsList = new ArrayList<>();
         DatabaseConnection dbc = new DatabaseConnection();
         try {
-            String showvisitorinfoquery= "SELECT * FROM Visitor_Info"; 
+            String showvisitorinfoquery = "SELECT * FROM Visitor_Info";
             ResultSet rs = dbc.resultSetQuery(showvisitorinfoquery);
-            
-            Visitor visitor;
-            while(rs.next()){
-                visitor=new Visitor(rs.getInt("visitor_id"), rs.getString("visitor_name"),rs.getString("visitor_phone"),rs.getString("visitor_gender"),rs.getInt("visitor_age"));
+
+            VisitorInfoModel visitor;
+            while (rs.next()) {
+                visitor = new VisitorInfoModel(rs.getInt("visitor_id"), rs.getString("visitor_name"), rs.getString("visitor_phone"), rs.getString("visitor_gender"), rs.getInt("visitor_age"));
                 visitorsList.add(visitor);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
             e.printStackTrace();
         }
-        
+
         //closing database
         dbc.dbClose();
- 
+
         return visitorsList;
     }
-    public void show_visitor(){
-        ArrayList<Visitor> list = visitorList();
+
+    private void show_visitor() {
+        ArrayList<VisitorInfoModel> list = visitorList();
         DefaultTableModel model = (DefaultTableModel) visito_infoTable.getModel();
         Object[] row = new Object[5];
-        for(int i=0;i<list.size();i++){
-            row[0]=list.get(i).getvisitor_id();
-            row[1]=list.get(i).getvisitor_name();
-            row[2]=list.get(i).getvisitor_phone();
-            row[3]=list.get(i).getvisitor_gender();
-            row[4]=list.get(i).getvisitor_age();
-            
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getvisitor_id();
+            row[1] = list.get(i).getvisitor_name();
+            row[2] = list.get(i).getvisitor_phone();
+            row[3] = list.get(i).getvisitor_gender();
+            row[4] = list.get(i).getvisitor_age();
+
             model.addRow(row);
         }
     }
