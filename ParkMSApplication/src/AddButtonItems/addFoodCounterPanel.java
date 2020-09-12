@@ -23,15 +23,19 @@ public class addFoodCounterPanel extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        Field = new javax.swing.JTextField();
+        visitorIdField = new javax.swing.JTextField();
+        foodIdField = new javax.swing.JTextField();
+        noOfFoodField = new javax.swing.JTextField();
         confirmButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
+        setTitle("Food Counter");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(105, 64, 175));
@@ -39,8 +43,14 @@ public class addFoodCounterPanel extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(400, 400));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Field.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jPanel1.add(Field, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 210, 30));
+        visitorIdField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(visitorIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 210, 30));
+
+        foodIdField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(foodIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 210, 30));
+
+        noOfFoodField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(noOfFoodField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 240, 210, 30));
 
         confirmButton.setBackground(new java.awt.Color(65, 40, 107));
         confirmButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -96,8 +106,18 @@ public class addFoodCounterPanel extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("jLabel1");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, 20));
+        jLabel1.setText("No of Food(s)");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, 20));
+
+        jLabel2.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Visitor's ID");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, -1, 20));
+
+        jLabel3.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Food ID");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,12 +188,16 @@ public class addFoodCounterPanel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Field;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton confirmButton;
+    private javax.swing.JTextField foodIdField;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField noOfFoodField;
+    private javax.swing.JTextField visitorIdField;
     // End of variables declaration//GEN-END:variables
 }

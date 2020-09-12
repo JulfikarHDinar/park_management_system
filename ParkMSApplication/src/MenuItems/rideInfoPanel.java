@@ -90,7 +90,7 @@ public class rideInfoPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "ID", "Ride Name", "Region", "Ticket Price", "Age Limit"
+                "ID", "Ride Name", "Region No", "Ticket Price", "Age Limit"
             }
         ) {
             boolean[] canEdit = new boolean [] {

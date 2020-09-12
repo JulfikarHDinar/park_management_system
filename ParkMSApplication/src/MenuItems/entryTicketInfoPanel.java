@@ -90,7 +90,7 @@ public class entryTicketInfoPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Package Name", "Amount"
+                "Ticket Type", "Ticket Price"
             }
         ) {
             boolean[] canEdit = new boolean [] {

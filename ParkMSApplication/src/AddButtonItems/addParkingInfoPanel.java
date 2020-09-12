@@ -37,7 +37,7 @@ public class addParkingInfoPanel extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
+        setTitle("Parking Information");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(105, 64, 175));

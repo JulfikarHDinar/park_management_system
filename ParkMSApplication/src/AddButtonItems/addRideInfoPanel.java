@@ -23,15 +23,21 @@ public class addRideInfoPanel extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        Field = new javax.swing.JTextField();
+        rideNameField = new javax.swing.JTextField();
+        regionNoField = new javax.swing.JTextField();
+        ticketPriceField = new javax.swing.JTextField();
+        ageLimitField = new javax.swing.JTextField();
         confirmButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
+        setTitle("Ride's Information");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(105, 64, 175));
@@ -39,8 +45,17 @@ public class addRideInfoPanel extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(400, 400));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Field.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jPanel1.add(Field, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 210, 30));
+        rideNameField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(rideNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 210, 30));
+
+        regionNoField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(regionNoField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 210, 30));
+
+        ticketPriceField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(ticketPriceField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 200, 210, 30));
+
+        ageLimitField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(ageLimitField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, 210, 30));
 
         confirmButton.setBackground(new java.awt.Color(65, 40, 107));
         confirmButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -96,8 +111,23 @@ public class addRideInfoPanel extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("jLabel1");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, 20));
+        jLabel1.setText("Region No");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, 20));
+
+        jLabel2.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Ride's Name");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 60, -1, 20));
+
+        jLabel3.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Age Limit");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 240, -1, 20));
+
+        jLabel4.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("Ticket Price");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,12 +198,18 @@ public class addRideInfoPanel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Field;
+    private javax.swing.JTextField ageLimitField;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton confirmButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField regionNoField;
+    private javax.swing.JTextField rideNameField;
+    private javax.swing.JTextField ticketPriceField;
     // End of variables declaration//GEN-END:variables
 }

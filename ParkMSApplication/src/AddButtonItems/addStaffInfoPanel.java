@@ -45,7 +45,7 @@ public class addStaffInfoPanel extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
+        setTitle("Staff's Information");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(105, 64, 175));

@@ -1,24 +1,27 @@
 package Mainpackage;
+
 import java.awt.Color;
 import java.awt.Toolkit;
 import javax.swing.JPanel;
 import MenuItems.*;
 
 public class TheFrame extends javax.swing.JFrame {
-    //menuState is a variable which will determine the current screen
-    int menuState=0;
-    
+    //menuState is a variable which will determine the current screen on refreshing operation
+    int menuState = 0;
+    //for storing the desired menu item object on refreshing operation
+    JPanel desiredItem;
+
     public void setmenuItemWindow(JPanel menuItemWindow) {
         //This function is created for removing all contents of current jpanel
         //and set object of another panel. By this, we will be able to change 
         //windows dynamically.
-        this.menuItemWindow.removeAll();    
+        this.menuItemWindow.removeAll();
         this.menuItemWindow.setSize(menuItemWindow.getSize());
         this.menuItemWindow.add(menuItemWindow);
         this.menuItemWindow.repaint();
         this.menuItemWindow.revalidate();
     }
-    
+
     public void highlightMenuButton(JPanel menuButton) {
         //default menu panel RGB color
         int defR = 65;
@@ -36,14 +39,14 @@ public class TheFrame extends javax.swing.JFrame {
         rideCounterButton.setBackground(new Color(defR, defG, defB));
         foodInfoButton.setBackground(new Color(defR, defG, defB));
         foodCounterButton.setBackground(new Color(defR, defG, defB));
-        
+
         //highlighted menu panel RGB color 
         int hR = 85;
         int hG = 52;
         int hB = 141;
         menuButton.setBackground(new Color(hR, hG, hB));
     }
-    
+
     public TheFrame() {
         initComponents();
         //Setting the icon image for the application
@@ -64,7 +67,7 @@ public class TheFrame extends javax.swing.JFrame {
         ApplicationWindow = new javax.swing.JPanel();
         menuPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
         jPanel16 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jPanel15 = new javax.swing.JPanel();
@@ -99,12 +102,13 @@ public class TheFrame extends javax.swing.JFrame {
         jLabel18 = new javax.swing.JLabel();
         foodCounterButton = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        refreshButton = new javax.swing.JButton();
         menuItemWindow = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Park Management System");
-        setMaximumSize(new java.awt.Dimension(750, 450));
         setMinimumSize(new java.awt.Dimension(750, 450));
         setResizable(false);
 
@@ -121,14 +125,14 @@ public class TheFrame extends javax.swing.JFrame {
         jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("VISITOR:");
-        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel3.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 80, 30));
+        jLabel20.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel20.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        jLabel20.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel20.setText("VISITOR:");
+        jLabel20.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jPanel3.add(jLabel20, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 80, 30));
 
-        menuPanel.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 100, 90));
+        menuPanel.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 40, 100, 90));
 
         jPanel16.setBackground(new java.awt.Color(85, 52, 141));
         jPanel16.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -140,7 +144,7 @@ public class TheFrame extends javax.swing.JFrame {
         jLabel3.setText("STAFF:");
         jPanel16.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 70, 30));
 
-        menuPanel.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 120, 100, 60));
+        menuPanel.add(jPanel16, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, 100, 60));
 
         jPanel15.setBackground(new java.awt.Color(85, 52, 141));
         jPanel15.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -152,7 +156,7 @@ public class TheFrame extends javax.swing.JFrame {
         jLabel4.setText(" REGION:");
         jPanel15.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, 80, 30));
 
-        menuPanel.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 190, 100, 30));
+        menuPanel.add(jPanel15, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 210, 100, 30));
 
         jPanel24.setBackground(new java.awt.Color(85, 52, 141));
         jPanel24.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -164,7 +168,7 @@ public class TheFrame extends javax.swing.JFrame {
         jLabel5.setText(" ENTRY:");
         jPanel24.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 80, 30));
 
-        menuPanel.add(jPanel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 230, 100, 60));
+        menuPanel.add(jPanel24, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 250, 100, 60));
 
         jPanel26.setBackground(new java.awt.Color(85, 52, 141));
         jPanel26.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -176,7 +180,7 @@ public class TheFrame extends javax.swing.JFrame {
         jLabel6.setText(" RIDE:");
         jPanel26.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 60, 30));
 
-        menuPanel.add(jPanel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 300, 100, 60));
+        menuPanel.add(jPanel26, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 320, 100, 60));
 
         jPanel22.setBackground(new java.awt.Color(85, 52, 141));
         jPanel22.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -188,7 +192,7 @@ public class TheFrame extends javax.swing.JFrame {
         jLabel1.setText(" FOOD:");
         jPanel22.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 60, 30));
 
-        menuPanel.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 370, 100, 60));
+        menuPanel.add(jPanel22, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 390, 100, 60));
 
         visitorInfoButton.setBackground(new java.awt.Color(65, 40, 107));
         visitorInfoButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -206,8 +210,8 @@ public class TheFrame extends javax.swing.JFrame {
         visitorInfoButtonLayout.setHorizontalGroup(
             visitorInfoButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(visitorInfoButtonLayout.createSequentialGroup()
-                .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 13, Short.MAX_VALUE))
+                .addComponent(jLabel13)
+                .addGap(0, 19, Short.MAX_VALUE))
         );
         visitorInfoButtonLayout.setVerticalGroup(
             visitorInfoButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -216,7 +220,7 @@ public class TheFrame extends javax.swing.JFrame {
                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuPanel.add(visitorInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 20, 120, -1));
+        menuPanel.add(visitorInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 40, 120, -1));
 
         parkingInfoButton.setBackground(new java.awt.Color(65, 40, 107));
         parkingInfoButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -233,16 +237,16 @@ public class TheFrame extends javax.swing.JFrame {
         parkingInfoButton.setLayout(parkingInfoButtonLayout);
         parkingInfoButtonLayout.setHorizontalGroup(
             parkingInfoButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, parkingInfoButtonLayout.createSequentialGroup()
-                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(parkingInfoButtonLayout.createSequentialGroup()
+                .addComponent(jLabel10)
+                .addGap(0, 23, Short.MAX_VALUE))
         );
         parkingInfoButtonLayout.setVerticalGroup(
             parkingInfoButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
-        menuPanel.add(parkingInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 120, -1));
+        menuPanel.add(parkingInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, 120, -1));
 
         visitorFeedbackButton.setBackground(new java.awt.Color(65, 40, 107));
         visitorFeedbackButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -270,7 +274,7 @@ public class TheFrame extends javax.swing.JFrame {
                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuPanel.add(visitorFeedbackButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 120, -1));
+        menuPanel.add(visitorFeedbackButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 120, -1));
 
         staffInfoButton.setBackground(new java.awt.Color(65, 40, 107));
         staffInfoButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -298,7 +302,7 @@ public class TheFrame extends javax.swing.JFrame {
                 .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuPanel.add(staffInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, 120, -1));
+        menuPanel.add(staffInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 120, -1));
 
         staffPaymentButton.setBackground(new java.awt.Color(65, 40, 107));
         staffPaymentButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -315,9 +319,7 @@ public class TheFrame extends javax.swing.JFrame {
         staffPaymentButton.setLayout(staffPaymentButtonLayout);
         staffPaymentButtonLayout.setHorizontalGroup(
             staffPaymentButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, staffPaymentButtonLayout.createSequentialGroup()
-                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
         );
         staffPaymentButtonLayout.setVerticalGroup(
             staffPaymentButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,7 +328,7 @@ public class TheFrame extends javax.swing.JFrame {
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuPanel.add(staffPaymentButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 120, -1));
+        menuPanel.add(staffPaymentButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 120, -1));
 
         regionInfoButton.setBackground(new java.awt.Color(65, 40, 107));
         regionInfoButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -354,7 +356,7 @@ public class TheFrame extends javax.swing.JFrame {
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuPanel.add(regionInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, 120, -1));
+        menuPanel.add(regionInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, 120, -1));
 
         entryTicketInfoButton.setBackground(new java.awt.Color(65, 40, 107));
         entryTicketInfoButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -382,7 +384,7 @@ public class TheFrame extends javax.swing.JFrame {
                 .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuPanel.add(entryTicketInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 120, -1));
+        menuPanel.add(entryTicketInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 250, 120, -1));
 
         entryCounterButton.setBackground(new java.awt.Color(65, 40, 107));
         entryCounterButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -408,7 +410,7 @@ public class TheFrame extends javax.swing.JFrame {
                 .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuPanel.add(entryCounterButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 260, 120, -1));
+        menuPanel.add(entryCounterButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 280, 120, -1));
 
         rideInfoButton.setBackground(new java.awt.Color(65, 40, 107));
         rideInfoButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -425,9 +427,9 @@ public class TheFrame extends javax.swing.JFrame {
         rideInfoButton.setLayout(rideInfoButtonLayout);
         rideInfoButtonLayout.setHorizontalGroup(
             rideInfoButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rideInfoButtonLayout.createSequentialGroup()
-                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(rideInfoButtonLayout.createSequentialGroup()
+                .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 35, Short.MAX_VALUE))
         );
         rideInfoButtonLayout.setVerticalGroup(
             rideInfoButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -436,7 +438,7 @@ public class TheFrame extends javax.swing.JFrame {
                 .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuPanel.add(rideInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 300, 120, -1));
+        menuPanel.add(rideInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 320, 120, -1));
 
         rideCounterButton.setBackground(new java.awt.Color(65, 40, 107));
         rideCounterButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -453,7 +455,9 @@ public class TheFrame extends javax.swing.JFrame {
         rideCounterButton.setLayout(rideCounterButtonLayout);
         rideCounterButtonLayout.setHorizontalGroup(
             rideCounterButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+            .addGroup(rideCounterButtonLayout.createSequentialGroup()
+                .addComponent(jLabel17)
+                .addGap(0, 4, Short.MAX_VALUE))
         );
         rideCounterButtonLayout.setVerticalGroup(
             rideCounterButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -462,7 +466,7 @@ public class TheFrame extends javax.swing.JFrame {
                 .addComponent(jLabel17, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuPanel.add(rideCounterButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 120, -1));
+        menuPanel.add(rideCounterButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 350, 120, -1));
 
         foodInfoButton.setBackground(new java.awt.Color(65, 40, 107));
         foodInfoButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -479,9 +483,9 @@ public class TheFrame extends javax.swing.JFrame {
         foodInfoButton.setLayout(foodInfoButtonLayout);
         foodInfoButtonLayout.setHorizontalGroup(
             foodInfoButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, foodInfoButtonLayout.createSequentialGroup()
-                .addComponent(jLabel18, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(foodInfoButtonLayout.createSequentialGroup()
+                .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 26, Short.MAX_VALUE))
         );
         foodInfoButtonLayout.setVerticalGroup(
             foodInfoButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -490,7 +494,7 @@ public class TheFrame extends javax.swing.JFrame {
                 .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuPanel.add(foodInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, 120, -1));
+        menuPanel.add(foodInfoButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 390, 120, -1));
 
         foodCounterButton.setBackground(new java.awt.Color(65, 40, 107));
         foodCounterButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -508,8 +512,8 @@ public class TheFrame extends javax.swing.JFrame {
         foodCounterButtonLayout.setHorizontalGroup(
             foodCounterButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(foodCounterButtonLayout.createSequentialGroup()
-                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jLabel7)
+                .addGap(0, 16, Short.MAX_VALUE))
         );
         foodCounterButtonLayout.setVerticalGroup(
             foodCounterButtonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -518,7 +522,26 @@ public class TheFrame extends javax.swing.JFrame {
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
-        menuPanel.add(foodCounterButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 400, 120, -1));
+        menuPanel.add(foodCounterButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 420, 120, -1));
+
+        jLabel2.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setText("MENU");
+        jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        menuPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 40));
+
+        refreshButton.setBackground(new java.awt.Color(65, 40, 107));
+        refreshButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        refreshButton.setForeground(new java.awt.Color(255, 255, 255));
+        refreshButton.setText("REFRESH");
+        refreshButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                refreshButtonActionPerformed(evt);
+            }
+        });
+        menuPanel.add(refreshButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 80, 20));
 
         ApplicationWindow.add(menuPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 450));
 
@@ -549,48 +572,52 @@ public class TheFrame extends javax.swing.JFrame {
 
     private void visitorInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitorInfoButtonMousePressed
         highlightMenuButton(visitorInfoButton);
-        
+
         //showing the following menu item after the mouse click
         visitorInfoPanel ob = new visitorInfoPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
-        
+        menuState = 1;
     }//GEN-LAST:event_visitorInfoButtonMousePressed
 
     private void parkingInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_parkingInfoButtonMousePressed
         highlightMenuButton(parkingInfoButton);
-        
+
         //showing the following menu item after the mouse click
         parkingInfoPanel ob = new parkingInfoPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
+        menuState = 2;
     }//GEN-LAST:event_parkingInfoButtonMousePressed
 
     private void visitorFeedbackButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_visitorFeedbackButtonMousePressed
         highlightMenuButton(visitorFeedbackButton);
-        
+
         //showing the following menu item after the mouse click
         visitorFeedbackPanel ob = new visitorFeedbackPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
+        menuState = 3;
     }//GEN-LAST:event_visitorFeedbackButtonMousePressed
 
     private void staffInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffInfoButtonMousePressed
         highlightMenuButton(staffInfoButton);
-        
+
         //showing the following menu item after the mouse click
         staffInfoPanel ob = new staffInfoPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
+        menuState = 4;
     }//GEN-LAST:event_staffInfoButtonMousePressed
 
     private void staffPaymentButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_staffPaymentButtonMousePressed
         highlightMenuButton(staffPaymentButton);
-        
+
         //showing the following menu item after the mouse click
         staffPaymentPanel ob = new staffPaymentPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
+        menuState = 5;
     }//GEN-LAST:event_staffPaymentButtonMousePressed
 
     private void regionInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_regionInfoButtonMousePressed
@@ -600,62 +627,117 @@ public class TheFrame extends javax.swing.JFrame {
         regionInfoPanel ob = new regionInfoPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
+        menuState = 6;
     }//GEN-LAST:event_regionInfoButtonMousePressed
 
     private void entryTicketInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entryTicketInfoButtonMousePressed
         highlightMenuButton(entryTicketInfoButton);
-        
+
         //showing the following menu item after the mouse click
         entryTicketInfoPanel ob = new entryTicketInfoPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
+        menuState = 7;
     }//GEN-LAST:event_entryTicketInfoButtonMousePressed
 
     private void entryCounterButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_entryCounterButtonMousePressed
         highlightMenuButton(entryCounterButton);
-        
+
         //showing the following menu item after the mouse click
         entryCounterPanel ob = new entryCounterPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
+        menuState = 8;
     }//GEN-LAST:event_entryCounterButtonMousePressed
 
     private void rideInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rideInfoButtonMousePressed
         highlightMenuButton(rideInfoButton);
-        
+
         //showing the following menu item after the mouse click
         rideInfoPanel ob = new rideInfoPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
+        menuState = 9;
     }//GEN-LAST:event_rideInfoButtonMousePressed
 
     private void rideCounterButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rideCounterButtonMousePressed
         highlightMenuButton(rideCounterButton);
-        
+
         //showing the following menu item after the mouse click
         rideCounterPanel ob = new rideCounterPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
+        menuState = 10;
     }//GEN-LAST:event_rideCounterButtonMousePressed
 
     private void foodInfoButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_foodInfoButtonMousePressed
         highlightMenuButton(foodInfoButton);
-        
+
         //showing the following menu item after the mouse click
         foodInfoPanel ob = new foodInfoPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
+        menuState = 11;
     }//GEN-LAST:event_foodInfoButtonMousePressed
 
     private void foodCounterButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_foodCounterButtonMousePressed
         highlightMenuButton(foodCounterButton);
-        
+
         //showing the following menu item after the mouse click
         foodCounterPanel ob = new foodCounterPanel();
         menuItemWindow.removeAll();
         setmenuItemWindow(ob);
+        menuState = 12;
     }//GEN-LAST:event_foodCounterButtonMousePressed
 
+    private void refreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_refreshButtonActionPerformed
+        
+        
+        //choosing desired menu items based on menu state
+        if (menuState == 1) {
+            visitorInfoPanel ob = new visitorInfoPanel();
+            desiredItem = ob;
+        } else if (menuState == 2) {
+            parkingInfoPanel ob = new parkingInfoPanel();
+            desiredItem = ob;
+        } else if (menuState == 3) {
+            visitorFeedbackPanel ob = new visitorFeedbackPanel();
+            desiredItem = ob;
+        } else if (menuState == 4) {
+            staffInfoPanel ob = new staffInfoPanel();
+            desiredItem = ob;
+        } else if (menuState == 5) {
+            staffPaymentPanel ob = new staffPaymentPanel();
+            desiredItem = ob;
+        } else if (menuState == 6) {
+            regionInfoPanel ob = new regionInfoPanel();
+            desiredItem = ob;
+        } else if (menuState == 7) {
+            entryTicketInfoPanel ob = new entryTicketInfoPanel();
+            desiredItem = ob;
+        } else if (menuState == 8) {
+            entryCounterPanel ob = new entryCounterPanel();
+            desiredItem = ob;
+        } else if (menuState == 9) {
+            rideInfoPanel ob = new rideInfoPanel();
+            desiredItem = ob;
+        } else if (menuState == 10) {
+            rideCounterPanel ob = new rideCounterPanel();
+            desiredItem = ob;
+        } else if (menuState == 11) {
+            foodInfoPanel ob = new foodInfoPanel();
+            desiredItem = ob;
+        } else if (menuState == 12) {
+            foodCounterPanel ob = new foodCounterPanel();
+            desiredItem = ob;
+        }
+
+        //drawing the desired menu item on refresh
+        if (menuState != 0) {
+            menuItemWindow.removeAll();
+            setmenuItemWindow(desiredItem);
+        }
+    }//GEN-LAST:event_refreshButtonActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -707,6 +789,7 @@ public class TheFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel18;
     private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -723,6 +806,7 @@ public class TheFrame extends javax.swing.JFrame {
     private javax.swing.JPanel menuItemWindow;
     private javax.swing.JPanel menuPanel;
     private javax.swing.JPanel parkingInfoButton;
+    private javax.swing.JButton refreshButton;
     private javax.swing.JPanel regionInfoButton;
     private javax.swing.JPanel rideCounterButton;
     private javax.swing.JPanel rideInfoButton;

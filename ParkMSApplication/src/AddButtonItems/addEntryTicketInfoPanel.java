@@ -23,15 +23,17 @@ public class addEntryTicketInfoPanel extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        Field = new javax.swing.JTextField();
+        ticketTypeField = new javax.swing.JTextField();
+        noOfTicketField = new javax.swing.JTextField();
         confirmButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
+        setTitle("Entry Ticket Counter");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(105, 64, 175));
@@ -39,8 +41,11 @@ public class addEntryTicketInfoPanel extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(400, 400));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Field.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jPanel1.add(Field, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 210, 30));
+        ticketTypeField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(ticketTypeField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 210, 30));
+
+        noOfTicketField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(noOfTicketField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 210, 30));
 
         confirmButton.setBackground(new java.awt.Color(65, 40, 107));
         confirmButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -96,8 +101,13 @@ public class addEntryTicketInfoPanel extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("jLabel1");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, 20));
+        jLabel1.setText("Ticket's Price");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, 20));
+
+        jLabel3.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setText("Ticket's Type");
+        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,12 +178,14 @@ public class addEntryTicketInfoPanel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Field;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton confirmButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField noOfTicketField;
+    private javax.swing.JTextField ticketTypeField;
     // End of variables declaration//GEN-END:variables
 }

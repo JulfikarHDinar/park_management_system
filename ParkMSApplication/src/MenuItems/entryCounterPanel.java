@@ -90,11 +90,11 @@ public class entryCounterPanel extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Sl. No", "Visitor ID", "No of Ticket(s)", "Total Price", "Time"
+                "Sl. No", "Visitor ID", "Ticket Type", "No of Ticket(s)", "Total Price", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {

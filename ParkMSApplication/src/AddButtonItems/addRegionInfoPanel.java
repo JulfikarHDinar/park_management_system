@@ -23,15 +23,17 @@ public class addRegionInfoPanel extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        Field = new javax.swing.JTextField();
+        serviceNameField = new javax.swing.JTextField();
+        regionNoField = new javax.swing.JTextField();
         confirmButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setUndecorated(true);
+        setTitle("Region Information");
         setResizable(false);
 
         jPanel1.setBackground(new java.awt.Color(105, 64, 175));
@@ -39,8 +41,11 @@ public class addRegionInfoPanel extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(400, 400));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Field.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jPanel1.add(Field, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 210, 30));
+        serviceNameField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(serviceNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, 210, 30));
+
+        regionNoField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(regionNoField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, 210, 30));
 
         confirmButton.setBackground(new java.awt.Color(65, 40, 107));
         confirmButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -96,8 +101,13 @@ public class addRegionInfoPanel extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("jLabel1");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, 20));
+        jLabel1.setText("Region No");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 190, -1, 20));
+
+        jLabel2.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("Service Name");
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -168,12 +178,14 @@ public class addRegionInfoPanel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField Field;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton confirmButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JTextField regionNoField;
+    private javax.swing.JTextField serviceNameField;
     // End of variables declaration//GEN-END:variables
 }

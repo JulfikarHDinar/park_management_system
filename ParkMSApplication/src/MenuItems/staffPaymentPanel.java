@@ -62,7 +62,7 @@ public class staffPaymentPanel extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Gadugi", 1, 24)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Staff's Payout Amount");
+        jLabel1.setText("Staff's Payment Amount");
         contentPanel.add(jLabel1);
         jLabel1.setBounds(10, 30, 510, 30);
 
