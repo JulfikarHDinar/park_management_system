@@ -3,8 +3,12 @@ package MenuItems;
 import AddButtonItems.addVisitorInfoPanel;
 import Mainpackage.*;
 import SearchButtonItems.*;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -96,7 +100,7 @@ public class visitorInfoPanel extends javax.swing.JPanel {
      */
     public visitorInfoPanel() {
         initComponents();
-        
+
         //showing the jtable with values
         show_visitorInfo(queryString);
 
@@ -198,6 +202,11 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("DELETE");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(deleteButton);
         deleteButton.setBounds(420, 440, 90, 33);
 
@@ -265,12 +274,12 @@ public class visitorInfoPanel extends javax.swing.JPanel {
 
             //setting up the query string
             queryString = "SELECT * FROM Visitor_Info WHERE " + strCol + " = " + "'" + strVal + "'";
-            
+
             //This will bring the frame which was implemented for add button into the screen in Nimbus look 
             //passing query string through jframe form
             String[] args = null;
             searchVisitorInfoPanel ob = new searchVisitorInfoPanel(queryString);
-            
+
             //setting query string to desired frame's variable
             ob.setQueryString(queryString);
 
@@ -283,6 +292,27 @@ public class visitorInfoPanel extends javax.swing.JPanel {
 
 
     }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        //choosing first column, the one, which is primary key
+        int column = 0;
+        int row = dataTable.getSelectedRow();
+        String primKey = dataTable.getModel().getValueAt(row, column).toString();
+        
+        //preparing query string for delete
+        String delQueryString = "DELETE FROM visitor_info WHERE visitor_id = '" + primKey + "'";
+        
+        //connecting db and then deleting the row according to primary key
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+            PreparedStatement pst = dbc.preparedStatementQuery(delQueryString);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Deleted successfully");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        dbc.dbClose();
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
