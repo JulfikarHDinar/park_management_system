@@ -118,7 +118,7 @@ public class TheFrame extends javax.swing.JFrame {
         ApplicationWindow.setBackground(new java.awt.Color(204, 204, 255));
         ApplicationWindow.setForeground(new java.awt.Color(185, 185, 185));
         ApplicationWindow.setName(""); // NOI18N
-        ApplicationWindow.setPreferredSize(new java.awt.Dimension(750, 450));
+        ApplicationWindow.setPreferredSize(new java.awt.Dimension(750, 500));
         ApplicationWindow.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         menuPanel.setBackground(new java.awt.Color(65, 40, 107));
@@ -528,15 +528,14 @@ public class TheFrame extends javax.swing.JFrame {
         menuPanel.add(foodCounterButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 420, 120, -1));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
-        jLabel2.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Arial Black", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel2.setText("MENU");
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        menuPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 110, 40));
+        menuPanel.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 40));
 
         refreshButton.setBackground(new java.awt.Color(65, 40, 107));
-        refreshButton.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         refreshButton.setForeground(new java.awt.Color(255, 255, 255));
         refreshButton.setText("REFRESH");
         refreshButton.addActionListener(new java.awt.event.ActionListener() {
@@ -544,9 +543,9 @@ public class TheFrame extends javax.swing.JFrame {
                 refreshButtonActionPerformed(evt);
             }
         });
-        menuPanel.add(refreshButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 10, 80, 20));
+        menuPanel.add(refreshButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 460, 90, 30));
 
-        ApplicationWindow.add(menuPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 450));
+        ApplicationWindow.add(menuPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 220, 500));
 
         menuItemWindow.setBackground(new java.awt.Color(153, 255, 0));
         menuItemWindow.setMaximumSize(new java.awt.Dimension(530, 450));
@@ -555,9 +554,12 @@ public class TheFrame extends javax.swing.JFrame {
 
         jLabel19.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel19.setIcon(new javax.swing.ImageIcon(getClass().getResource("/AppIcons/defHomeImage.png"))); // NOI18N
+        jLabel19.setMaximumSize(new java.awt.Dimension(530, 500));
+        jLabel19.setMinimumSize(new java.awt.Dimension(530, 500));
+        jLabel19.setPreferredSize(new java.awt.Dimension(530, 500));
         menuItemWindow.add(jLabel19, "card2");
 
-        ApplicationWindow.add(menuItemWindow, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 530, 450));
+        ApplicationWindow.add(menuItemWindow, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 0, 530, 500));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

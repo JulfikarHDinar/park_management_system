@@ -44,7 +44,7 @@ public class InvalidInputExceptions extends Exception {
         }
     }
 
-    //checking if Phone number is valid or not (0-9 and + character) 
+    //checking if Age is valid or not (0-9character and age 1-124) 
     public boolean checkIfInvalidAge(String strAge) {
         strAge = strAge.toLowerCase().trim().replaceAll("\\s+", "");
         if (strAge.matches("[0-9]*")) {

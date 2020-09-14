@@ -61,7 +61,7 @@ public class addStaffInfoPanel extends javax.swing.JFrame {
         jPanel1.add(taffPhoneField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 210, 30));
 
         staffSexField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        staffSexField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Others" }));
+        staffSexField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Other" }));
         jPanel1.add(staffSexField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, 90, 30));
 
         staffAgeField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
