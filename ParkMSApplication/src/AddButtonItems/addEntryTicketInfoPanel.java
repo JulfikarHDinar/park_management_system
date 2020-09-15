@@ -1,6 +1,8 @@
 package AddButtonItems;
 
 import Mainpackage.*;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 
 public class addEntryTicketInfoPanel extends javax.swing.JFrame {
 
@@ -42,9 +44,19 @@ public class addEntryTicketInfoPanel extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         ticketTypeField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        ticketTypeField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ticketTypeFieldActionPerformed(evt);
+            }
+        });
         jPanel1.add(ticketTypeField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 210, 30));
 
         noOfTicketField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        noOfTicketField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                TickePricetFieldActionPerformed(evt);
+            }
+        });
         jPanel1.add(noOfTicketField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 210, 30));
 
         confirmButton.setBackground(new java.awt.Color(65, 40, 107));
@@ -130,6 +142,39 @@ public class addEntryTicketInfoPanel extends javax.swing.JFrame {
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         try {
+            //creating database object
+        DatabaseConnection dbc = new DatabaseConnection();
+
+        try {
+            //checking if the field's are empty or not
+            InvalidInputExceptions iie = new InvalidInputExceptions();
+            if (iie.checkIfEmptyField(ticketTypeField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Ticket Type");
+            }
+            if (iie.checkIfEmptyField(noOfTicketField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Ticket Price");
+            }
+
+            //inserting values to database
+            //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+            //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+            String addvisitorinfoquery = "insert into Entry_Ticket_type (eticket_type,eticket_price) values(?,?)";
+            PreparedStatement pst = dbc.preparedStatementQuery(addvisitorinfoquery);
+            pst.setString(1, ticketTypeField.getText().trim());
+            pst.setString(2, noOfTicketField.getText().trim().replaceAll("\\s+", ""));
+           
+            pst.executeUpdate();
+
+            //showing insertion successful
+            JOptionPane.showMessageDialog(null, "New Ticket Information inserted successfully !");
+
+            //disposing the additems panel
+            dispose();
+        } catch (InvalidInputExceptions e) {
+            //catches the user defined input exception
+            JOptionPane.showMessageDialog(null, e);
+
+        }
             //write database operation here
             
             //after executing database operation, closing the additem's window
@@ -138,6 +183,14 @@ public class addEntryTicketInfoPanel extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_confirmButtonActionPerformed
+
+    private void ticketTypeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ticketTypeFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ticketTypeFieldActionPerformed
+
+    private void TickePricetFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TickePricetFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_TickePricetFieldActionPerformed
 
     /**
      * @param args the command line arguments

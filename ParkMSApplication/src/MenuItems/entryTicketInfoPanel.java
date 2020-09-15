@@ -4,21 +4,106 @@
  * and open the template in the editor.
  */
 package MenuItems;
-import AddButtonItems.addEntryTicketInfoPanel;
+import AddButtonItems.*;
 import Mainpackage.*;
+import UpdateButtonItems.*;
+import UpdateButtonItems.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+
+
+//model class
+class EntryTicketInfoModel{
+    
+    private String ticket_type;
+    private int ticket_price;
+    
+    //constractor
+    public EntryTicketInfoModel(String ticket_type, int ticket_price) {
+        this.ticket_type = ticket_type;
+        this.ticket_price = ticket_price;
+    }
+
+    //getters
+    public String getTicket_type() {
+        return ticket_type;
+    }
+
+    public int getTicket_price() {
+        return ticket_price;
+    }
+    
+}
 /**
  *
  * @author Julfikar
  */
 public class entryTicketInfoPanel extends javax.swing.JPanel {
+    
+    public String ticket_price;
 
+    
+    //variable declaration of query so that we can use it while passing into a method
+    //query string is used in some method in this name: "qString"
+    private String queryString = "SELECT * FROM Entry_Ticket_type";
+
+    //Array List for retrieving info from database
+    //qString is the String of Query operation
+    private ArrayList<EntryTicketInfoModel> entryTicketList(String qString) {
+        ArrayList<EntryTicketInfoModel> entryTickestList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+
+            ResultSet rs = dbc.resultSetQuery(qString);
+
+            EntryTicketInfoModel entryTicketInfo;
+            while (rs.next()) {
+                entryTicketInfo = new EntryTicketInfoModel(rs.getString("eticket_type"), rs.getInt("eticket_price"));
+                entryTickestList.add(entryTicketInfo);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return entryTickestList;
+    }
+
+    //showing values from database to the jtable
+    //qString is the String of Query operation
+    private void show_entryTicketInfo(String qString) {
+        ArrayList<EntryTicketInfoModel> list = entryTicketList(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[5];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getTicket_type();
+            row[1] = list.get(i).getTicket_price();
+            
+            model.addRow(row);
+        }
+    }
     /**
      * Creates new form visitorInfoPanel
      */
     public entryTicketInfoPanel() {
         initComponents();
+        show_entryTicketInfo(queryString);
         
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -39,10 +124,7 @@ public class entryTicketInfoPanel extends javax.swing.JPanel {
         dataTable = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        searchCategoryField = new javax.swing.JComboBox<>();
-        searchButton = new javax.swing.JButton();
-        searchValueField = new javax.swing.JTextField();
+        addButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(102, 255, 51));
         setMaximumSize(new java.awt.Dimension(530, 450));
@@ -112,68 +194,115 @@ public class entryTicketInfoPanel extends javax.swing.JPanel {
         addButton.setBackground(new java.awt.Color(65, 40, 107));
         addButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         addButton.setForeground(new java.awt.Color(255, 255, 255));
-        addButton.setText("ADD");
+        addButton.setText("Update");
         addButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
+                UpdateButtonActionPerformed(evt);
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(340, 440, 70, 33);
+        addButton.setBounds(230, 440, 100, 33);
 
         deleteButton.setBackground(new java.awt.Color(65, 40, 107));
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("DELETE");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(deleteButton);
         deleteButton.setBounds(420, 440, 90, 33);
 
-        jLabel2.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Search By:");
-        contentPanel.add(jLabel2);
-        jLabel2.setBounds(10, 390, 110, 40);
-
-        searchCategoryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
-        contentPanel.add(searchCategoryField);
-        searchCategoryField.setBounds(120, 400, 110, 30);
-
-        searchButton.setBackground(new java.awt.Color(65, 40, 107));
-        searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        searchButton.setForeground(new java.awt.Color(255, 255, 255));
-        searchButton.setText("SEARCH");
-        contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 33);
-
-        searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        contentPanel.add(searchValueField);
-        searchValueField.setBounds(30, 440, 200, 30);
+        addButton1.setBackground(new java.awt.Color(65, 40, 107));
+        addButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        addButton1.setForeground(new java.awt.Color(255, 255, 255));
+        addButton1.setText("ADD");
+        addButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButton1ActionPerformed(evt);
+            }
+        });
+        contentPanel.add(addButton1);
+        addButton1.setBounds(340, 440, 70, 33);
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+    private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
         //This will bring the frame which was implemented for add button into the screen in Nimbus look 
         String[] args = null;
-        new addEntryTicketInfoPanel().main(args);
-    }//GEN-LAST:event_addButtonActionPerformed
+        new UpdateEntryTicketInfoPanel().main(args);
+    }//GEN-LAST:event_UpdateButtonActionPerformed
 
+    private void addButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButton1ActionPerformed
+        // TODO add your handling code here:
+        String[] args = null;
+        new addEntryTicketInfoPanel().main(args);
+    }//GEN-LAST:event_addButton1ActionPerformed
+
+    
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+        //choosing first column, the one, which is primary key
+        int column = 0;
+        int row = dataTable.getSelectedRow();
+        String primKey = dataTable.getModel().getValueAt(row, column).toString();
+        
+        //preparing query string for delete
+        String delQueryString = "DELETE FROM Entry_Ticket_type WHERE eticket_type = '" + primKey + "'";
+        
+        //connecting db and then deleting the row according to primary key
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+            PreparedStatement pst = dbc.preparedStatementQuery(delQueryString);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Deleted successfully");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        dbc.dbClose();
+   
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
+    public void mouseClicked(MouseEvent e) {
+ 
+        System.out.println(e.toString());
+        int i = dataTable.getSelectedRow();
+
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        
+         // Display Slected Row In JTexteFields
+        ticket_price = (model.getValueAt(i,0).toString());
+        System.out.println(ticket_price);
+
+       // jTextField_FirstName.setText(model.getValueAt(i,1).toString());
+
+       
+
+    }
+
+    
+    public String getTicketPrice()
+    {
+        System.out.println(ticket_price);
+        return ticket_price;
+          
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.JButton addButton1;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JButton searchButton;
-    private javax.swing.JComboBox<String> searchCategoryField;
-    private javax.swing.JTextField searchValueField;
     private javax.swing.JScrollPane tableScrollPanel;
     // End of variables declaration//GEN-END:variables
 }

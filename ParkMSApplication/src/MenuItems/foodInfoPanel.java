@@ -5,18 +5,104 @@
  */
 package MenuItems;
 import AddButtonItems.addFoodInfoPanel;
+import AddButtonItems.*;
 import Mainpackage.*;
+import SearchButtonItems.*;
+import UpdateButtonItems.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+class foodInfoModel{
+    private int food_id, food_price;
+    private String food_name;
+
+    public foodInfoModel(int food_id, String food_name, int food_price) {
+        this.food_id = food_id;
+        this.food_name = food_name;
+        this.food_price = food_price;
+        
+    }
+
+    public int getFood_id() {
+        return food_id;
+    }
+
+    public int getFood_price() {
+        return food_price;
+    }
+
+    public String getFood_name() {
+        return food_name;
+    }
+    
+    
+}
+
 /**
  *
  * @author Julfikar
  */
 public class foodInfoPanel extends javax.swing.JPanel {
 
+    
+    
+    //variable declaration of query so that we can use it while passing into a method
+    //query string is used in some method in this name: "qString"
+    private String queryString = "SELECT * FROM Food_Info";
+
+    //Array List for retrieving info from database
+    //qString is the String of Query operation
+    private ArrayList<foodInfoModel> FoodInfoList(String qString) {
+        ArrayList<foodInfoModel> FoodList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+
+            ResultSet rs = dbc.resultSetQuery(qString);
+
+            foodInfoModel foodInfo;
+            while (rs.next()) {
+                foodInfo = new foodInfoModel(rs.getInt("food_id"), rs.getString("food_name"),rs.getInt("food_price"));
+                FoodList.add(foodInfo);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return FoodList;
+    }
+
+    //showing values from database to the jtable
+    //qString is the String of Query operation
+    private void show_FoodInfo(String qString) {
+        ArrayList<foodInfoModel> list = FoodInfoList(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[5];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getFood_id();
+            row[2] = list.get(i).getFood_price();
+            row[1] = list.get(i).getFood_name();
+            
+            model.addRow(row);
+        }
+    }
+    
     /**
      * Creates new form visitorInfoPanel
      */
     public foodInfoPanel() {
+        
         initComponents();
+        show_FoodInfo(queryString);
         
     }
 
@@ -37,12 +123,9 @@ public class foodInfoPanel extends javax.swing.JPanel {
         jPanel4 = new javax.swing.JPanel();
         tableScrollPanel = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
-        addButton = new javax.swing.JButton();
+        UpdateButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        searchCategoryField = new javax.swing.JComboBox<>();
-        searchButton = new javax.swing.JButton();
-        searchValueField = new javax.swing.JTextField();
+        addButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(102, 255, 51));
         setMaximumSize(new java.awt.Dimension(530, 450));
@@ -109,71 +192,87 @@ public class foodInfoPanel extends javax.swing.JPanel {
         contentPanel.add(tableScrollPanel);
         tableScrollPanel.setBounds(10, 90, 510, 300);
 
-        addButton.setBackground(new java.awt.Color(65, 40, 107));
-        addButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        addButton.setForeground(new java.awt.Color(255, 255, 255));
-        addButton.setText("ADD");
-        addButton.addActionListener(new java.awt.event.ActionListener() {
+        UpdateButton.setBackground(new java.awt.Color(65, 40, 107));
+        UpdateButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        UpdateButton.setForeground(new java.awt.Color(255, 255, 255));
+        UpdateButton.setText("Update");
+        UpdateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addButtonActionPerformed(evt);
+                UpdateButtonActionPerformed(evt);
             }
         });
-        contentPanel.add(addButton);
-        addButton.setBounds(340, 440, 70, 33);
+        contentPanel.add(UpdateButton);
+        UpdateButton.setBounds(220, 440, 110, 33);
 
         deleteButton.setBackground(new java.awt.Color(65, 40, 107));
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("DELETE");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(deleteButton);
         deleteButton.setBounds(420, 440, 90, 33);
 
-        jLabel2.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Search By:");
-        contentPanel.add(jLabel2);
-        jLabel2.setBounds(10, 390, 110, 40);
-
-        searchCategoryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
-        contentPanel.add(searchCategoryField);
-        searchCategoryField.setBounds(120, 400, 110, 30);
-
-        searchButton.setBackground(new java.awt.Color(65, 40, 107));
-        searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        searchButton.setForeground(new java.awt.Color(255, 255, 255));
-        searchButton.setText("SEARCH");
-        contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 33);
-
-        searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        contentPanel.add(searchValueField);
-        searchValueField.setBounds(30, 440, 200, 30);
+        addButton1.setBackground(new java.awt.Color(65, 40, 107));
+        addButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        addButton1.setForeground(new java.awt.Color(255, 255, 255));
+        addButton1.setText("ADD");
+        addButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButton1ActionPerformed(evt);
+            }
+        });
+        contentPanel.add(addButton1);
+        addButton1.setBounds(340, 440, 70, 33);
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
 
-    private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
+    private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
         //This will bring the frame which was implemented for add button into the screen in Nimbus look 
+        
+    }//GEN-LAST:event_UpdateButtonActionPerformed
+
+    private void addButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButton1ActionPerformed
         String[] args = null;
         new addFoodInfoPanel().main(args);
-    }//GEN-LAST:event_addButtonActionPerformed
+    }//GEN-LAST:event_addButton1ActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+         int column = 0;
+        int row = dataTable.getSelectedRow();
+        String primKey = dataTable.getModel().getValueAt(row, column).toString();
+        
+        //preparing query string for delete
+        String delQueryString = "DELETE FROM Food_Info WHERE Food_id = '" + primKey + "'";
+        
+        //connecting db and then deleting the row according to primary key
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+            PreparedStatement pst = dbc.preparedStatementQuery(delQueryString);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Deleted successfully");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        dbc.dbClose();
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addButton;
+    private javax.swing.JButton UpdateButton;
+    private javax.swing.JButton addButton1;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JButton searchButton;
-    private javax.swing.JComboBox<String> searchCategoryField;
-    private javax.swing.JTextField searchValueField;
     private javax.swing.JScrollPane tableScrollPanel;
     // End of variables declaration//GEN-END:variables
 }

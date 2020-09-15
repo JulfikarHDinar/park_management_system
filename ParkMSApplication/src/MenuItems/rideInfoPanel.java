@@ -6,17 +6,114 @@
 package MenuItems;
 import AddButtonItems.addRideInfoPanel;
 import Mainpackage.*;
+import AddButtonItems.*;
+import Mainpackage.*;
+import SearchButtonItems.*;
+import UpdateButtonItems.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+
+class RideInfoModel{
+    private String ride_name;
+    private int ride_id,ride_region,ride_ticket_price,minimum_age;
+
+    public RideInfoModel(int ride_id,String ride_name,  int ride_region, int ride_ticket_price,int minimum_age) {
+        this.ride_name = ride_name;
+        this.ride_id = ride_id;
+        this.ride_region = ride_region;
+        this.ride_ticket_price = ride_ticket_price;
+        this.minimum_age = minimum_age;
+    }
+
+    public String getRide_name() {
+        return ride_name;
+    }
+
+    public int getRide_id() {
+        return ride_id;
+    }
+
+    public int getRide_region() {
+        return ride_region;
+    }
+
+    public int getRide_ticket_price() {
+        return ride_ticket_price;
+    }
+
+    public int getMinimum_age() {
+        return minimum_age;
+    }
+    
+}
+
 /**
  *
  * @author Julfikar
  */
 public class rideInfoPanel extends javax.swing.JPanel {
 
+    
+    
+    //variable declaration of query so that we can use it while passing into a method
+    //query string is used in some method in this name: "qString"
+    private String queryString = "SELECT * FROM Ride_info";
+
+    //Array List for retrieving info from database
+    //qString is the String of Query operation
+    private ArrayList<RideInfoModel> RideInfoList(String qString) {
+        ArrayList<RideInfoModel> RideList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+
+            ResultSet rs = dbc.resultSetQuery(qString);
+
+            RideInfoModel rideInfo;
+            while (rs.next()) {
+                rideInfo = new RideInfoModel(rs.getInt("ride_id"),rs.getString("ride_name"),rs.getInt("region_no"), rs.getInt("ticket_price"),rs.getInt("age_limit"));
+                RideList.add(rideInfo);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return RideList;
+    }
+
+    //showing values from database to the jtable
+    //qString is the String of Query operation
+    private void show_RideInfo(String qString) {
+        ArrayList<RideInfoModel> list = RideInfoList(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[5];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getRide_id();
+            row[1] = list.get(i).getRide_name();
+            row[2] = list.get(i).getRide_region();
+            row[3] = list.get(i).getRide_ticket_price();
+            row[4] = list.get(i).getMinimum_age();
+            
+            model.addRow(row);
+        }
+    }
+    
     /**
      * Creates new form visitorInfoPanel
      */
     public rideInfoPanel() {
         initComponents();
+        show_RideInfo(queryString);
         
     }
 
@@ -39,10 +136,7 @@ public class rideInfoPanel extends javax.swing.JPanel {
         dataTable = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        searchCategoryField = new javax.swing.JComboBox<>();
-        searchButton = new javax.swing.JButton();
-        searchValueField = new javax.swing.JTextField();
+        addButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(102, 255, 51));
         setMaximumSize(new java.awt.Dimension(530, 450));
@@ -125,30 +219,25 @@ public class rideInfoPanel extends javax.swing.JPanel {
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("DELETE");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(deleteButton);
         deleteButton.setBounds(420, 440, 90, 33);
 
-        jLabel2.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Search By:");
-        contentPanel.add(jLabel2);
-        jLabel2.setBounds(10, 390, 110, 40);
-
-        searchCategoryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
-        contentPanel.add(searchCategoryField);
-        searchCategoryField.setBounds(120, 400, 110, 30);
-
-        searchButton.setBackground(new java.awt.Color(65, 40, 107));
-        searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        searchButton.setForeground(new java.awt.Color(255, 255, 255));
-        searchButton.setText("SEARCH");
-        contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 33);
-
-        searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        contentPanel.add(searchValueField);
-        searchValueField.setBounds(30, 440, 200, 30);
+        addButton1.setBackground(new java.awt.Color(65, 40, 107));
+        addButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        addButton1.setForeground(new java.awt.Color(255, 255, 255));
+        addButton1.setText("Update");
+        addButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addButton1ActionPerformed(evt);
+            }
+        });
+        contentPanel.add(addButton1);
+        addButton1.setBounds(220, 440, 110, 33);
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
@@ -159,21 +248,43 @@ public class rideInfoPanel extends javax.swing.JPanel {
         new addRideInfoPanel().main(args);
     }//GEN-LAST:event_addButtonActionPerformed
 
+    private void addButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_addButton1ActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+       
+        int column = 0;
+        int row = dataTable.getSelectedRow();
+        String primKey = dataTable.getModel().getValueAt(row, column).toString();
+        
+        //preparing query string for delete
+        String delQueryString = "DELETE FROM Ride_info WHERE ride_id = '" + primKey + "'";
+        
+        //connecting db and then deleting the row according to primary key
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+            PreparedStatement pst = dbc.preparedStatementQuery(delQueryString);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Deleted successfully");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        dbc.dbClose();
+    }//GEN-LAST:event_deleteButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.JButton addButton1;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
     private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JButton searchButton;
-    private javax.swing.JComboBox<String> searchCategoryField;
-    private javax.swing.JTextField searchValueField;
     private javax.swing.JScrollPane tableScrollPanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -1,6 +1,8 @@
 package AddButtonItems;
-
+import MenuItems.*;
 import Mainpackage.*;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 
 public class addFoodInfoPanel extends javax.swing.JFrame {
 
@@ -130,7 +132,45 @@ public class addFoodInfoPanel extends javax.swing.JFrame {
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         try {
+            
+                //creating database object
+        DatabaseConnection dbc = new DatabaseConnection();
+
+        try {
+            //checking if the field's are empty or not
+            InvalidInputExceptions iie = new InvalidInputExceptions();
+            if (iie.checkIfEmptyField(foodNameField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Ticket Type");
+            }
+            if (iie.checkIfEmptyField(foodPriceField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Ticket Price");
+            }
+
+            //inserting values to database
+            //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+            //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+            String addvisitorinfoquery = "insert into Food_Info (food_name,food_price) values(?,?)";
+            PreparedStatement pst = dbc.preparedStatementQuery(addvisitorinfoquery);
+            pst.setString(1, foodNameField.getText().trim());
+            pst.setString(2, foodPriceField.getText().trim().replaceAll("\\s+", ""));
+           
+            pst.executeUpdate();
+
+            //showing insertion successful
+            JOptionPane.showMessageDialog(null, "New Food Information inserted successfully !");
+
+            //disposing the additems panel
+            dispose();
+        } catch (InvalidInputExceptions e) {
+            //catches the user defined input exception
+            JOptionPane.showMessageDialog(null, e);
+
+        }
             //write database operation here
+            
+            //after executing database operation, closing the additem's window
+     
+        
             
             //after executing database operation, closing the additem's window
             dispose();

@@ -1,6 +1,8 @@
 package AddButtonItems;
 
 import Mainpackage.*;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 
 public class addRideInfoPanel extends javax.swing.JFrame {
 
@@ -46,6 +48,11 @@ public class addRideInfoPanel extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         rideNameField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        rideNameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rideNameFieldActionPerformed(evt);
+            }
+        });
         jPanel1.add(rideNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, 210, 30));
 
         regionNoField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -151,13 +158,55 @@ public class addRideInfoPanel extends javax.swing.JFrame {
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         try {
             //write database operation here
-            
-            //after executing database operation, closing the additem's window
-            dispose();
+            //creating database object
+            DatabaseConnection dbc = new DatabaseConnection();
+
+            try {
+                //checking if the field's are empty or not
+                InvalidInputExceptions iie = new InvalidInputExceptions();
+                if (iie.checkIfEmptyField(rideNameField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Ticket Type");
+                }
+                if (iie.checkIfEmptyField(regionNoField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Ticket Price");
+                }
+                if (iie.checkIfEmptyField(ticketPriceField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Ticket Price");
+                }
+                if (iie.checkIfEmptyField(ageLimitField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Ticket Price");
+                }
+
+                //inserting values to database
+                //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+                //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+                String addvisitorinfoquery = "insert into Ride_info (ride_name,region_no,ticket_price,age_limit) values(?,?,?,?)";
+                PreparedStatement pst = dbc.preparedStatementQuery(addvisitorinfoquery);
+                pst.setString(1, rideNameField.getText().trim());
+                pst.setString(2, regionNoField.getText().trim().replaceAll("\\s+", ""));
+                pst.setString(3, ticketPriceField.getText().trim().replaceAll("\\s+", ""));
+                pst.setString(4, ageLimitField.getText().trim());
+
+                pst.executeUpdate();
+
+                //showing insertion successful
+                JOptionPane.showMessageDialog(null, "New Food Information inserted successfully !");
+
+                //after executing database operation, closing the additem's window
+                dispose();
+            } catch (InvalidInputExceptions e) {
+                //catches the user defined input exception
+                JOptionPane.showMessageDialog(null, e);
+
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }//GEN-LAST:event_confirmButtonActionPerformed
+
+    private void rideNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rideNameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rideNameFieldActionPerformed
 
     /**
      * @param args the command line arguments

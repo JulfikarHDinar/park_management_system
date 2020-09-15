@@ -48,9 +48,19 @@ public class addVisitorInfoPanel extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         visitorNameField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        visitorNameField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visitorNameFieldActionPerformed(evt);
+            }
+        });
         jPanel1.add(visitorNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 210, 30));
 
         visitorPhoneField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        visitorPhoneField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visitorPhoneFieldActionPerformed(evt);
+            }
+        });
         jPanel1.add(visitorPhoneField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 210, 30));
 
         visitorAgeField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -211,6 +221,14 @@ public class addVisitorInfoPanel extends javax.swing.JFrame {
         //closing database connection
         dbc.dbClose();
     }//GEN-LAST:event_confirmButtonActionPerformed
+
+    private void visitorNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorNameFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_visitorNameFieldActionPerformed
+
+    private void visitorPhoneFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorPhoneFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_visitorPhoneFieldActionPerformed
 
     /**
      * @param args the command line arguments
