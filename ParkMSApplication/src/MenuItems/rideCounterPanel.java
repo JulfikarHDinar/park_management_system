@@ -4,19 +4,129 @@
  * and open the template in the editor.
  */
 package MenuItems;
-import AddButtonItems.addRideCounterPanel;
+import AddButtonItems.*;
 import Mainpackage.*;
+import UpdateButtonItems.*;
+import UpdateButtonItems.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
+class RideCounterModel{
+    private int sl_no,visitor_id,ride_id,number_of_tickets,total_price;
+    private String sold_time;
+
+    public RideCounterModel(int sl_no, int visitor_id, int ride_id, int number_of_tickets, int total_price, String sold_time) {
+        this.sl_no = sl_no;
+        this.visitor_id = visitor_id;
+        this.ride_id = ride_id;
+        this.number_of_tickets = number_of_tickets;
+        this.total_price = total_price;
+        this.sold_time = sold_time;
+    }
+
+    public int getSl_no() {
+        return sl_no;
+    }
+
+    public int getVisitor_id() {
+        return visitor_id;
+    }
+
+    public int getRide_id() {
+        return ride_id;
+    }
+
+    public int getNumber_of_tickets() {
+        return number_of_tickets;
+    }
+
+    public int getTotal_price() {
+        return total_price;
+    }
+
+    public String getSold_time() {
+        return sold_time;
+    }
+
+   
+    
+}
+
 /**
  *
  * @author Julfikar
  */
 public class rideCounterPanel extends javax.swing.JPanel {
 
+     //variable declaration of query so that we can use it while passing into a method
+    //query string is used in some method in this name: "qString"
+    private String queryString = "SELECT  Ride_Ticket_counter.rticket_sl_no,Ride_Ticket_counter.visitor_id,Ride_Ticket_counter.ride_id,Ride_Ticket_counter.no_of_tickets, ( Ride_Ticket_counter.no_of_tickets * Ride_info.ticket_price ) total_price,Ride_Ticket_counter.eticket_sold_time FROM Ride_Ticket_counter , Ride_info WHERE Ride_Ticket_counter.ride_id = Ride_info.ride_id ";
+
+    //Array List for retrieving info from database
+    //qString is the String of Query operation
+    private ArrayList<RideCounterModel> RideCounterList(String qString) {
+        ArrayList<RideCounterModel> rideList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+
+            ResultSet rs = dbc.resultSetQuery(qString);
+
+            RideCounterModel entryCounter;
+            while (rs.next()) {
+                entryCounter = new RideCounterModel(
+                        rs.getInt("rticket_sl_no"),
+                        rs.getInt("visitor_id"),
+                        rs.getInt("ride_id"),
+                        rs.getInt("no_of_tickets"),
+                        rs.getInt("total_price"),
+                        rs.getString("eticket_sold_time")     
+                );
+                rideList.add(entryCounter);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return rideList;
+    }
+
+    //showing values from database to the jtable
+    //qString is the String of Query operation
+    private void show_rideCounter(String qString) {
+        ArrayList<RideCounterModel> list = RideCounterList(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[6];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getSl_no();
+            row[1] = list.get(i).getVisitor_id();
+            row[2] = list.get(i).getRide_id();
+            row[3] = list.get(i).getNumber_of_tickets();
+            row[4] = list.get(i).getTotal_price();
+            row[5] = list.get(i).getSold_time();
+            
+                    
+            model.addRow(row);
+        }
+    }
+    
     /**
      * Creates new form visitorInfoPanel
      */
     public rideCounterPanel() {
         initComponents();
+        show_rideCounter(queryString);
         
     }
 
@@ -125,6 +235,11 @@ public class rideCounterPanel extends javax.swing.JPanel {
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("DELETE");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(deleteButton);
         deleteButton.setBounds(420, 440, 90, 33);
 
@@ -158,6 +273,29 @@ public class rideCounterPanel extends javax.swing.JPanel {
         String[] args = null;
         new addRideCounterPanel().main(args);
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+        
+         int column = 0;
+        int row = dataTable.getSelectedRow();
+        String primKey = dataTable.getModel().getValueAt(row, column).toString();
+        
+        //preparing query string for delete
+        String delQueryString = "DELETE FROM Ride_Ticket_counter WHERE rticket_sl_no = '" + primKey + "'";
+        
+        //connecting db and then deleting the row according to primary key
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+            PreparedStatement pst = dbc.preparedStatementQuery(delQueryString);
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Deleted successfully");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        dbc.dbClose();
+        
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

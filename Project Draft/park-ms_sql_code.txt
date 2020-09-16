@@ -67,7 +67,6 @@ CREATE TABLE Food_Counter(
 	visitor_id int NOT NULL FOREIGN KEY REFERENCES Visitor_Info(visitor_id),
 	food_id int NOT NULL FOREIGN KEY REFERENCES Food_Info(food_id),
 	no_of_food int NOT NULL,
-	total_food_price int NOT NULL,
 	food_sold_date varchar(20) NOT NULL
 ) 
 
@@ -76,7 +75,7 @@ CREATE TABLE Entry_Ticket_counter (
 	eticket_sl_no INT IDENTITY(1,1) PRIMARY KEY,
 	visitor_id int NOT NULL FOREIGN KEY REFERENCES Visitor_Info(visitor_id),
 	no_of_tickets int NOT NULL,
-	
+	eticket_type varchar(30) NOT NULL,
 	eticket_sold_time varchar(20) NOT NULL
 )
 
@@ -85,7 +84,6 @@ CREATE TABLE Ride_Ticket_counter (
 	visitor_id int NOT NULL FOREIGN KEY REFERENCES Visitor_Info(visitor_id),
 	ride_id int  NOT NULL FOREIGN KEY REFERENCES Ride_info(ride_id),
 	no_of_tickets int NOT NULL,
-	total_eticket_price int NOT NULL,
 	eticket_sold_time varchar(20) NOT NULL
 )
 

@@ -1,6 +1,8 @@
 package AddButtonItems;
 
 import Mainpackage.*;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 
 public class addFoodCounterPanel extends javax.swing.JFrame {
 
@@ -141,7 +143,43 @@ public class addFoodCounterPanel extends javax.swing.JFrame {
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         try {
             //write database operation here
-            
+            DatabaseConnection dbc = new DatabaseConnection();
+
+            try {
+                //checking if the field's are empty or not
+                InvalidInputExceptions iie = new InvalidInputExceptions();
+                if (iie.checkIfEmptyField(visitorIdField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Visitor Id");
+                }
+                if (iie.checkIfEmptyField(foodIdField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Food ID");
+                }
+                if (iie.checkIfEmptyField(noOfFoodField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input No Of Food");
+                }
+
+                //inserting values to database
+                //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+                //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+                String query = "insert into Food_Counter (visitor_id,food_id,no_of_food,food_sold_date) values(?,?,?,GETDATE())";
+                PreparedStatement pst = dbc.preparedStatementQuery(query);
+                pst.setString(1, visitorIdField.getText().trim());
+                pst.setString(2, foodIdField.getText().trim());
+                pst.setString(3, noOfFoodField.getText().trim().replaceAll("\\s+", ""));
+
+                pst.executeUpdate();
+
+                //showing insertion successful
+                JOptionPane.showMessageDialog(null, "New Entry inserted successfully !");
+
+                //after executing database operation, closing the additem's window
+               
+                dispose();
+            } catch (InvalidInputExceptions e) {
+                //catches the user defined input exception
+                JOptionPane.showMessageDialog(null, e);
+
+            }
             //after executing database operation, closing the additem's window
             dispose();
         } catch (Exception e) {

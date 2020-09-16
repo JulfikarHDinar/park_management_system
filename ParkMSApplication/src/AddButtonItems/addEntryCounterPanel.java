@@ -1,6 +1,8 @@
 package AddButtonItems;
 
 import Mainpackage.*;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 
 public class addEntryCounterPanel extends javax.swing.JFrame {
 
@@ -30,7 +32,7 @@ public class addEntryCounterPanel extends javax.swing.JFrame {
         cancelButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        Label3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
@@ -44,12 +46,27 @@ public class addEntryCounterPanel extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         visitorIdField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        visitorIdField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visitorIdFieldActionPerformed(evt);
+            }
+        });
         jPanel1.add(visitorIdField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 210, 30));
 
         ticketTypeField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        ticketTypeField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ticketTypeFieldActionPerformed(evt);
+            }
+        });
         jPanel1.add(ticketTypeField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 210, 30));
 
         noOfTicketField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        noOfTicketField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                noOfTicketFieldActionPerformed(evt);
+            }
+        });
         jPanel1.add(noOfTicketField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 240, 210, 30));
 
         confirmButton.setBackground(new java.awt.Color(65, 40, 107));
@@ -104,10 +121,10 @@ public class addEntryCounterPanel extends javax.swing.JFrame {
 
         jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, -1, -1));
 
-        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("No of Ticket(s)");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, 20));
+        Label3.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
+        Label3.setForeground(new java.awt.Color(255, 255, 255));
+        Label3.setText("No of Ticket(s)");
+        jPanel1.add(Label3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 220, -1, 20));
 
         jLabel2.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -137,6 +154,44 @@ public class addEntryCounterPanel extends javax.swing.JFrame {
         try {
             //write database operation here
 
+            DatabaseConnection dbc = new DatabaseConnection();
+
+            try {
+                //checking if the field's are empty or not
+                InvalidInputExceptions iie = new InvalidInputExceptions();
+                if (iie.checkIfEmptyField(visitorIdField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Visitor Id");
+                }
+                if (iie.checkIfEmptyField(ticketTypeField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Ticket Type");
+                }
+                if (iie.checkIfEmptyField(noOfTicketField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input No Of Ticket");
+                }
+
+                //inserting values to database
+                //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+                //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+                String query = "insert into Entry_Ticket_counter (visitor_id,eticket_type,no_of_tickets,eticket_sold_time) values(?,?,?,GETDATE())";
+                PreparedStatement pst = dbc.preparedStatementQuery(query);
+                pst.setString(1, visitorIdField.getText().trim());
+                pst.setString(2, ticketTypeField.getText().trim());
+                pst.setString(3, noOfTicketField.getText().trim().replaceAll("\\s+", ""));
+
+                pst.executeUpdate();
+
+                //showing insertion successful
+                JOptionPane.showMessageDialog(null, "New Entry inserted successfully !");
+
+                //disposing the additems panel
+                dispose();
+            } catch (InvalidInputExceptions e) {
+                //catches the user defined input exception
+                JOptionPane.showMessageDialog(null, e);
+
+            }
+            //write database operation here
+
             //after executing database operation, closing the additem's window
             dispose();
         } catch (Exception e) {
@@ -148,6 +203,18 @@ public class addEntryCounterPanel extends javax.swing.JFrame {
         //will close the additem's window
         dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
+
+    private void noOfTicketFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noOfTicketFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_noOfTicketFieldActionPerformed
+
+    private void ticketTypeFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ticketTypeFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ticketTypeFieldActionPerformed
+
+    private void visitorIdFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorIdFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_visitorIdFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,9 +255,9 @@ public class addEntryCounterPanel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Label3;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton confirmButton;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

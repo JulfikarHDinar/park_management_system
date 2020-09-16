@@ -201,7 +201,7 @@ public class entryTicketInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(230, 440, 100, 33);
+        addButton.setBounds(220, 440, 110, 33);
 
         deleteButton.setBackground(new java.awt.Color(65, 40, 107));
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N

@@ -1,6 +1,8 @@
 package AddButtonItems;
 
 import Mainpackage.*;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 
 public class addRideCounterPanel extends javax.swing.JFrame {
 
@@ -44,12 +46,27 @@ public class addRideCounterPanel extends javax.swing.JFrame {
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         visitorIDField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jPanel1.add(visitorIDField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 110, 210, 30));
+        visitorIDField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                visitorIDFieldActionPerformed(evt);
+            }
+        });
+        jPanel1.add(visitorIDField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 210, 30));
 
         rideIDField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        rideIDField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rideIDFieldActionPerformed(evt);
+            }
+        });
         jPanel1.add(rideIDField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 210, 30));
 
         noOfTicketField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        noOfTicketField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                noOfTicketFieldActionPerformed(evt);
+            }
+        });
         jPanel1.add(noOfTicketField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 210, 30));
 
         confirmButton.setBackground(new java.awt.Color(65, 40, 107));
@@ -112,7 +129,7 @@ public class addRideCounterPanel extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Visitor's ID");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 90, -1, 20));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 80, -1, 20));
 
         jLabel3.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -141,13 +158,61 @@ public class addRideCounterPanel extends javax.swing.JFrame {
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         try {
             //write database operation here
-            
-            //after executing database operation, closing the additem's window
+            DatabaseConnection dbc = new DatabaseConnection();
+
+            try {
+                //checking if the field's are empty or not
+                InvalidInputExceptions iie = new InvalidInputExceptions();
+                if (iie.checkIfEmptyField(visitorIDField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Visitor Id");
+                }
+                if (iie.checkIfEmptyField(rideIDField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Ticket Type");
+                }
+                if (iie.checkIfEmptyField(noOfTicketField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input No Of Ticket");
+                }
+
+                //inserting values to database
+                //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+                //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+                String query = "insert into Ride_Ticket_counter (visitor_id,ride_id,no_of_tickets,eticket_sold_time) values(?,?,?,GETDATE())";
+                PreparedStatement pst = dbc.preparedStatementQuery(query);
+                pst.setString(1, visitorIDField.getText().trim());
+                pst.setString(2, rideIDField.getText().trim());
+                pst.setString(3, noOfTicketField.getText().trim().replaceAll("\\s+", ""));
+
+                pst.executeUpdate();
+
+                //showing insertion successful
+                JOptionPane.showMessageDialog(null, "New Entry inserted successfully !");
+
+                //after executing database operation, closing the additem's window
+               
+                dispose();
+            } catch (InvalidInputExceptions e) {
+                //catches the user defined input exception
+                JOptionPane.showMessageDialog(null, e);
+
+            }
             dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }//GEN-LAST:event_confirmButtonActionPerformed
+
+    private void visitorIDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_visitorIDFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_visitorIDFieldActionPerformed
+
+    private void rideIDFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rideIDFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rideIDFieldActionPerformed
+
+    private void noOfTicketFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_noOfTicketFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_noOfTicketFieldActionPerformed
 
     /**
      * @param args the command line arguments
