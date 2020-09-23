@@ -249,7 +249,18 @@ public class rideInfoPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void addButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButton1ActionPerformed
-        // TODO add your handling code here:
+        
+        int column = 0;
+        int row = dataTable.getSelectedRow();
+        String primKey = dataTable.getModel().getValueAt(row, column).toString();
+        System.out.println(primKey);
+        
+        UpdateRideInfoPanel up = new UpdateRideInfoPanel(primKey);
+        up.setPrim(primKey);
+        System.out.println(primKey);
+        
+        String[] args = null;
+        up.main(args);
     }//GEN-LAST:event_addButton1ActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed

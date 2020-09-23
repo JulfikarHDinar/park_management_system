@@ -7,6 +7,7 @@ package MenuItems;
 import AddButtonItems.addEntryCounterPanel;
 import AddButtonItems.*;
 import Mainpackage.*;
+import SearchButtonItems.searchVisitorInfoPanel;
 import UpdateButtonItems.*;
 import UpdateButtonItems.*;
 import java.sql.PreparedStatement;
@@ -81,7 +82,7 @@ public class entryCounterPanel extends javax.swing.JPanel {
         DatabaseConnection dbc = new DatabaseConnection();
         try {
 
-            ResultSet rs = dbc.resultSetQuery(qString);
+            ResultSet rs = dbc.resultSetQuery(queryString);
 
             EntryCounterModel entryCounter;
             while (rs.next()) {
@@ -257,7 +258,7 @@ public class entryCounterPanel extends javax.swing.JPanel {
         jLabel2.setBounds(10, 390, 110, 40);
 
         searchCategoryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
+        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Sl.no", "Visitor ID", "Ticket Type", "No of Ticket(s)", "Time" }));
         contentPanel.add(searchCategoryField);
         searchCategoryField.setBounds(120, 400, 110, 30);
 
@@ -265,6 +266,11 @@ public class entryCounterPanel extends javax.swing.JPanel {
         searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("SEARCH");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(searchButton);
         searchButton.setBounds(240, 440, 90, 33);
 
@@ -303,6 +309,53 @@ public class entryCounterPanel extends javax.swing.JPanel {
         dbc.dbClose();
         
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        //getting "Search By" column name and value from the form
+        String strCol = searchCategoryField.getSelectedItem().toString();
+        String strVal = searchValueField.getText();
+
+        //changing column name to database's column name
+        if (strCol.equals("ID".trim())) {
+            strCol = "visitor_id";
+        } else if (strCol.equals("Name".trim())) {
+            strCol = "visitor_name";
+        } else if (strCol.equals("Phone".trim())) {
+            strCol = "visitor_phone";
+        } else if (strCol.equals("Sex".trim())) {
+            strCol = "visitor_gender";
+        } else if (strCol.equals("Age".trim())) {
+            strCol = "visitor_age";
+        }
+
+        try {
+            if (strCol.equals("-")) {
+                throw new InvalidInputExceptions("Choose a column to search.");
+            }
+            if (strVal.trim().equals("")) {
+                throw new InvalidInputExceptions("Type a value to search.");
+            }
+
+            //setting up the query string
+            queryString = "SELECT * FROM Visitor_Info WHERE " + strCol + " = " + "'" + strVal + "'";
+
+            //This will bring the frame which was implemented for add button into the screen in Nimbus look 
+            //passing query string through jframe form
+            String[] args = null;
+            searchVisitorInfoPanel ob = new searchVisitorInfoPanel(queryString);
+
+            //setting query string to desired frame's variable
+            ob.setQueryString(queryString);
+
+            //setting visible the jframe
+            ob.main(args);
+        } catch (InvalidInputExceptions e) {
+            //catches the user defined input exception
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+
+    }//GEN-LAST:event_searchButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

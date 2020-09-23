@@ -218,6 +218,11 @@ public class visitorInfoPanel extends javax.swing.JPanel {
 
         searchCategoryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "ID", "Name", "Phone", "Sex", "Age" }));
+        searchCategoryField.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchCategoryFieldActionPerformed(evt);
+            }
+        });
         contentPanel.add(searchCategoryField);
         searchCategoryField.setBounds(120, 400, 110, 30);
 
@@ -252,7 +257,7 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         String strVal = searchValueField.getText();
 
         //changing column name to database's column name
-        if (strCol.equals("ID".trim())) {
+        if (strCol.equals("Sl.no".trim())) {
             strCol = "visitor_id";
         } else if (strCol.equals("Name".trim())) {
             strCol = "visitor_name";
@@ -298,7 +303,7 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         int column = 0;
         int row = dataTable.getSelectedRow();
         String primKey = dataTable.getModel().getValueAt(row, column).toString();
-        
+        System.out.println(primKey);
         //preparing query string for delete
         String delQueryString = "DELETE FROM visitor_info WHERE visitor_id = '" + primKey + "'";
         
@@ -313,6 +318,10 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         }
         dbc.dbClose();
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void searchCategoryFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCategoryFieldActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchCategoryFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

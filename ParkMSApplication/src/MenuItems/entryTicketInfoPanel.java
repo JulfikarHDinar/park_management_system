@@ -4,10 +4,9 @@
  * and open the template in the editor.
  */
 package MenuItems;
+import UpdateButtonItems.*;
 import AddButtonItems.*;
 import Mainpackage.*;
-import UpdateButtonItems.*;
-import UpdateButtonItems.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -232,8 +231,18 @@ public class entryTicketInfoPanel extends javax.swing.JPanel {
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
         //This will bring the frame which was implemented for add button into the screen in Nimbus look 
+        int column = 0;
+        int row = dataTable.getSelectedRow();
+        String primKey = dataTable.getModel().getValueAt(row, column).toString();
+        System.out.println(primKey);
+        
+        UpdateEntryTicketInfoPanel up = new UpdateEntryTicketInfoPanel(primKey);
+        up.setPrim(primKey);
+        //up.setPrim(primKey);
+        System.out.println(primKey);
+        
         String[] args = null;
-        new UpdateEntryTicketInfoPanel().main(args);
+        up.main(args);
     }//GEN-LAST:event_UpdateButtonActionPerformed
 
     private void addButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButton1ActionPerformed
@@ -249,7 +258,7 @@ public class entryTicketInfoPanel extends javax.swing.JPanel {
         int column = 0;
         int row = dataTable.getSelectedRow();
         String primKey = dataTable.getModel().getValueAt(row, column).toString();
-        
+        System.out.println(primKey);
         //preparing query string for delete
         String delQueryString = "DELETE FROM Entry_Ticket_type WHERE eticket_type = '" + primKey + "'";
         

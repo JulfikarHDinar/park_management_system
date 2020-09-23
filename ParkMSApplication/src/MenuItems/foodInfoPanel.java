@@ -232,7 +232,18 @@ public class foodInfoPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void UpdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateButtonActionPerformed
-        //This will bring the frame which was implemented for add button into the screen in Nimbus look 
+         int column = 0;
+        int row = dataTable.getSelectedRow();
+        String primKey = dataTable.getModel().getValueAt(row, column).toString();
+        System.out.println(primKey);
+        
+        UpdateFoodInfoPanel up = new UpdateFoodInfoPanel(primKey);
+        up.setPrim(primKey);
+        //up.setPrim(primKey);
+        System.out.println(primKey);
+        
+        String[] args = null;
+        up.main(args);
         
     }//GEN-LAST:event_UpdateButtonActionPerformed
 

@@ -3,8 +3,7 @@ package UpdateButtonItems;
 import MenuItems.*;
 import AddButtonItems.*;
 import Mainpackage.*;
-import UpdateButtonItems.*;
-import UpdateButtonItems.*;
+import MenuItems.entryTicketInfoPanel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,23 +12,26 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+
 public class UpdateEntryTicketInfoPanel extends javax.swing.JFrame {
 
-    
+    private static String key;
+
+    public void setPrim(String key) {
+        this.key = key;
+    }
+
     /**
      * Creates new form addVisitorInfoPanel
      */
-    public UpdateEntryTicketInfoPanel() {
-        
+    public UpdateEntryTicketInfoPanel(String key) {
+
         initComponents();
         //setting the login screen in the middle of the screen
         setLocationRelativeTo(null);
     }
-    
+
     entryTicketInfoPanel entryticket = new entryTicketInfoPanel();
-    
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -159,40 +161,42 @@ public class UpdateEntryTicketInfoPanel extends javax.swing.JFrame {
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         try {
             //creating database object
-        DatabaseConnection dbc = new DatabaseConnection();
+            DatabaseConnection dbc = new DatabaseConnection();
 
-        try {
-            //checking if the field's are empty or not
-            InvalidInputExceptions iie = new InvalidInputExceptions();
-            if (iie.checkIfEmptyField(ticketTypeField.getText()) == true) {
-                throw new InvalidInputExceptions("Input Ticket Type");
+            try {
+                //checking if the field's are empty or not
+                InvalidInputExceptions iie = new InvalidInputExceptions();
+                if (iie.checkIfEmptyField(ticketTypeField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Ticket Type");
+                }
+                if (iie.checkIfEmptyField(TicketPriceField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Ticket Price");
+                }
+
+                //inserting values to database
+                //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+                //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+                //UpdateEntryTicket updatEntryTicket = null ;
+                System.out.println(key);
+                String queryString = "Update Entry_Ticket_type Set eticket_type=? , eticket_price=? Where eticket_type=" + key + "";
+
+                PreparedStatement pst = dbc.preparedStatementQuery(queryString);
+                pst.setString(1, ticketTypeField.getText().trim());
+                pst.setString(2, TicketPriceField.getText().trim().replaceAll("\\s+", ""));
+
+                pst.executeUpdate();
+
+                //showing insertion successful
+                JOptionPane.showMessageDialog(null, "New Ticket Information Updated successfully !");
+
+                dispose();
+            } catch (InvalidInputExceptions e) {
+                //catches the user defined input exception
+                JOptionPane.showMessageDialog(null, e);
+
             }
-            if (iie.checkIfEmptyField(TicketPriceField.getText()) == true) {
-                throw new InvalidInputExceptions("Input Ticket Price");
-            }
-
-            //inserting values to database
-            //  .trim()  is used for removing whitespace in the beginning and the ending of a string
-            //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
-            String addvisitorinfoquery = "insert into Entry_Ticket_type (eticket_type,eticket_price) values(?,?)";
-            PreparedStatement pst = dbc.preparedStatementQuery(addvisitorinfoquery);
-            pst.setString(1, ticketTypeField.getText().trim());
-            pst.setString(2, TicketPriceField.getText().trim().replaceAll("\\s+", ""));
-           
-            pst.executeUpdate();
-
-            //showing insertion successful
-            JOptionPane.showMessageDialog(null, "New Ticket Information inserted successfully !");
-
-            //disposing the additems panel
-            dispose();
-        } catch (InvalidInputExceptions e) {
-            //catches the user defined input exception
-            JOptionPane.showMessageDialog(null, e);
-
-        }
             //write database operation here
-            
+
             //after executing database operation, closing the additem's window
             dispose();
         } catch (Exception e) {
@@ -254,7 +258,7 @@ public class UpdateEntryTicketInfoPanel extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UpdateEntryTicketInfoPanel().setVisible(true);
+                new UpdateEntryTicketInfoPanel(key).setVisible(true);
             }
         });
     }
