@@ -1,5 +1,0 @@
-MenuItems.rideCounterPanel
-MenuItems.RideCounterModel
-MenuItems.rideCounterPanel$2
-MenuItems.rideCounterPanel$1
-MenuItems.rideCounterPanel$3

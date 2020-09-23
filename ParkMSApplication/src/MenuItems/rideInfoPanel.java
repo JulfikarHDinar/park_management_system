@@ -135,7 +135,6 @@ public class rideInfoPanel extends javax.swing.JPanel {
         tableScrollPanel = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
         addButton1 = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(102, 255, 51));
@@ -213,19 +212,7 @@ public class rideInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(340, 440, 70, 33);
-
-        deleteButton.setBackground(new java.awt.Color(65, 40, 107));
-        deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
-        deleteButton.setText("DELETE");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
-            }
-        });
-        contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 440, 90, 33);
+        addButton.setBounds(440, 440, 80, 33);
 
         addButton1.setBackground(new java.awt.Color(65, 40, 107));
         addButton1.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -237,7 +224,7 @@ public class rideInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton1);
-        addButton1.setBounds(220, 440, 110, 33);
+        addButton1.setBounds(310, 440, 110, 33);
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
@@ -263,34 +250,12 @@ public class rideInfoPanel extends javax.swing.JPanel {
         up.main(args);
     }//GEN-LAST:event_addButton1ActionPerformed
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-       
-        int column = 0;
-        int row = dataTable.getSelectedRow();
-        String primKey = dataTable.getModel().getValueAt(row, column).toString();
-        
-        //preparing query string for delete
-        String delQueryString = "DELETE FROM Ride_info WHERE ride_id = '" + primKey + "'";
-        
-        //connecting db and then deleting the row according to primary key
-        DatabaseConnection dbc = new DatabaseConnection();
-        try {
-            PreparedStatement pst = dbc.preparedStatementQuery(delQueryString);
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Deleted successfully");
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        dbc.dbClose();
-    }//GEN-LAST:event_deleteButtonActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JButton addButton1;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
-    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

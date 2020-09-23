@@ -97,11 +97,7 @@ public class staffPaymentPanel extends javax.swing.JPanel {
         tableScrollPanel = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        searchCategoryField = new javax.swing.JComboBox<>();
-        searchButton = new javax.swing.JButton();
-        searchValueField = new javax.swing.JTextField();
+        updateButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(102, 255, 51));
         setMaximumSize(new java.awt.Dimension(530, 450));
@@ -175,41 +171,19 @@ public class staffPaymentPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(340, 440, 70, 25);
+        addButton.setBounds(320, 440, 70, 33);
 
-        deleteButton.setBackground(new java.awt.Color(65, 40, 107));
-        deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
-        deleteButton.setText("DELETE");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+        updateButton.setBackground(new java.awt.Color(65, 40, 107));
+        updateButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        updateButton.setForeground(new java.awt.Color(255, 255, 255));
+        updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
+                updateButtonActionPerformed(evt);
             }
         });
-        contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 440, 90, 25);
-
-        jLabel2.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Search By:");
-        contentPanel.add(jLabel2);
-        jLabel2.setBounds(10, 390, 110, 40);
-
-        searchCategoryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
-        contentPanel.add(searchCategoryField);
-        searchCategoryField.setBounds(120, 400, 110, 30);
-
-        searchButton.setBackground(new java.awt.Color(65, 40, 107));
-        searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        searchButton.setForeground(new java.awt.Color(255, 255, 255));
-        searchButton.setText("SEARCH");
-        contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 25);
-
-        searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        contentPanel.add(searchValueField);
-        searchValueField.setBounds(30, 440, 200, 30);
+        contentPanel.add(updateButton);
+        updateButton.setBounds(410, 440, 100, 33);
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
@@ -220,25 +194,21 @@ public class staffPaymentPanel extends javax.swing.JPanel {
         new addStaffPaymentPanel().main(args);
     }//GEN-LAST:event_addButtonActionPerformed
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_deleteButtonActionPerformed
+    }//GEN-LAST:event_updateButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
-    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JButton searchButton;
-    private javax.swing.JComboBox<String> searchCategoryField;
-    private javax.swing.JTextField searchValueField;
     private javax.swing.JScrollPane tableScrollPanel;
+    private javax.swing.JButton updateButton;
     // End of variables declaration//GEN-END:variables
 }

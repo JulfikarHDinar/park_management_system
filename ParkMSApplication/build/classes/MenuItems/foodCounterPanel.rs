@@ -1,5 +1,0 @@
-MenuItems.foodCounterModel
-MenuItems.foodCounterPanel$3
-MenuItems.foodCounterPanel$2
-MenuItems.foodCounterPanel
-MenuItems.foodCounterPanel$1

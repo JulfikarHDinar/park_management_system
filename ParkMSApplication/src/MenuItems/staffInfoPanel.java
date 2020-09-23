@@ -1,4 +1,5 @@
 package MenuItems;
+
 import AddButtonItems.addStaffInfoPanel;
 import Mainpackage.*;
 import SearchButtonItems.*;
@@ -11,15 +12,16 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
-class staffInfoModel{
-    private int staff_id,staff_age,staff_salary ;
+class staffInfoModel {
+
+    private int staff_id, staff_age, staff_salary;
 
     public staffInfoModel(int staff_salary) {
         this.staff_salary = staff_salary;
     }
-    private String staff_name,staff_phone,staff_gender,staff_address,staff_designation,staff_hiredate,region_no;
+    private String staff_name, staff_phone, staff_gender, staff_address, staff_designation, staff_hiredate, region_no;
 
-    public staffInfoModel( int staff_id,String staff_name, String staff_phone, String staff_gender,int staff_age, String staff_address, String staff_designation,int staff_salary, String staff_hiredate, String region_no) {
+    public staffInfoModel(int staff_id, String staff_name, String staff_phone, String staff_gender, int staff_age, String staff_address, String staff_designation, int staff_salary, String staff_hiredate, String region_no) {
         this.staff_id = staff_id;
         this.staff_age = staff_age;
         this.staff_name = staff_name;
@@ -30,10 +32,9 @@ class staffInfoModel{
         this.staff_salary = staff_salary;
         this.staff_hiredate = staff_hiredate;
         this.region_no = region_no;
-        
-        
+
     }
-   
+
     public int getStaff_id() {
         return staff_id;
     }
@@ -65,8 +66,6 @@ class staffInfoModel{
     public int getStaff_salary() {
         return staff_salary;
     }
-    
-    
 
     public String getStaff_hiredate() {
         return staff_hiredate;
@@ -75,15 +74,15 @@ class staffInfoModel{
     public String getRegion_no() {
         return region_no;
     }
-    
-    
+
 }
 
 public class staffInfoPanel extends javax.swing.JPanel {
 
-     private String queryString = " SELECT Staff_info.staff_id,Staff_info.staff_name,Staff_info.staff_phone,Staff_info.staff_gender,Staff_info.staff_age,Staff_info.staff_address,Staff_info.staff_designation, Payout_Amount.staff_salary,Staff_info.staff_hiredate,Staff_info.region_no FROM Staff_info INNER JOIN Payout_Amount ON Staff_info.staff_designation=Payout_Amount.staff_designation";
-    private ArrayList<staffInfoModel>   staffList(String qString) {
-        ArrayList<  staffInfoModel>   staffList = new ArrayList<>();
+    private String queryString = " SELECT Staff_info.staff_id,Staff_info.staff_name,Staff_info.staff_phone,Staff_info.staff_gender,Staff_info.staff_age,Staff_info.staff_address,Staff_info.staff_designation, Payout_Amount.staff_salary,Staff_info.staff_hiredate,Staff_info.region_no FROM Staff_info INNER JOIN Payout_Amount ON Staff_info.staff_designation=Payout_Amount.staff_designation";
+
+    private ArrayList<staffInfoModel> staffList(String qString) {
+        ArrayList<  staffInfoModel> staffList = new ArrayList<>();
         DatabaseConnection dbc = new DatabaseConnection();
         try {
 
@@ -91,8 +90,8 @@ public class staffInfoPanel extends javax.swing.JPanel {
 
             staffInfoModel staff;
             while (rs.next()) {
-                 staff=new staffInfoModel(rs.getInt("staff_id"),rs.getString("staff_name"), rs.getString("staff_phone"), rs.getString("staff_gender"),rs.getInt("staff_age"),rs.getString("staff_address"),rs.getString("staff_designation"),rs.getInt("staff_salary"),rs.getString("staff_hiredate"),rs.getString("region_no"));
-                 staffList.add(staff);
+                staff = new staffInfoModel(rs.getInt("staff_id"), rs.getString("staff_name"), rs.getString("staff_phone"), rs.getString("staff_gender"), rs.getInt("staff_age"), rs.getString("staff_address"), rs.getString("staff_designation"), rs.getInt("staff_salary"), rs.getString("staff_hiredate"), rs.getString("region_no"));
+                staffList.add(staff);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -102,16 +101,17 @@ public class staffInfoPanel extends javax.swing.JPanel {
         //closing database
         dbc.dbClose();
 
-        return  staffList;
+        return staffList;
     }
+
     private void show_staffInfo(String qString) {
-        ArrayList< staffInfoModel> list =  staffList(qString);
+        ArrayList< staffInfoModel> list = staffList(qString);
         DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
         Object[] row = new Object[10];
         for (int i = 0; i < list.size(); i++) {
-            
-            row[0] = list.get(i).getStaff_id(); 
-            row[1] = list.get(i).getStaff_name(); 
+
+            row[0] = list.get(i).getStaff_id();
+            row[1] = list.get(i).getStaff_name();
             row[2] = list.get(i).getStaff_phone();
             row[3] = list.get(i).getStaff_gender();
             row[4] = list.get(i).getStaff_age();
@@ -120,14 +120,11 @@ public class staffInfoPanel extends javax.swing.JPanel {
             row[7] = list.get(i).getStaff_salary();
             row[8] = list.get(i).getStaff_hiredate();
             row[9] = list.get(i).getRegion_no();
-            
 
             model.addRow(row);
         }
     }
-       
-    
-    
+
     public staffInfoPanel() {
         initComponents();
         show_staffInfo(queryString);
@@ -142,6 +139,7 @@ public class staffInfoPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jButton1 = new javax.swing.JButton();
         contentPanel = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -156,6 +154,9 @@ public class staffInfoPanel extends javax.swing.JPanel {
         searchCategoryField = new javax.swing.JComboBox<>();
         searchButton = new javax.swing.JButton();
         searchValueField = new javax.swing.JTextField();
+        infoButton = new javax.swing.JButton();
+
+        jButton1.setText("jButton1");
 
         setBackground(new java.awt.Color(102, 255, 51));
         setMaximumSize(new java.awt.Dimension(530, 500));
@@ -229,7 +230,7 @@ public class staffInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(340, 440, 70, 25);
+        addButton.setBounds(350, 440, 70, 33);
 
         deleteButton.setBackground(new java.awt.Color(65, 40, 107));
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -241,7 +242,7 @@ public class staffInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 440, 90, 25);
+        deleteButton.setBounds(430, 440, 90, 33);
 
         jLabel2.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -259,11 +260,19 @@ public class staffInfoPanel extends javax.swing.JPanel {
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("SEARCH");
         contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 25);
+        searchButton.setBounds(240, 440, 90, 33);
 
         searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         contentPanel.add(searchValueField);
         searchValueField.setBounds(30, 440, 200, 30);
+
+        infoButton.setBackground(new java.awt.Color(51, 0, 102));
+        infoButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        infoButton.setForeground(new java.awt.Color(255, 255, 255));
+        infoButton.setText("Information");
+        infoButton.setActionCommand("");
+        contentPanel.add(infoButton);
+        infoButton.setBounds(350, 400, 170, 33);
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
@@ -275,30 +284,25 @@ public class staffInfoPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-           
-      /* 
+
+        int column = 0;
+        int row = dataTable.getSelectedRow();
+        String primKey = dataTable.getModel().getValueAt(row, column).toString();
+
+        //preparing query string for delete
+        String delQueryString = "DELETE FROM Staff_info WHERE staff_id = '" + primKey + "'";
+
+        //connecting db and then deleting the row according to primary key
         DatabaseConnection dbc = new DatabaseConnection();
         try {
-             int row = dataTable.getSelectedRow();
-             String value = (dataTable.getModel().getValueAt(row, 0).toString());
-             String updateQuery = "UPDATE Staff_Info SET staff_name=?, staff_phone=? , staff_gender=? , staff_age=? , staff_address=? , staff_designation=? , staff_salary=? , staff_hiredate=? , region_no=?"+value;
-        
-            PreparedStatement pst = dbc.preparedStatementQuery(updateQuery);
-            pst.setString(1, staffNameField.getText().trim());
-            pst.setString(2, staffPhoneField.getText().trim().replaceAll("\\s+", ""));
-            String staff_sex = staffSexField.getSelectedItem().toString();
-            pst.setString(3, staff_sex);
-            pst.setString(4, staffAgeField.getText().trim().replaceAll("\\s+", ""));
-            pst.setString(5, staffAddressField.getText().trim());
-            pst.setString(6, staffDesignationField.getText().trim());
-            pst.setString(7, staffHireDateField.getText().trim());
-            pst.setString(8, staffRegionField.getText().trim().replaceAll("\\s+", ""));
+            PreparedStatement pst = dbc.preparedStatementQuery(delQueryString);
             pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Updated successfully");
+            JOptionPane.showMessageDialog(null, "Deleted successfully");
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e);
         }
-        dbc.dbClose(); */
+        dbc.dbClose();
+
     }//GEN-LAST:event_deleteButtonActionPerformed
 
 
@@ -307,6 +311,8 @@ public class staffInfoPanel extends javax.swing.JPanel {
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
     private javax.swing.JButton deleteButton;
+    private javax.swing.JButton infoButton;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -124,7 +124,6 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         tableScrollPanel = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         searchCategoryField = new javax.swing.JComboBox<>();
         searchButton = new javax.swing.JButton();
@@ -171,8 +170,6 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
 
-        dataTable.setBackground(new java.awt.Color(255, 255, 255));
-        dataTable.setForeground(new java.awt.Color(0, 0, 0));
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -196,19 +193,7 @@ public class visitorInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(340, 440, 70, 33);
-
-        deleteButton.setBackground(new java.awt.Color(65, 40, 107));
-        deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
-        deleteButton.setText("DELETE");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
-            }
-        });
-        contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 440, 90, 33);
+        addButton.setBounds(440, 440, 80, 33);
 
         jLabel1.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -236,7 +221,7 @@ public class visitorInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 33);
+        searchButton.setBounds(330, 440, 90, 33);
 
         searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         contentPanel.add(searchValueField);
@@ -298,28 +283,6 @@ public class visitorInfoPanel extends javax.swing.JPanel {
 
     }//GEN-LAST:event_searchButtonActionPerformed
 
-    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        //choosing first column, the one, which is primary key
-        int column = 0;
-        int row = dataTable.getSelectedRow();
-        String primKey = dataTable.getModel().getValueAt(row, column).toString();
-        System.out.println(primKey);
-        //preparing query string for delete
-        String delQueryString = "DELETE FROM visitor_info WHERE visitor_id = ' "+primKey+" ' ";
-        System.out.println(primKey);
-        
-        //connecting db and then deleting the row according to primary key
-        DatabaseConnection dbc = new DatabaseConnection();
-        try {
-            PreparedStatement pst = dbc.preparedStatementQuery(delQueryString);
-            pst.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Deleted successfully");
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-        dbc.dbClose();
-    }//GEN-LAST:event_deleteButtonActionPerformed
-
     private void searchCategoryFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCategoryFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_searchCategoryFieldActionPerformed
@@ -329,7 +292,6 @@ public class visitorInfoPanel extends javax.swing.JPanel {
     private javax.swing.JButton addButton;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
-    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

@@ -116,11 +116,6 @@ public class parkingInfoPanel extends javax.swing.JPanel {
         tableScrollPanel = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
         addButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        searchCategoryField = new javax.swing.JComboBox<>();
-        searchButton = new javax.swing.JButton();
-        searchValueField = new javax.swing.JTextField();
 
         setBackground(new java.awt.Color(102, 255, 51));
         setMaximumSize(new java.awt.Dimension(530, 450));
@@ -140,7 +135,6 @@ public class parkingInfoPanel extends javax.swing.JPanel {
         jPanel1.setBounds(10, 10, 510, 10);
 
         jLabel1.setFont(new java.awt.Font("Gadugi", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Parking Information");
         contentPanel.add(jLabel1);
@@ -164,8 +158,6 @@ public class parkingInfoPanel extends javax.swing.JPanel {
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
 
-        dataTable.setBackground(new java.awt.Color(255, 255, 255));
-        dataTable.setForeground(new java.awt.Color(0, 0, 0));
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -197,36 +189,7 @@ public class parkingInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(340, 440, 70, 33);
-
-        deleteButton.setBackground(new java.awt.Color(65, 40, 107));
-        deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
-        deleteButton.setText("DELETE");
-        contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 440, 90, 33);
-
-        jLabel2.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Search By:");
-        contentPanel.add(jLabel2);
-        jLabel2.setBounds(10, 390, 110, 40);
-
-        searchCategoryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
-        contentPanel.add(searchCategoryField);
-        searchCategoryField.setBounds(120, 400, 110, 30);
-
-        searchButton.setBackground(new java.awt.Color(65, 40, 107));
-        searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        searchButton.setForeground(new java.awt.Color(255, 255, 255));
-        searchButton.setText("SEARCH");
-        contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 33);
-
-        searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        contentPanel.add(searchValueField);
-        searchValueField.setBounds(30, 440, 200, 30);
+        addButton.setBounds(420, 440, 100, 33);
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
@@ -242,16 +205,11 @@ public class parkingInfoPanel extends javax.swing.JPanel {
     private javax.swing.JButton addButton;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
-    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JButton searchButton;
-    private javax.swing.JComboBox<String> searchCategoryField;
-    private javax.swing.JTextField searchValueField;
     private javax.swing.JScrollPane tableScrollPanel;
     // End of variables declaration//GEN-END:variables
 }
