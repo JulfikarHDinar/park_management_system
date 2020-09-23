@@ -1,22 +1,73 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package MenuItems;
 import AddButtonItems.addRegionInfoPanel;
 import Mainpackage.*;
-/**
- *
- * @author Julfikar
- */
-public class regionInfoPanel extends javax.swing.JPanel {
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-    /**
-     * Creates new form visitorInfoPanel
-     */
+class regionInfoModel{
+    private String service_name,region_no;
+
+    public String getService_name() {
+        return service_name;
+    }
+
+    public String getRegion_no() {
+        return region_no;
+    }
+
+    public regionInfoModel(String service_name, String region_no) {
+        this.service_name = service_name;
+        this.region_no = region_no;
+    }
+    
+}
+public class regionInfoPanel extends javax.swing.JPanel {
+    
+    private String queryString = "SELECT * FROM Service_Region";
+    
+    private ArrayList<regionInfoModel>   regionInfoList(String qString) {
+        ArrayList<regionInfoModel>   regionInfoList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+
+            ResultSet rs = dbc.resultSetQuery(qString);
+
+            regionInfoModel region;
+            while (rs.next()) {
+                 region =new regionInfoModel(rs.getString("service_name"),rs.getString("region_no"));
+                  regionInfoList.add(region);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return   regionInfoList;
+    }
+    private void show_regionInfo(String qString) {
+        ArrayList< regionInfoModel> list =   regionInfoList(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[2];
+        for (int i = 0; i < list.size(); i++) {
+            
+            row[0] = list.get(i).getService_name(); 
+            row[1] = list.get(i).getRegion_no(); 
+           
+            
+
+            model.addRow(row);
+        }
+    }
+
+    
     public regionInfoPanel() {
         initComponents();
+        show_regionInfo(queryString);
         
     }
 

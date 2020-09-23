@@ -1,24 +1,82 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package MenuItems;
 import AddButtonItems.addStaffPaymentPanel;
 import Mainpackage.*;
+import SearchButtonItems.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Julfikar
- */
+class staffPaymentModel{
+    private int staff_salary;
+    private String staff_designation;
+
+    public staffPaymentModel(int staff_salary, String staff_designation) {
+        this.staff_salary = staff_salary;
+        this.staff_designation = staff_designation;
+    }
+
+    public int getStaff_salary() {
+        return staff_salary;
+    }
+
+    public String getStaff_designation() {
+        return staff_designation;
+    }
+    
+}
+
+
 public class staffPaymentPanel extends javax.swing.JPanel {
+    private String queryString = "SELECT * FROM Payout_Amount";
+    
+    private ArrayList<staffPaymentModel>   staffPaymentList(String qString) {
+        ArrayList<  staffPaymentModel>   staffPaymentList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
 
-    /**
-     * Creates new form visitorInfoPanel
-     */
+            ResultSet rs = dbc.resultSetQuery(qString);
+
+            staffPaymentModel payment;
+            while (rs.next()) {
+                 payment =new staffPaymentModel(rs.getInt("staff_salary"),rs.getString("staff_designation"));
+                 staffPaymentList.add(payment);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return  staffPaymentList;
+    }
+    private void show_staffPaymentInfo(String qString) {
+        ArrayList< staffPaymentModel> list =  staffPaymentList(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[9];
+        for (int i = 0; i < list.size(); i++) {
+            
+            row[0] = list.get(i).getStaff_designation(); 
+            row[1] = list.get(i).getStaff_salary(); 
+           
+            
+
+            model.addRow(row);
+        }
+    }
+       
+    
+
+    
     public staffPaymentPanel() {
         initComponents();
-        
+        show_staffPaymentInfo(queryString);
     }
 
     /**
@@ -63,7 +121,6 @@ public class staffPaymentPanel extends javax.swing.JPanel {
         jPanel1.setBounds(10, 10, 510, 10);
 
         jLabel1.setFont(new java.awt.Font("Gadugi", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Staff's Payment Amount");
         contentPanel.add(jLabel1);
@@ -87,8 +144,6 @@ public class staffPaymentPanel extends javax.swing.JPanel {
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
 
-        dataTable.setBackground(new java.awt.Color(255, 255, 255));
-        dataTable.setForeground(new java.awt.Color(0, 0, 0));
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -120,14 +175,19 @@ public class staffPaymentPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(340, 440, 70, 33);
+        addButton.setBounds(340, 440, 70, 25);
 
         deleteButton.setBackground(new java.awt.Color(65, 40, 107));
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("DELETE");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 440, 90, 33);
+        deleteButton.setBounds(420, 440, 90, 25);
 
         jLabel2.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -145,7 +205,7 @@ public class staffPaymentPanel extends javax.swing.JPanel {
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("SEARCH");
         contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 33);
+        searchButton.setBounds(240, 440, 90, 25);
 
         searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         contentPanel.add(searchValueField);
@@ -159,6 +219,10 @@ public class staffPaymentPanel extends javax.swing.JPanel {
         String[] args = null;
         new addStaffPaymentPanel().main(args);
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

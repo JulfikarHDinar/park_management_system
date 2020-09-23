@@ -1,6 +1,8 @@
 package AddButtonItems;
 
 import Mainpackage.*;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 
 public class addVisitorFeedbackPanel extends javax.swing.JFrame {
 
@@ -140,14 +142,46 @@ public class addVisitorFeedbackPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+        //creating database object
+        DatabaseConnection dbc = new DatabaseConnection();
+
         try {
-            //write database operation here
+            //checking if the field's are empty or not
+            InvalidInputExceptions iie = new InvalidInputExceptions();
+            if (iie.checkIfEmptyField(visitorIDField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Visitor's ID");
+            }
+           
             
-            //after executing database operation, closing the additem's window
+
+            //inserting values to database
+            //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+            //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+            String addvisitorinfoquery = "insert into Feedback (visitor_id,feedback_time,visitor_rating,comments) values(?,GETDATE(),?,?)";
+            PreparedStatement pst = dbc.preparedStatementQuery(addvisitorinfoquery);
+            pst.setString(1, visitorIDField.getText().trim());
+            String visitor_rating = visitorRatingField.getSelectedItem().toString();
+            pst.setString(2, visitor_rating);
+            pst.setString(3, visitorCommentField.getText().trim().replaceAll("\\s+", ""));
+            
+            
+            pst.executeUpdate();
+
+            //showing insertion successful
+            JOptionPane.showMessageDialog(null, "New entry inserted successfully !");
+
+            //disposing the additems panel
             dispose();
+        } catch (InvalidInputExceptions e) {
+            //catches the user defined input exception
+            JOptionPane.showMessageDialog(null, e);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            //catches all other exceptions
+            JOptionPane.showMessageDialog(null, e);
         }
+        //closing database connection
+        dbc.dbClose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     /**

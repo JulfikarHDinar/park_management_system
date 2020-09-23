@@ -1,24 +1,110 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package MenuItems;
 import AddButtonItems.addVisitorFeedbackPanel;
 import Mainpackage.*;
-/**
- *
- * @author Julfikar
- */
+import SearchButtonItems.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+class visitorFeedbackModel{
+    private int  feedback_sl_no,visitor_id;
+    private String feedback_time,visitor_rating,comments;
+
+    public visitorFeedbackModel(int feedback_sl_no,int visitor_id, String feedback_time, String visitor_rating, String comments) {
+        this.feedback_sl_no = feedback_sl_no;
+        this.visitor_id = visitor_id;
+        this.feedback_time = feedback_time;
+        this.visitor_rating = visitor_rating;
+        this.comments = comments;
+    }
+
+    public int getFeedback_sl_no() {
+        return feedback_sl_no;
+    }
+
+   
+    public int getVisitor_id() {
+        return visitor_id;
+    }
+
+    public String getFeedback_time() {
+        return feedback_time;
+    }
+
+    public String getVisitor_rating() {
+        return visitor_rating;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+    
+    
+
+}
+
+
 public class visitorFeedbackPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form visitorInfoPanel
-     */
+    private String queryString = "SELECT * FROM Feedback";
+    
+    private ArrayList< visitorFeedbackModel>  visitorFeedback(String qString) {
+        ArrayList< visitorFeedbackModel>  visitorFeedback = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+
+            ResultSet rs = dbc.resultSetQuery(qString);
+
+             visitorFeedbackModel feedback;
+            while (rs.next()) {
+                 feedback = new  visitorFeedbackModel(rs.getInt("feedback_sl_no"),rs.getInt("visitor_id"),rs.getString("feedback_time"), rs.getString("visitor_rating"), rs.getString("comments"));
+                 visitorFeedback.add(feedback);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return  visitorFeedback;
+    }
+    private void show_parkingInfo(String qString) {
+        ArrayList< visitorFeedbackModel> list =  visitorFeedback(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[5];
+        for (int i = 0; i < list.size(); i++) {
+            
+            row[0] = list.get(i).getFeedback_sl_no(); 
+            row[1] = list.get(i).getVisitor_id(); 
+            row[2] = list.get(i).getFeedback_time();
+            row[3] = list.get(i).getVisitor_rating();
+            row[4] = list.get(i).getComments();
+            
+
+            model.addRow(row);
+        }
+    }
+    
+    
+    
+    
     public visitorFeedbackPanel() {
         initComponents();
         
-    }
+         show_parkingInfo(queryString);
+    }    
+
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

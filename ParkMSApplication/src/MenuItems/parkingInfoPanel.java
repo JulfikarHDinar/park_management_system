@@ -1,23 +1,101 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package MenuItems;
-import AddButtonItems.addParkingInfoPanel;
 import Mainpackage.*;
-/**
- *
- * @author Julfikar
- */
+import SearchButtonItems.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import AddButtonItems.addParkingInfoPanel;
+
+class ParkingInfoModel{
+    private int visitor_id;
+    private String license_no,vehicle_type,time_of_parking,garage_section_no;
+
+    public ParkingInfoModel (String license_no,int visitor_id, String vehicle_type, String time_of_parking, String garage_section_no) {
+        this.visitor_id = visitor_id;
+        this.license_no = license_no;
+        this.vehicle_type = vehicle_type;
+        this.time_of_parking = time_of_parking;
+        this.garage_section_no = garage_section_no;
+    }
+
+    
+
+    public String getLicense_no() {
+        return license_no;
+    }
+    public int getVisitor_id() {
+        return visitor_id;
+    }
+
+    public String getVehicle_type() {
+        return vehicle_type;
+    }
+
+    public String getTime_of_parking() {
+        return time_of_parking;
+    }
+
+    public String getGarage_section_no() {
+        return garage_section_no;
+    }
+    
+    
+}
+
+
 public class parkingInfoPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form visitorInfoPanel
-     */
+    private String queryString = "SELECT * FROM Parking_Info";
+    
+    private ArrayList<ParkingInfoModel> parkingList(String qString) {
+        ArrayList<ParkingInfoModel> parkingList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+
+            ResultSet rs = dbc.resultSetQuery(qString);
+
+            ParkingInfoModel parking;
+            while (rs.next()) {
+                parking = new ParkingInfoModel(rs.getString("license_no"),rs.getInt("visitor_id"),rs.getString("vehicle_type"), rs.getString("time_of_parking"), rs.getString("garage_section_no"));
+                parkingList.add(parking);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return parkingList;
+    }
+    private void show_parkingInfo(String qString) {
+        ArrayList<ParkingInfoModel> list = parkingList(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[5];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getLicense_no();
+            row[1] = list.get(i).getVisitor_id();           
+            row[2] = list.get(i).getVehicle_type();
+            row[3] = list.get(i).getTime_of_parking();
+            row[4] = list.get(i).getGarage_section_no();
+
+            model.addRow(row);
+        }
+    }
+    
+    
+    
+    
     public parkingInfoPanel() {
         initComponents();
         
+         show_parkingInfo(queryString);
     }
 
     /**

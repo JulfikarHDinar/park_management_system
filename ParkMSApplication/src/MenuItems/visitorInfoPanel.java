@@ -305,7 +305,8 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         String primKey = dataTable.getModel().getValueAt(row, column).toString();
         System.out.println(primKey);
         //preparing query string for delete
-        String delQueryString = "DELETE FROM visitor_info WHERE visitor_id = '" + primKey + "'";
+        String delQueryString = "DELETE FROM visitor_info WHERE visitor_id = ' "+primKey+" ' ";
+        System.out.println(primKey);
         
         //connecting db and then deleting the row according to primary key
         DatabaseConnection dbc = new DatabaseConnection();
