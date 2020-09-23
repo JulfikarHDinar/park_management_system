@@ -1,6 +1,8 @@
 package AddButtonItems;
 
 import Mainpackage.*;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 
 public class addStaffPaymentPanel extends javax.swing.JFrame {
 
@@ -129,14 +131,48 @@ public class addStaffPaymentPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+       //creating database object
+        DatabaseConnection dbc = new DatabaseConnection();
+
         try {
-            //write database operation here
+            //checking if the field's are empty or not
+            InvalidInputExceptions iie = new InvalidInputExceptions();
             
-            //after executing database operation, closing the additem's window
+            if (iie.checkIfEmptyField(staffDesignationField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Staff's Designation");
+            }
+            if (iie.checkIfEmptyField(staffSalaryField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Staff's Hiredate");
+            }
+            
+
+            //inserting values to database
+            //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+            //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+            String addvisitorinfoquery = "insert into Payout_Amount (staff_designation,staff_salary) values(?,?)";
+            PreparedStatement pst = dbc.preparedStatementQuery(addvisitorinfoquery);
+            
+            pst.setString(1, staffDesignationField.getText().trim());
+            pst.setString(2, staffSalaryField.getText().trim().replaceAll("\\s+", ""));
+             
+            
+            pst.executeUpdate();
+
+            //showing insertion successful
+            JOptionPane.showMessageDialog(null, "Staff's Information inserted successfully !");
+
+            //disposing the additems panel
             dispose();
+        } catch (InvalidInputExceptions e) {
+            //catches the user defined input exception
+            JOptionPane.showMessageDialog(null, e);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            //catches all other exceptions
+            JOptionPane.showMessageDialog(null, e);
         }
+        //closing database connection
+        dbc.dbClose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     /**

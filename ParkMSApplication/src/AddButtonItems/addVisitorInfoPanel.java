@@ -196,7 +196,7 @@ public class addVisitorInfoPanel extends javax.swing.JFrame {
             //inserting values to database
             //  .trim()  is used for removing whitespace in the beginning and the ending of a string
             //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
-            String addvisitorinfoquery = "insert into visitor_info (visitor_name,visitor_phone,visitor_age,visitor_gender) values(?,?,?,?)";
+            String addvisitorinfoquery = "insert into Visitor_Info (visitor_name,visitor_phone,visitor_age,visitor_gender) values(?,?,?,?)";
             PreparedStatement pst = dbc.preparedStatementQuery(addvisitorinfoquery);
             pst.setString(1, visitorNameField.getText().trim());
             pst.setString(2, visitorPhoneField.getText().trim().replaceAll("\\s+", ""));

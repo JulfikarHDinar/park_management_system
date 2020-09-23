@@ -1,23 +1,136 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package MenuItems;
 import AddButtonItems.addStaffInfoPanel;
 import Mainpackage.*;
-/**
- *
- * @author Julfikar
- */
+import SearchButtonItems.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+class staffInfoModel{
+    private int staff_id,staff_age,staff_salary ;
+
+    public staffInfoModel(int staff_salary) {
+        this.staff_salary = staff_salary;
+    }
+    private String staff_name,staff_phone,staff_gender,staff_address,staff_designation,staff_hiredate,region_no;
+
+    public staffInfoModel( int staff_id,String staff_name, String staff_phone, String staff_gender,int staff_age, String staff_address, String staff_designation,int staff_salary, String staff_hiredate, String region_no) {
+        this.staff_id = staff_id;
+        this.staff_age = staff_age;
+        this.staff_name = staff_name;
+        this.staff_phone = staff_phone;
+        this.staff_gender = staff_gender;
+        this.staff_address = staff_address;
+        this.staff_designation = staff_designation;
+        this.staff_salary = staff_salary;
+        this.staff_hiredate = staff_hiredate;
+        this.region_no = region_no;
+        
+        
+    }
+   
+    public int getStaff_id() {
+        return staff_id;
+    }
+
+    public int getStaff_age() {
+        return staff_age;
+    }
+
+    public String getStaff_name() {
+        return staff_name;
+    }
+
+    public String getStaff_phone() {
+        return staff_phone;
+    }
+
+    public String getStaff_gender() {
+        return staff_gender;
+    }
+
+    public String getStaff_address() {
+        return staff_address;
+    }
+
+    public String getStaff_designation() {
+        return staff_designation;
+    }
+
+    public int getStaff_salary() {
+        return staff_salary;
+    }
+    
+    
+
+    public String getStaff_hiredate() {
+        return staff_hiredate;
+    }
+
+    public String getRegion_no() {
+        return region_no;
+    }
+    
+    
+}
+
 public class staffInfoPanel extends javax.swing.JPanel {
 
-    /**
-     * Creates new form visitorInfoPanel
-     */
+     private String queryString = " SELECT Staff_info.staff_id,Staff_info.staff_name,Staff_info.staff_phone,Staff_info.staff_gender,Staff_info.staff_age,Staff_info.staff_address,Staff_info.staff_designation, Payout_Amount.staff_salary,Staff_info.staff_hiredate,Staff_info.region_no FROM Staff_info INNER JOIN Payout_Amount ON Staff_info.staff_designation=Payout_Amount.staff_designation";
+    private ArrayList<staffInfoModel>   staffList(String qString) {
+        ArrayList<  staffInfoModel>   staffList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+
+            ResultSet rs = dbc.resultSetQuery(qString);
+
+            staffInfoModel staff;
+            while (rs.next()) {
+                 staff=new staffInfoModel(rs.getInt("staff_id"),rs.getString("staff_name"), rs.getString("staff_phone"), rs.getString("staff_gender"),rs.getInt("staff_age"),rs.getString("staff_address"),rs.getString("staff_designation"),rs.getInt("staff_salary"),rs.getString("staff_hiredate"),rs.getString("region_no"));
+                 staffList.add(staff);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return  staffList;
+    }
+    private void show_staffInfo(String qString) {
+        ArrayList< staffInfoModel> list =  staffList(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[10];
+        for (int i = 0; i < list.size(); i++) {
+            
+            row[0] = list.get(i).getStaff_id(); 
+            row[1] = list.get(i).getStaff_name(); 
+            row[2] = list.get(i).getStaff_phone();
+            row[3] = list.get(i).getStaff_gender();
+            row[4] = list.get(i).getStaff_age();
+            row[5] = list.get(i).getStaff_address();
+            row[6] = list.get(i).getStaff_designation();
+            row[7] = list.get(i).getStaff_salary();
+            row[8] = list.get(i).getStaff_hiredate();
+            row[9] = list.get(i).getRegion_no();
+            
+
+            model.addRow(row);
+        }
+    }
+       
+    
+    
     public staffInfoPanel() {
         initComponents();
-        
+        show_staffInfo(queryString);
     }
 
     /**
@@ -62,7 +175,6 @@ public class staffInfoPanel extends javax.swing.JPanel {
         jPanel1.setBounds(10, 10, 510, 10);
 
         jLabel1.setFont(new java.awt.Font("Gadugi", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Staff's Information");
         contentPanel.add(jLabel1);
@@ -86,8 +198,6 @@ public class staffInfoPanel extends javax.swing.JPanel {
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
 
-        dataTable.setBackground(new java.awt.Color(255, 255, 255));
-        dataTable.setForeground(new java.awt.Color(0, 0, 0));
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -119,14 +229,19 @@ public class staffInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(340, 440, 70, 33);
+        addButton.setBounds(340, 440, 70, 25);
 
         deleteButton.setBackground(new java.awt.Color(65, 40, 107));
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         deleteButton.setForeground(new java.awt.Color(255, 255, 255));
         deleteButton.setText("DELETE");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 440, 90, 33);
+        deleteButton.setBounds(420, 440, 90, 25);
 
         jLabel2.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -144,7 +259,7 @@ public class staffInfoPanel extends javax.swing.JPanel {
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("SEARCH");
         contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 33);
+        searchButton.setBounds(240, 440, 90, 25);
 
         searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         contentPanel.add(searchValueField);
@@ -158,6 +273,33 @@ public class staffInfoPanel extends javax.swing.JPanel {
         String[] args = null;
         new addStaffInfoPanel().main(args);
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+           
+      /* 
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+             int row = dataTable.getSelectedRow();
+             String value = (dataTable.getModel().getValueAt(row, 0).toString());
+             String updateQuery = "UPDATE Staff_Info SET staff_name=?, staff_phone=? , staff_gender=? , staff_age=? , staff_address=? , staff_designation=? , staff_salary=? , staff_hiredate=? , region_no=?"+value;
+        
+            PreparedStatement pst = dbc.preparedStatementQuery(updateQuery);
+            pst.setString(1, staffNameField.getText().trim());
+            pst.setString(2, staffPhoneField.getText().trim().replaceAll("\\s+", ""));
+            String staff_sex = staffSexField.getSelectedItem().toString();
+            pst.setString(3, staff_sex);
+            pst.setString(4, staffAgeField.getText().trim().replaceAll("\\s+", ""));
+            pst.setString(5, staffAddressField.getText().trim());
+            pst.setString(6, staffDesignationField.getText().trim());
+            pst.setString(7, staffHireDateField.getText().trim());
+            pst.setString(8, staffRegionField.getText().trim().replaceAll("\\s+", ""));
+            pst.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Updated successfully");
+        } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, e);
+        }
+        dbc.dbClose(); */
+    }//GEN-LAST:event_deleteButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

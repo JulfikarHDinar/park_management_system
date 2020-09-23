@@ -1,6 +1,8 @@
 package AddButtonItems;
 
 import Mainpackage.*;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 
 public class addStaffInfoPanel extends javax.swing.JFrame {
 
@@ -24,7 +26,7 @@ public class addStaffInfoPanel extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         staffNameField = new javax.swing.JTextField();
-        taffPhoneField = new javax.swing.JTextField();
+        staffPhoneField = new javax.swing.JTextField();
         staffSexField = new javax.swing.JComboBox<>();
         staffAgeField = new javax.swing.JTextField();
         staffAddressField = new javax.swing.JTextField();
@@ -57,8 +59,8 @@ public class addStaffInfoPanel extends javax.swing.JFrame {
         staffNameField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         jPanel1.add(staffNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 210, 30));
 
-        taffPhoneField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        jPanel1.add(taffPhoneField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 210, 30));
+        staffPhoneField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        jPanel1.add(staffPhoneField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 100, 210, 30));
 
         staffSexField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         staffSexField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Other" }));
@@ -129,7 +131,7 @@ public class addStaffInfoPanel extends javax.swing.JFrame {
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 10, 10, 430));
+        jPanel1.add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 0, 10, 430));
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -191,14 +193,82 @@ public class addStaffInfoPanel extends javax.swing.JFrame {
     }//GEN-LAST:event_cancelButtonActionPerformed
 
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
+        //creating database object
+        DatabaseConnection dbc = new DatabaseConnection();
+
         try {
-            //write database operation here
+            //checking if the field's are empty or not
+            InvalidInputExceptions iie = new InvalidInputExceptions();
+            if (iie.checkIfEmptyField(staffNameField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Staff's Name");
+            }
+            if (iie.checkIfEmptyField(staffPhoneField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Staff's Phone Number");
+            }
+            if (iie.checkIfEmptyField(staffAgeField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Staff's Age");
+            }
+            if (iie.checkIfEmptyField(staffAddressField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Staff's Address");
+            }
+            if (iie.checkIfEmptyField(staffDesignationField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Staff's Designation");
+            }
+            if (iie.checkIfEmptyField(staffHireDateField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Staff's Hiredate");
+            }
+            if (iie.checkIfEmptyField(staffRegionField.getText()) == true) {
+                throw new InvalidInputExceptions("Input Staff's Region");
+            }
+
+            //checking if name is valid or not
+            if (iie.checkIfInvalidName(staffNameField.getText()) == true) {
+                throw new InvalidInputExceptions("Invalid staff's Name");
+            }
+
+            //checking if phone is valid or not
+            if (iie.checkIfInvalidPhone(staffPhoneField.getText()) == true) {
+                throw new InvalidInputExceptions("Invalid staff's Phone Number");
+            }
+
+            //checking if Age is valid or not
+            if (iie.checkIfInvalidAge(staffAgeField.getText()) == true) {
+                throw new InvalidInputExceptions("Invalid staff's Age");
+            }
+
+            //inserting values to database
+            //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+            //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+            String addvisitorinfoquery = "insert into Staff_Info (staff_name,staff_phone,staff_gender,staff_age,staff_address,staff_designation,staff_hiredate,region_no) values(?,?,?,?,?,?,?,?)";
+            PreparedStatement pst = dbc.preparedStatementQuery(addvisitorinfoquery);
+            pst.setString(1, staffNameField.getText().trim());
+            pst.setString(2, staffPhoneField.getText().trim().replaceAll("\\s+", ""));
+            String staff_sex = staffSexField.getSelectedItem().toString();
+            pst.setString(3, staff_sex);
+            pst.setString(4, staffAgeField.getText().trim().replaceAll("\\s+", ""));
+            pst.setString(5, staffAddressField.getText().trim());
+            pst.setString(6, staffDesignationField.getText().trim());
+            pst.setString(7, staffHireDateField.getText().trim());
+            pst.setString(8, staffRegionField.getText().trim().replaceAll("\\s+", ""));
+             
             
-            //after executing database operation, closing the additem's window
+            pst.executeUpdate();
+
+            //showing insertion successful
+            JOptionPane.showMessageDialog(null, "Staff's Information inserted successfully !");
+
+            //disposing the additems panel
             dispose();
+        } catch (InvalidInputExceptions e) {
+            //catches the user defined input exception
+            JOptionPane.showMessageDialog(null, e);
+
         } catch (Exception e) {
-            e.printStackTrace();
+            //catches all other exceptions
+            JOptionPane.showMessageDialog(null, e);
         }
+        //closing database connection
+        dbc.dbClose();
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     /**
@@ -258,8 +328,8 @@ public class addStaffInfoPanel extends javax.swing.JFrame {
     private javax.swing.JTextField staffDesignationField;
     private javax.swing.JTextField staffHireDateField;
     private javax.swing.JTextField staffNameField;
+    private javax.swing.JTextField staffPhoneField;
     private javax.swing.JTextField staffRegionField;
     private javax.swing.JComboBox<String> staffSexField;
-    private javax.swing.JTextField taffPhoneField;
     // End of variables declaration//GEN-END:variables
 }

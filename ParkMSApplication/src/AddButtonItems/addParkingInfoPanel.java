@@ -1,6 +1,8 @@
 package AddButtonItems;
 
 import Mainpackage.*;
+import java.sql.PreparedStatement;
+import javax.swing.JOptionPane;
 
 public class addParkingInfoPanel extends javax.swing.JFrame {
 
@@ -151,12 +153,54 @@ public class addParkingInfoPanel extends javax.swing.JFrame {
     private void confirmButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_confirmButtonActionPerformed
         try {
             //write database operation here
-            
+            DatabaseConnection dbc = new DatabaseConnection();
+
+            try {
+                //checking if the field's are empty or not
+                InvalidInputExceptions iie = new InvalidInputExceptions();
+                if (iie.checkIfEmptyField(licenseNoField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input License No");
+                }
+                if (iie.checkIfEmptyField(visitorIDField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Visitor ID");
+                }
+                if (iie.checkIfEmptyField(vehicleTypeField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Vehicle Type");
+                }
+                if (iie.checkIfEmptyField(garageNoField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Garage No");
+                }
+
+                //inserting values to database
+                //  .trim()  is used for removing whitespace in the beginning and the ending of a string
+                //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
+                String query = "insert into Parking_Info(license_no,visitor_id,vehicle_type,time_of_parking,garage_section_no) values(?,?,?,GETDATE(),?)";
+                PreparedStatement pst = dbc.preparedStatementQuery(query);
+                pst.setString(1, licenseNoField.getText().trim().replaceAll("\\s+", ""));
+                pst.setString(2, visitorIDField.getText().trim().replaceAll("\\s+", ""));
+                pst.setString(3, vehicleTypeField.getText().trim().replaceAll("\\s+", ""));
+                pst.setString(4, garageNoField.getText().trim().replaceAll("\\s+", ""));
+
+                pst.executeUpdate();
+
+                //showing insertion successful
+                JOptionPane.showMessageDialog(null, "New Entry inserted successfully !");
+
+                //after executing database operation, closing the additem's window
+               
+                dispose();
+            } catch (InvalidInputExceptions e) {
+                //catches the user defined input exception
+                JOptionPane.showMessageDialog(null, e);
+
+            }
+            dbc.dbClose();
             //after executing database operation, closing the additem's window
             dispose();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        
     }//GEN-LAST:event_confirmButtonActionPerformed
 
     /**
