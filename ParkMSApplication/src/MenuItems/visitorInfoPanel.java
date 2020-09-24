@@ -258,7 +258,7 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         String strVal = searchValueField.getText();
 
         //changing column name to database's column name
-        if (strCol.equals("ID".trim())) {
+        if (strCol.equals("Sl.no".trim())) {
             strCol = "visitor_id";
         } else if (strCol.equals("Name".trim())) {
             strCol = "visitor_name";

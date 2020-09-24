@@ -166,7 +166,9 @@ public class UpdateEntryTicketInfoPanel extends javax.swing.JFrame {
             try {
                 //checking if the field's are empty or not
                 InvalidInputExceptions iie = new InvalidInputExceptions();
-                
+                if (iie.checkIfEmptyField(ticketTypeField.getText()) == true) {
+                    throw new InvalidInputExceptions("Input Ticket Type");
+                }
                 if (iie.checkIfEmptyField(TicketPriceField.getText()) == true) {
                     throw new InvalidInputExceptions("Input Ticket Price");
                 }
@@ -176,11 +178,11 @@ public class UpdateEntryTicketInfoPanel extends javax.swing.JFrame {
                 //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
                 //UpdateEntryTicket updatEntryTicket = null ;
                 System.out.println(key);
-                String queryString = "Update Entry_Ticket_type Set eticket_price=? Where eticket_type=" + key + "";
+                String queryString = "Update Entry_Ticket_type Set eticket_type=? , eticket_price=? Where eticket_type=" + key + "";
 
                 PreparedStatement pst = dbc.preparedStatementQuery(queryString);
-                //pst.setString(1, ticketTypeField.getText().trim());
-                pst.setString(1, TicketPriceField.getText().trim().replaceAll("\\s+", ""));
+                pst.setString(1, ticketTypeField.getText().trim());
+                pst.setString(2, TicketPriceField.getText().trim().replaceAll("\\s+", ""));
 
                 pst.executeUpdate();
 

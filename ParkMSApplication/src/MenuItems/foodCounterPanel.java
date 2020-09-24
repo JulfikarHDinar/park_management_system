@@ -4,11 +4,9 @@
  * and open the template in the editor.
  */
 package MenuItems;
-
 import AddButtonItems.addFoodCounterPanel;
 import Mainpackage.*;
 import AddButtonItems.*;
-import SearchButtonItems.*;
 import UpdateButtonItems.*;
 import UpdateButtonItems.*;
 import java.sql.PreparedStatement;
@@ -22,12 +20,11 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-class foodCounterModel {
-
-    private int sl_no, visitor_id, food_id, no_of_food, total_price;
+class foodCounterModel{
+    private int sl_no, visitor_id,food_id,no_of_food,total_price;
     private String sold_time;
 
-    public foodCounterModel(int sl_no, int visitor_id, int food_id, int no_of_food, int total_price, String sold_time) {
+    public foodCounterModel(int sl_no, int visitor_id, int food_id, int no_of_food,int total_price, String sold_time) {
         this.sl_no = sl_no;
         this.visitor_id = visitor_id;
         this.food_id = food_id;
@@ -59,7 +56,8 @@ class foodCounterModel {
     public int getTotal_price() {
         return total_price;
     }
-
+    
+    
 }
 
 /**
@@ -68,9 +66,10 @@ class foodCounterModel {
  */
 public class foodCounterPanel extends javax.swing.JPanel {
 
+    
     //variable declaration of query so that we can use it while passing into a method
     //query string is used in some method in this name: "qString"
-    private String queryString = "SELECT  Food_Counter.order_sl_no,Food_Counter.visitor_id,Food_Counter.food_id,Food_Counter.no_of_food, ( Food_Counter.no_of_food * Food_Info.food_price ) total_price,Food_Counter.food_sold_date FROM Food_Counter LEFT JOIN Food_Info ON Food_Counter.food_id = Food_Info.food_id ";
+    private String queryString = "SELECT  Food_Counter.order_sl_no,Food_Counter.visitor_id,Food_Counter.food_id,Food_Counter.no_of_food, ( Food_Counter.no_of_food * Food_Info.food_price ) total_price,Food_Counter.food_sold_date FROM Food_Counter , Food_Info WHERE Food_Counter.food_id = Food_Info.food_id ";
 
     //Array List for retrieving info from database
     //qString is the String of Query operation
@@ -89,7 +88,7 @@ public class foodCounterPanel extends javax.swing.JPanel {
                         rs.getInt("food_id"),
                         rs.getInt("no_of_food"),
                         rs.getInt("total_price"),
-                        rs.getString("food_sold_date")
+                        rs.getString("food_sold_date")     
                 );
                 foodList.add(foodCounter);
             }
@@ -117,18 +116,20 @@ public class foodCounterPanel extends javax.swing.JPanel {
             row[3] = list.get(i).getNo_of_food();
             row[4] = list.get(i).getTotal_price();
             row[5] = list.get(i).getSold_time();
-
+            
+                    
             model.addRow(row);
         }
     }
-
+    
+    
     /**
      * Creates new form visitorInfoPanel
      */
     public foodCounterPanel() {
         initComponents();
         show_foodCounter(queryString);
-
+        
     }
 
     /**
@@ -238,12 +239,7 @@ public class foodCounterPanel extends javax.swing.JPanel {
         jLabel2.setBounds(10, 390, 110, 40);
 
         searchCategoryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Order Sl. No", "Visitor ID", "Food ID", "Time" }));
-        searchCategoryField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchCategoryFieldActionPerformed(evt);
-            }
-        });
+        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
         contentPanel.add(searchCategoryField);
         searchCategoryField.setBounds(120, 400, 110, 30);
 
@@ -251,11 +247,6 @@ public class foodCounterPanel extends javax.swing.JPanel {
         searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("SEARCH");
-        searchButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                searchButtonActionPerformed(evt);
-            }
-        });
         contentPanel.add(searchButton);
         searchButton.setBounds(320, 440, 100, 33);
 
@@ -271,54 +262,6 @@ public class foodCounterPanel extends javax.swing.JPanel {
         String[] args = null;
         new addFoodCounterPanel().main(args);
     }//GEN-LAST:event_addButtonActionPerformed
-
-    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        String strCol = searchCategoryField.getSelectedItem().toString();
-        String strVal = searchValueField.getText();
-
-        //changing column name to database's column name
-        if (strCol.equals("Order Sl. No".trim())) {
-            strCol = "order_sl_no";
-        } else if (strCol.equals("Visitor ID".trim())) {
-            strCol = "visitor_id";
-        } else if (strCol.equals("Food ID".trim())) {
-            strCol = "food_id";
-        } else if (strCol.equals("Time".trim())) {
-            strCol = "food_sold_date";
-        } //else if (strCol.equals("Age".trim())) {
-        //strCol = "visitor_age";
-        //}
-
-        try {
-            if (strCol.equals("-")) {
-                throw new InvalidInputExceptions("Choose a column to search.");
-            }
-            if (strVal.trim().equals("")) {
-                throw new InvalidInputExceptions("Type a value to search.");
-            }
-
-            //setting up the query string
-            queryString = "SELECT * FROM Food_Counter WHERE " + strCol + " = " + "'" + strVal + "'";
-
-            //This will bring the frame which was implemented for add button into the screen in Nimbus look 
-            //passing query string through jframe form
-            String[] args = null;
-            searchFoodCounterPanel ob = new searchFoodCounterPanel(queryString);
-
-            //setting query string to desired frame's variable
-            ob.setQueryString(queryString);
-
-            //setting visible the jframe
-            ob.main(args);
-        } catch (InvalidInputExceptions e) {
-            //catches the user defined input exception
-            JOptionPane.showMessageDialog(null, e);
-        }
-    }//GEN-LAST:event_searchButtonActionPerformed
-
-    private void searchCategoryFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCategoryFieldActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_searchCategoryFieldActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -7,7 +7,6 @@ package MenuItems;
 import AddButtonItems.addEntryCounterPanel;
 import AddButtonItems.*;
 import Mainpackage.*;
-import SearchButtonItems.*;
 import SearchButtonItems.searchVisitorInfoPanel;
 import UpdateButtonItems.*;
 import UpdateButtonItems.*;
@@ -278,17 +277,17 @@ public class entryCounterPanel extends javax.swing.JPanel {
         String strVal = searchValueField.getText();
 
         //changing column name to database's column name
-        if (strCol.equals("Sl.no".trim())) {
-            strCol = "eticket_sl_no";
-        } else if (strCol.equals("Visitor ID".trim())) {
+        if (strCol.equals("ID".trim())) {
             strCol = "visitor_id";
-        } else if (strCol.equals("Ticket Type".trim())) {
-            strCol = "eticket_type";
-        } else if (strCol.equals("NO of Ticket(s)".trim())) {
-            strCol = "no_of_tickets";
-        } //else if (strCol.equals("Age".trim())) {
-            //strCol = "visitor_age";
-        //}
+        } else if (strCol.equals("Name".trim())) {
+            strCol = "visitor_name";
+        } else if (strCol.equals("Phone".trim())) {
+            strCol = "visitor_phone";
+        } else if (strCol.equals("Sex".trim())) {
+            strCol = "visitor_gender";
+        } else if (strCol.equals("Age".trim())) {
+            strCol = "visitor_age";
+        }
 
         try {
             if (strCol.equals("-")) {
@@ -299,12 +298,12 @@ public class entryCounterPanel extends javax.swing.JPanel {
             }
 
             //setting up the query string
-            queryString = "SELECT * FROM Entry_Ticket_Counter WHERE " + strCol + " = " + "'" + strVal + "'";
+            queryString = "SELECT * FROM Visitor_Info WHERE " + strCol + " = " + "'" + strVal + "'";
 
             //This will bring the frame which was implemented for add button into the screen in Nimbus look 
             //passing query string through jframe form
             String[] args = null;
-            searchEntryCounterPanel ob = new searchEntryCounterPanel(queryString);
+            searchVisitorInfoPanel ob = new searchVisitorInfoPanel(queryString);
 
             //setting query string to desired frame's variable
             ob.setQueryString(queryString);

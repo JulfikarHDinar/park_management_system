@@ -2,49 +2,6 @@ package SearchButtonItems;
 
 import Mainpackage.*;
 import MenuItems.*;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import javax.swing.JOptionPane;
-import javax.swing.table.DefaultTableModel;
-
-
-class EntryModel {
-    private int sl_no, visitor_id, no_of_tickets;
-    private String ticket_type, time;
-
-    public EntryModel(int sl_no, int visitor_id, String ticket_type, int no_of_tickets, String time) {
-        this.sl_no = sl_no;
-        this.visitor_id = visitor_id;
-        this.ticket_type = ticket_type;
-        this.no_of_tickets = no_of_tickets;
-        this.time = time;
-    }
-
-    public int getSl_no() {
-        return sl_no;
-    }
-
-    public int getVisitor_id() {
-        return visitor_id;
-    }
-
-    public String getTicket_type() {
-        return ticket_type;
-    }
-
-    public int getNo_of_tickets() {
-        return no_of_tickets;
-    }
-
-    public String getTime() {
-        return time;
-    }
-    
-    
-
-    
-}
-
 
 public class searchEntryCounterPanel extends javax.swing.JFrame {
     //variable declaration of query so that we can use it while passing into a method
@@ -55,57 +12,6 @@ public class searchEntryCounterPanel extends javax.swing.JFrame {
         this.queryString = qString;
     }
     
-    
-    
-    //Array List for retrieving info from database
-    //qString is the String of Query operation
-    private ArrayList<EntryModel> entryCounterList(String queryString) {
-        ArrayList<EntryModel> entryList = new ArrayList<>();
-        DatabaseConnection dbc = new DatabaseConnection();
-        try {
-
-            ResultSet rs = dbc.resultSetQuery(queryString);
-
-            EntryModel entryCounter;
-            while (rs.next()) {
-                entryCounter = new EntryModel(
-                        rs.getInt("eticket_sl_no"),
-                        rs.getInt("visitor_id"),
-                        rs.getString("eticket_type"),
-                        rs.getInt("no_of_tickets"),
-                        rs.getString("eticket_sold_time")     
-                );
-                entryList.add(entryCounter);
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-            e.printStackTrace();
-        }
-
-        //closing database
-        dbc.dbClose();
-
-        return entryList;
-    }
-
-    //showing values from database to the jtable
-    //qString is the String of Query operation
-    private void show_entryCounter(String qString) {
-        ArrayList<EntryModel> list = entryCounterList(qString);
-        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
-        Object[] row = new Object[6];
-        for (int i = 0; i < list.size(); i++) {
-            row[0] = list.get(i).getSl_no();
-            row[1] = list.get(i).getVisitor_id();
-            row[2] = list.get(i).getTicket_type();
-            row[3] = list.get(i).getNo_of_tickets();
-            row[4] = list.get(i).getTime();
-            
-                    
-            model.addRow(row);
-        }
-    }
-    
     /**
      * Creates new form searchVisitorInfoPanel
      */
@@ -113,7 +19,6 @@ public class searchEntryCounterPanel extends javax.swing.JFrame {
         initComponents();
         //setting the screen in the middle of the screen
         setLocationRelativeTo(null);
-        show_entryCounter(queryString);
     }
 
     /**
@@ -131,6 +36,7 @@ public class searchEntryCounterPanel extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        deleteButton = new javax.swing.JButton();
         tableScrollPanel = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
 
@@ -173,6 +79,13 @@ public class searchEntryCounterPanel extends javax.swing.JFrame {
         contentPanel.add(jPanel4);
         jPanel4.setBounds(10, 30, 150, 30);
 
+        deleteButton.setBackground(new java.awt.Color(65, 40, 107));
+        deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
+        deleteButton.setText("DELETE");
+        contentPanel.add(deleteButton);
+        deleteButton.setBounds(420, 400, 90, 33);
+
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -183,11 +96,11 @@ public class searchEntryCounterPanel extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Sl. No", "Visitor ID", "Ticket Type", "No of Ticket(s)", "Time"
+                "Sl. No", "Visitor ID", "Ticket Type", "No of Ticket(s)", "Total Price", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false
+                false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -243,6 +156,7 @@ public class searchEntryCounterPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
+    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

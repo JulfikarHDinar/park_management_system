@@ -2,7 +2,6 @@ package MenuItems;
 import AddButtonItems.addStaffPaymentPanel;
 import Mainpackage.*;
 import SearchButtonItems.*;
-import UpdateButtonItems.UpdateEntryTicketInfoPanel;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,16 +10,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import UpdateButtonItems.*;
 
 class staffPaymentModel{
     private int staff_salary;
     private String staff_designation;
 
-    public staffPaymentModel(String staff_designation,int staff_salary) {
-        
-        this.staff_designation = staff_designation;
+    public staffPaymentModel(int staff_salary, String staff_designation) {
         this.staff_salary = staff_salary;
+        this.staff_designation = staff_designation;
     }
 
     public int getStaff_salary() {
@@ -38,7 +35,7 @@ public class staffPaymentPanel extends javax.swing.JPanel {
     private String queryString = "SELECT * FROM Payout_Amount";
     
     private ArrayList<staffPaymentModel>   staffPaymentList(String qString) {
-        ArrayList<  staffPaymentModel>   PaymentList = new ArrayList<>();
+        ArrayList<  staffPaymentModel>   staffPaymentList = new ArrayList<>();
         DatabaseConnection dbc = new DatabaseConnection();
         try {
 
@@ -46,8 +43,8 @@ public class staffPaymentPanel extends javax.swing.JPanel {
 
             staffPaymentModel payment;
             while (rs.next()) {
-                 payment =new staffPaymentModel(rs.getString("staff_designation"),rs.getInt("staff_salary"));
-                 PaymentList.add(payment);
+                 payment =new staffPaymentModel(rs.getInt("staff_salary"),rs.getString("staff_designation"));
+                 staffPaymentList.add(payment);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -57,7 +54,7 @@ public class staffPaymentPanel extends javax.swing.JPanel {
         //closing database
         dbc.dbClose();
 
-        return  PaymentList;
+        return  staffPaymentList;
     }
     private void show_staffPaymentInfo(String qString) {
         ArrayList< staffPaymentModel> list =  staffPaymentList(qString);
@@ -67,6 +64,9 @@ public class staffPaymentPanel extends javax.swing.JPanel {
             
             row[0] = list.get(i).getStaff_designation(); 
             row[1] = list.get(i).getStaff_salary(); 
+           
+            
+
             model.addRow(row);
         }
     }
@@ -195,22 +195,7 @@ public class staffPaymentPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        //This will bring the frame which was implemented for add button into the screen in Nimbus look 
-        try{
-        DatabaseConnection dbc = new DatabaseConnection();
-        int column = 0;
-        int row = dataTable.getSelectedRow();
-        String primKey = dataTable.getModel().getValueAt(row, column).toString();
-        System.out.println(primKey);
-        
-        
-        queryString = "update Payout_Amount set staff_salary = (SELECT staff_salary +(staff_salary*.1)) where staff_designation= '"+primKey+"'";
-        PreparedStatement pst = dbc.preparedStatementQuery(queryString);
-        pst.executeUpdate();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        // TODO add your handling code here:
     }//GEN-LAST:event_updateButtonActionPerformed
 
 

@@ -1,6 +1,0 @@
-MenuItems.VisitorInfoModel
-MenuItems.visitorInfoPanel$2
-MenuItems.visitorInfoPanel$1
-MenuItems.visitorInfoPanel
-MenuItems.visitorInfoPanel$4
-MenuItems.visitorInfoPanel$3

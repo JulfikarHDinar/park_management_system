@@ -1,4 +1,0 @@
-MenuItems.parkingInfoPanel$2
-MenuItems.ParkingInfoModel
-MenuItems.parkingInfoPanel$1
-MenuItems.parkingInfoPanel
