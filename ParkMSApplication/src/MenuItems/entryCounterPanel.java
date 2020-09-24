@@ -177,7 +177,6 @@ public class entryCounterPanel extends javax.swing.JPanel {
         jPanel1.setBounds(10, 10, 510, 10);
 
         jLabel1.setFont(new java.awt.Font("Gadugi", 1, 24)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Entry Ticket Counter");
         contentPanel.add(jLabel1);
@@ -201,8 +200,6 @@ public class entryCounterPanel extends javax.swing.JPanel {
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
 
-        dataTable.setBackground(new java.awt.Color(255, 255, 255));
-        dataTable.setForeground(new java.awt.Color(0, 0, 0));
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -236,7 +233,7 @@ public class entryCounterPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(430, 440, 90, 33);
+        addButton.setBounds(430, 440, 90, 25);
 
         jLabel2.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -259,7 +256,7 @@ public class entryCounterPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(searchButton);
-        searchButton.setBounds(320, 440, 90, 33);
+        searchButton.setBounds(320, 440, 90, 25);
 
         searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         contentPanel.add(searchValueField);

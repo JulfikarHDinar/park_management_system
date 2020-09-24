@@ -2,6 +2,7 @@ package MenuItems;
 
 import AddButtonItems.addVisitorInfoPanel;
 import Mainpackage.*;
+import QueryInfo.*;
 import SearchButtonItems.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -128,6 +129,7 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         searchCategoryField = new javax.swing.JComboBox<>();
         searchButton = new javax.swing.JButton();
         searchValueField = new javax.swing.JTextField();
+        infoButton = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(102, 255, 51));
         setMaximumSize(new java.awt.Dimension(530, 450));
@@ -193,7 +195,7 @@ public class visitorInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(440, 440, 80, 33);
+        addButton.setBounds(440, 440, 80, 25);
 
         jLabel1.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -221,11 +223,20 @@ public class visitorInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(searchButton);
-        searchButton.setBounds(330, 440, 90, 33);
+        searchButton.setBounds(330, 440, 90, 25);
 
         searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         contentPanel.add(searchValueField);
         searchValueField.setBounds(30, 440, 200, 30);
+
+        infoButton.setText("Information");
+        infoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                infoButtonActionPerformed(evt);
+            }
+        });
+        contentPanel.add(infoButton);
+        infoButton.setBounds(329, 400, 190, 25);
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
@@ -238,6 +249,11 @@ public class visitorInfoPanel extends javax.swing.JPanel {
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
         //getting "Search By" column name and value from the form
+        
+        
+        
+        
+        
         String strCol = searchCategoryField.getSelectedItem().toString();
         String strVal = searchValueField.getText();
 
@@ -287,11 +303,19 @@ public class visitorInfoPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_searchCategoryFieldActionPerformed
 
+    private void infoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoButtonActionPerformed
+            String[] args = null;
+            queryVisitorInfoPanel ob = new queryVisitorInfoPanel(queryString);
+            ob.setQueryString(queryString);
+            ob.main(args);
+    }//GEN-LAST:event_infoButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
+    private javax.swing.JButton infoButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;

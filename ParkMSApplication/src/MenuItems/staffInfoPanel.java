@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import QueryInfo.*;
 
 class staffInfoModel {
 
@@ -230,7 +231,7 @@ public class staffInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(addButton);
-        addButton.setBounds(350, 440, 70, 33);
+        addButton.setBounds(350, 440, 70, 25);
 
         deleteButton.setBackground(new java.awt.Color(65, 40, 107));
         deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -242,7 +243,7 @@ public class staffInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(deleteButton);
-        deleteButton.setBounds(430, 440, 90, 33);
+        deleteButton.setBounds(430, 440, 90, 25);
 
         jLabel2.setFont(new java.awt.Font("Gadugi", 1, 18)); // NOI18N
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -259,8 +260,13 @@ public class staffInfoPanel extends javax.swing.JPanel {
         searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("SEARCH");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 33);
+        searchButton.setBounds(240, 440, 90, 25);
 
         searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         contentPanel.add(searchValueField);
@@ -271,8 +277,13 @@ public class staffInfoPanel extends javax.swing.JPanel {
         infoButton.setForeground(new java.awt.Color(255, 255, 255));
         infoButton.setText("Information");
         infoButton.setActionCommand("");
+        infoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                infoButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(infoButton);
-        infoButton.setBounds(350, 400, 170, 33);
+        infoButton.setBounds(350, 400, 170, 25);
 
         add(contentPanel, new java.awt.GridBagConstraints());
     }// </editor-fold>//GEN-END:initComponents
@@ -304,6 +315,37 @@ public class staffInfoPanel extends javax.swing.JPanel {
         dbc.dbClose();
 
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void infoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoButtonActionPerformed
+       
+        
+        /*queryStaffInfoPanel ob = new queryStaffInfoPanel(queryString);
+            
+         ob.setQueryString(queryString); 
+         String[] args = null;
+        // ob.setvisible(true);*/
+        //queryStaffInfoPanel ob = new queryStaffInfoPanel(queryString);
+            
+        
+         String[] args = null;
+        // ob.setvisible(true);
+        
+         queryStaffInfoPanel.main(queryString);
+        
+        
+        
+        
+         
+    }//GEN-LAST:event_infoButtonActionPerformed
+
+    public void setQueryString(String queryString) {
+        this.queryString = queryString;
+        
+    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

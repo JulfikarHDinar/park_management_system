@@ -142,8 +142,6 @@ public class searchVisitorInfoPanel extends javax.swing.JFrame {
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
 
-        dataTable.setBackground(new java.awt.Color(255, 255, 255));
-        dataTable.setForeground(new java.awt.Color(0, 0, 0));
         dataTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -193,7 +191,7 @@ public class searchVisitorInfoPanel extends javax.swing.JFrame {
             }
         });
         contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 400, 90, 33);
+        deleteButton.setBounds(420, 400, 90, 25);
 
         getContentPane().add(contentPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 530, 450));
 
