@@ -2,15 +2,129 @@ package SearchButtonItems;
 
 import Mainpackage.*;
 import MenuItems.*;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+class StaffModel{
+    private int staff_id, staff_age ,region_no  ;
+    private String staff_name, staff_phone, staff_gender,staff_address,staff_designation ,staff_hiredate;
+
+    public StaffModel(int staff_id, int staff_age, int region_no, String staff_name, String staff_phone, String staff_gender, String staff_address, String staff_designation, String staff_hiredate) {
+        this.staff_id = staff_id;
+        this.staff_age = staff_age;
+        this.region_no = region_no;
+        this.staff_name = staff_name;
+        this.staff_phone = staff_phone;
+        this.staff_gender = staff_gender;
+        this.staff_address = staff_address;
+        this.staff_designation = staff_designation;
+        this.staff_hiredate = staff_hiredate;
+    }
+
+    public int getStaff_id() {
+        return staff_id;
+    }
+
+    public int getStaff_age() {
+        return staff_age;
+    }
+
+    public int getRegion_no() {
+        return region_no;
+    }
+
+    public String getStaff_name() {
+        return staff_name;
+    }
+
+    public String getStaff_phone() {
+        return staff_phone;
+    }
+
+    public String getStaff_gender() {
+        return staff_gender;
+    }
+
+    public String getStaff_address() {
+        return staff_address;
+    }
+
+    public String getStaff_designation() {
+        return staff_designation;
+    }
+
+    public String getStaff_hiredate() {
+        return staff_hiredate;
+    }
+    
+    
+}
 
 public class searchStaffInfoPanel extends javax.swing.JFrame {
-    //variable declaration of query so that we can use it while passing into a method
+   //variable declaration of query so that we can use it while passing into a method
     //query string is used in some method in this name: "qString". queryString must be static
     private static String queryString;
 
     public void setQueryString(String qString) {
         this.queryString = qString;
     }
+
+    //Array List for retrieving info from database
+    //qString is the String of Query operation
+    private ArrayList<StaffModel> staffList(String qString) {
+        ArrayList<StaffModel> staffrsList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+            ResultSet rs = dbc.resultSetQuery(qString);
+
+            StaffModel staff;
+            while (rs.next()) {
+                staff = new StaffModel(rs.getInt("staff_id"),
+                        rs.getInt("staff_age"),
+                        rs.getInt("region_no"),
+                        rs.getString("staff_name"),
+                        rs.getString("staff_phone"),
+                        rs.getString("staff_gender"),
+                        rs.getString("staff_hiredate"),
+                        rs.getString("staff_address"),
+                        rs.getString("staff_designation")    
+                );
+                staffrsList.add(staff);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return staffrsList;
+    }
+
+    //showing values from database to the jtable
+    //qString is the String of Query operation
+    private void showSearchedstaffrInfo(String qString) {
+        ArrayList<StaffModel> list = staffList(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[12];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getStaff_id();
+            row[1] = list.get(i).getStaff_name();
+            row[2] = list.get(i).getStaff_phone();
+            row[3] = list.get(i).getStaff_gender();
+            row[4] = list.get(i).getStaff_address();
+            row[5] = list.get(i).getStaff_designation();
+            row[6] = list.get(i).getStaff_hiredate();
+            row[7] = list.get(i).getRegion_no();
+            row[8] = list.get(i).getStaff_age();
+
+            model.addRow(row);
+        }
+    }
+
     /**
      * Creates new form searchVisitorInfoPanel
      */
@@ -18,6 +132,9 @@ public class searchStaffInfoPanel extends javax.swing.JFrame {
         initComponents();
         //setting the screen in the middle of the screen
         setLocationRelativeTo(null);
+
+        //shwoing the jtable with values
+        showSearchedstaffrInfo(queryString);
     }
 
     /**
@@ -35,7 +152,6 @@ public class searchStaffInfoPanel extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        deleteButton = new javax.swing.JButton();
         tableScrollPanel = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
 
@@ -78,13 +194,6 @@ public class searchStaffInfoPanel extends javax.swing.JFrame {
         contentPanel.add(jPanel4);
         jPanel4.setBounds(10, 30, 150, 30);
 
-        deleteButton.setBackground(new java.awt.Color(65, 40, 107));
-        deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
-        deleteButton.setText("DELETE");
-        contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 400, 90, 33);
-
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -95,11 +204,11 @@ public class searchStaffInfoPanel extends javax.swing.JFrame {
 
             },
             new String [] {
-                "ID", "Name", "Phone", "Sex", "Age", "Address", "Designation", "Salary", "Hire Date", "Region"
+                "ID", "Name", "Phone", "Sex", "Age", "Address", "Designation", "Hire Date", "Region"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -155,7 +264,6 @@ public class searchStaffInfoPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
-    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

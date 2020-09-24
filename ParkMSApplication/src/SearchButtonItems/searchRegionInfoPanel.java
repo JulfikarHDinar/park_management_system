@@ -35,7 +35,6 @@ public class searchRegionInfoPanel extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        deleteButton = new javax.swing.JButton();
         tableScrollPanel = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
 
@@ -77,13 +76,6 @@ public class searchRegionInfoPanel extends javax.swing.JFrame {
         jPanel4.setLayout(null);
         contentPanel.add(jPanel4);
         jPanel4.setBounds(10, 30, 150, 30);
-
-        deleteButton.setBackground(new java.awt.Color(65, 40, 107));
-        deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
-        deleteButton.setText("DELETE");
-        contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 400, 90, 33);
 
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
@@ -155,7 +147,6 @@ public class searchRegionInfoPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
-    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;

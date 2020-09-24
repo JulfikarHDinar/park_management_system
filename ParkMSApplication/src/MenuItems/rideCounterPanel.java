@@ -4,8 +4,11 @@
  * and open the template in the editor.
  */
 package MenuItems;
-import AddButtonItems.*;
+
+import AddButtonItems.addFoodCounterPanel;
 import Mainpackage.*;
+import AddButtonItems.*;
+import SearchButtonItems.*;
 import UpdateButtonItems.*;
 import UpdateButtonItems.*;
 import java.sql.PreparedStatement;
@@ -68,7 +71,7 @@ public class rideCounterPanel extends javax.swing.JPanel {
 
      //variable declaration of query so that we can use it while passing into a method
     //query string is used in some method in this name: "qString"
-    private String queryString = "SELECT  Ride_Ticket_counter.rticket_sl_no,Ride_Ticket_counter.visitor_id,Ride_Ticket_counter.ride_id,Ride_Ticket_counter.no_of_tickets, ( Ride_Ticket_counter.no_of_tickets * Ride_info.ticket_price ) total_price,Ride_Ticket_counter.eticket_sold_time FROM Ride_Ticket_counter , Ride_info WHERE Ride_Ticket_counter.ride_id = Ride_info.ride_id ";
+    private String queryString = "SELECT  Ride_Ticket_counter.rticket_sl_no,Ride_Ticket_counter.visitor_id,Ride_Ticket_counter.ride_id,Ride_Ticket_counter.no_of_tickets, ( Ride_Ticket_counter.no_of_tickets * Ride_info.ticket_price ) total_price,Ride_Ticket_counter.eticket_sold_time FROM Ride_Ticket_counter RIGHT JOIN Ride_info ON Ride_Ticket_counter.ride_id = Ride_info.ride_id ";
 
     //Array List for retrieving info from database
     //qString is the String of Query operation
@@ -237,7 +240,7 @@ public class rideCounterPanel extends javax.swing.JPanel {
         jLabel2.setBounds(10, 390, 110, 40);
 
         searchCategoryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
+        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "Sl. No", "Visitor Id", "Ride Id", "Time" }));
         contentPanel.add(searchCategoryField);
         searchCategoryField.setBounds(120, 400, 110, 30);
 
@@ -245,6 +248,11 @@ public class rideCounterPanel extends javax.swing.JPanel {
         searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("SEARCH");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(searchButton);
         searchButton.setBounds(330, 440, 90, 33);
 
@@ -260,6 +268,50 @@ public class rideCounterPanel extends javax.swing.JPanel {
         String[] args = null;
         new addRideCounterPanel().main(args);
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+        String strCol = searchCategoryField.getSelectedItem().toString();
+        String strVal = searchValueField.getText();
+
+        //changing column name to database's column name
+        if (strCol.equals("Sl. No".trim())) {
+            strCol = "rticket_sl_no";
+        } else if (strCol.equals("Visitor Id".trim())) {
+            strCol = "visitor_id";
+        } else if (strCol.equals("Ride Id".trim())) {
+            strCol = "ride_id";
+        } else if (strCol.equals("Time".trim())) {
+            strCol = "eticket_sold_time";
+        } //else if (strCol.equals("Age".trim())) {
+        //strCol = "visitor_age";
+        //}
+
+        try {
+            if (strCol.equals("-")) {
+                throw new InvalidInputExceptions("Choose a column to search.");
+            }
+            if (strVal.trim().equals("")) {
+                throw new InvalidInputExceptions("Type a value to search.");
+            }
+
+            //setting up the query string
+            queryString = "SELECT * FROM Ride_Ticket_Counter WHERE " + strCol + " = " + "'" + strVal + "'";
+
+            //This will bring the frame which was implemented for add button into the screen in Nimbus look 
+            //passing query string through jframe form
+            String[] args = null;
+            searchRideCounterPanel ob = new searchRideCounterPanel(queryString);
+
+            //setting query string to desired frame's variable
+            ob.setQueryString(queryString);
+
+            //setting visible the jframe
+            ob.main(args);
+        } catch (InvalidInputExceptions e) {
+            //catches the user defined input exception
+            JOptionPane.showMessageDialog(null, e);
+        }
+    }//GEN-LAST:event_searchButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

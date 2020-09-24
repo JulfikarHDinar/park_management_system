@@ -31,7 +31,7 @@ public class UpdateStaffPaymnetPanel extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-    entryTicketInfoPanel entryticket = new entryTicketInfoPanel();
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -43,14 +43,12 @@ public class UpdateStaffPaymnetPanel extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        foodNameField = new javax.swing.JTextField();
-        FoodPriceField = new javax.swing.JTextField();
+        salaryField = new javax.swing.JTextField();
         confirmButton = new javax.swing.JButton();
         cancelButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Entry Ticket Counter");
@@ -61,21 +59,13 @@ public class UpdateStaffPaymnetPanel extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(400, 400));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        foodNameField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        foodNameField.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                UpdatefoodNameFieldActionPerformed(evt);
-            }
-        });
-        jPanel1.add(foodNameField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 140, 210, 30));
-
-        FoodPriceField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        FoodPriceField.addActionListener(new java.awt.event.ActionListener() {
+        salaryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
+        salaryField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 UpdateTicketPriceActionPerformed(evt);
             }
         });
-        jPanel1.add(FoodPriceField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 210, 30));
+        jPanel1.add(salaryField, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 170, 210, 30));
 
         confirmButton.setBackground(new java.awt.Color(65, 40, 107));
         confirmButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -131,13 +121,8 @@ public class UpdateStaffPaymnetPanel extends javax.swing.JFrame {
 
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText(" Update Food Price");
-        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, 20));
-
-        jLabel3.setFont(new java.awt.Font("Arial Black", 1, 12)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText(" Update Food Name");
-        jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 120, -1, 20));
+        jLabel1.setText(" Update Salary");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 130, -1, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -166,10 +151,7 @@ public class UpdateStaffPaymnetPanel extends javax.swing.JFrame {
             try {
                 //checking if the field's are empty or not
                 InvalidInputExceptions iie = new InvalidInputExceptions();
-                if (iie.checkIfEmptyField(foodNameField.getText()) == true) {
-                    throw new InvalidInputExceptions("Input Ticket Type");
-                }
-                if (iie.checkIfEmptyField(FoodPriceField.getText()) == true) {
+                if (iie.checkIfEmptyField(salaryField.getText()) == true) {
                     throw new InvalidInputExceptions("Input Ticket Price");
                 }
 
@@ -178,11 +160,10 @@ public class UpdateStaffPaymnetPanel extends javax.swing.JFrame {
                 //  .replaceAll("\\s+","")  is used for removing characters in between whitespace
                 //UpdateEntryTicket updatEntryTicket = null ;
                 System.out.println(key);
-                String queryString = "Update Food_Info Set food_name=? , food_price=? Where food_id=" + key + "";
+                String queryString = "Update Payout_Amount Set staff_salary=? Where staff_designation=" + key + "";
 
                 PreparedStatement pst = dbc.preparedStatementQuery(queryString);
-                pst.setString(1, foodNameField.getText().trim());
-                pst.setString(2, FoodPriceField.getText().trim().replaceAll("\\s+", ""));
+                pst.setString(1, salaryField.getText().trim().replaceAll("\\s+", ""));
 
                 pst.executeUpdate();
 
@@ -203,11 +184,6 @@ public class UpdateStaffPaymnetPanel extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_confirmButtonActionPerformed
-
-    private void UpdatefoodNameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatefoodNameFieldActionPerformed
-        // TODO add your handling code here:
-        foodNameField.setText(entryticket.ticket_price);
-    }//GEN-LAST:event_UpdatefoodNameFieldActionPerformed
 
     private void UpdateTicketPriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateTicketPriceActionPerformed
         // TODO add your handling code here:
@@ -312,14 +288,12 @@ public class UpdateStaffPaymnetPanel extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JTextField FoodPriceField;
     private javax.swing.JButton cancelButton;
     private javax.swing.JButton confirmButton;
-    public javax.swing.JTextField foodNameField;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    public javax.swing.JTextField salaryField;
     // End of variables declaration//GEN-END:variables
 }

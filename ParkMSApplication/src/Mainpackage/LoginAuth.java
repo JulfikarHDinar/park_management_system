@@ -49,7 +49,7 @@ public class LoginAuth extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         
         //setting username and password in the textfeild for avoiding typing hassle
-        loadAuth();
+       // loadAuth();
         
         //hiding the error text at the beginning
         errorText.setVisible(false);

@@ -251,7 +251,7 @@ public class staffInfoPanel extends javax.swing.JPanel {
         jLabel2.setBounds(10, 390, 110, 40);
 
         searchCategoryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
+        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "ID", "Name", "Phone", "Sex", "Age" }));
         contentPanel.add(searchCategoryField);
         searchCategoryField.setBounds(120, 400, 110, 30);
 
@@ -259,8 +259,13 @@ public class staffInfoPanel extends javax.swing.JPanel {
         searchButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         searchButton.setForeground(new java.awt.Color(255, 255, 255));
         searchButton.setText("SEARCH");
+        searchButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                searchButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 33);
+        searchButton.setBounds(250, 440, 90, 33);
 
         searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         contentPanel.add(searchValueField);
@@ -304,6 +309,69 @@ public class staffInfoPanel extends javax.swing.JPanel {
         dbc.dbClose();
 
     }//GEN-LAST:event_deleteButtonActionPerformed
+
+    private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
+         //getting "Search By" column name and value from the form
+        String strCol = searchCategoryField.getSelectedItem().toString();
+        String strVal = searchValueField.getText();
+
+        //changing column name to database's column name
+        if (strCol.equals("ID".trim())) {
+            strCol = "staff_id";
+        } else if (strCol.equals("Name".trim())) {
+            strCol = "staff_name";
+        } else if (strCol.equals("Phone".trim())) {
+            strCol = "staff_phone ";
+        } else if (strCol.equals("Sex".trim())) {
+            strCol = "staff_gender ";
+        } else if (strCol.equals("Age".trim())) {
+            strCol = "staff_age";
+        }
+
+        try {
+            if (strCol.equals("-")) {
+                throw new InvalidInputExceptions("Choose a column to search.");
+            }
+            if (strVal.trim().equals("")) {
+                throw new InvalidInputExceptions("Type a value to search.");
+            }
+
+            if(strCol == "staff_name")
+            {
+                queryString = "SELECT * FROM Staff_info WHERE staff_name Like '%" + strVal + "%'";
+
+            //This will bring the frame which was implemented for add button into the screen in Nimbus look 
+            //passing query string through jframe form
+            String[] args = null;
+            searchStaffInfoPanel ob = new searchStaffInfoPanel(queryString);
+
+            //setting query string to desired frame's variable
+            ob.setQueryString(queryString);
+
+            //setting visible the jframe
+            ob.main(args);
+                
+            }else{
+            //setting up the query string
+            queryString = "SELECT * FROM Staff_info WHERE " + strCol + " = " + "'" + strVal + "'";
+
+            //This will bring the frame which was implemented for add button into the screen in Nimbus look 
+            //passing query string through jframe form
+            String[] args = null;
+            searchStaffInfoPanel ob = new searchStaffInfoPanel(queryString);
+
+            //setting query string to desired frame's variable
+            ob.setQueryString(queryString);
+
+            //setting visible the jframe
+            ob.main(args);
+            }
+        } catch (InvalidInputExceptions e) {
+            //catches the user defined input exception
+            JOptionPane.showMessageDialog(null, e);
+        }
+
+    }//GEN-LAST:event_searchButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

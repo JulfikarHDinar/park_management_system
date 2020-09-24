@@ -169,6 +169,11 @@ public class regionInfoPanel extends javax.swing.JPanel {
         updateButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         updateButton.setForeground(new java.awt.Color(255, 255, 255));
         updateButton.setText("Update");
+        updateButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateButtonActionPerformed(evt);
+            }
+        });
         contentPanel.add(updateButton);
         updateButton.setBounds(430, 440, 90, 33);
 
@@ -180,6 +185,10 @@ public class regionInfoPanel extends javax.swing.JPanel {
         String[] args = null;
         new addRegionInfoPanel().main(args);
     }//GEN-LAST:event_addButtonActionPerformed
+
+    private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_updateButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

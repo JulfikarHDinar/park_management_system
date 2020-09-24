@@ -2,15 +2,96 @@ package SearchButtonItems;
 
 import Mainpackage.*;
 import MenuItems.*;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+class FoodModel {
+    private int sl_no, visitor_id, foodId;
+    private String  time;
+
+    public FoodModel(int sl_no, int visitor_id, int foodId, String time) {
+        this.sl_no = sl_no;
+        this.visitor_id = visitor_id;
+        this.foodId = foodId;
+        this.time = time;
+    }
+
+    public int getSl_no() {
+        return sl_no;
+    }
+
+    public int getVisitor_id() {
+        return visitor_id;
+    }
+
+    public int getFoodId() {
+        return foodId;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+        
+}
 
 public class searchFoodCounterPanel extends javax.swing.JFrame {
-    //variable declaration of query so that we can use it while passing into a method
+     //variable declaration of query so that we can use it while passing into a method
     //query string is used in some method in this name: "qString". queryString must be static
     private static String queryString;
 
     public void setQueryString(String qString) {
         this.queryString = qString;
     }
+    
+    //Array List for retrieving info from database
+    //qString is the String of Query operation
+    private ArrayList<FoodModel> foodCounterList(String queryString) {
+        ArrayList<FoodModel> foodList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+
+            ResultSet rs = dbc.resultSetQuery(queryString);
+
+            FoodModel foodCounter;
+            while (rs.next()) {
+                foodCounter = new FoodModel(
+                        rs.getInt("order_sl_no"),
+                        rs.getInt("food_id"), 
+                        rs.getInt("visitor_id"),
+                        rs.getString("food_sold_date")
+                );
+                foodList.add(foodCounter);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return foodList;
+    }
+
+    //showing values from database to the jtable
+    //qString is the String of Query operation
+    private void show_foodCounter(String qString) {
+        ArrayList<FoodModel> list = foodCounterList(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[6];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getSl_no();
+            row[1] = list.get(i).getFoodId();
+            row[2] = list.get(i).getVisitor_id();
+            row[3] = list.get(i).getTime();
+
+            model.addRow(row);
+        }
+    }
+    
     /**
      * Creates new form searchVisitorInfoPanel
      */
@@ -18,8 +99,8 @@ public class searchFoodCounterPanel extends javax.swing.JFrame {
         initComponents();
         //setting the screen in the middle of the screen
         setLocationRelativeTo(null);
+        show_foodCounter(queryString);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -35,7 +116,6 @@ public class searchFoodCounterPanel extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        deleteButton = new javax.swing.JButton();
         tableScrollPanel = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
 
@@ -78,13 +158,6 @@ public class searchFoodCounterPanel extends javax.swing.JFrame {
         contentPanel.add(jPanel4);
         jPanel4.setBounds(10, 30, 150, 30);
 
-        deleteButton.setBackground(new java.awt.Color(65, 40, 107));
-        deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
-        deleteButton.setText("DELETE");
-        contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 400, 90, 33);
-
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -95,11 +168,11 @@ public class searchFoodCounterPanel extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Order Sl. No", "Visitor ID", "Food ID", "No of Item(s)", "Total Price", "Time"
+                "Order Sl. No", "Visitor ID", "Food ID", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -155,7 +228,6 @@ public class searchFoodCounterPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
-    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
