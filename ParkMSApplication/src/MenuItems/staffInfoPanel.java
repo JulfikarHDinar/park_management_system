@@ -252,7 +252,7 @@ public class staffInfoPanel extends javax.swing.JPanel {
         jLabel2.setBounds(10, 390, 110, 40);
 
         searchCategoryField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
-        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-" }));
+        searchCategoryField.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-", "ID", "Name", "Phone", "Sex", "Age" }));
         contentPanel.add(searchCategoryField);
         searchCategoryField.setBounds(120, 400, 110, 30);
 
@@ -266,7 +266,7 @@ public class staffInfoPanel extends javax.swing.JPanel {
             }
         });
         contentPanel.add(searchButton);
-        searchButton.setBounds(240, 440, 90, 25);
+        searchButton.setBounds(250, 440, 90, 33);
 
         searchValueField.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
         contentPanel.add(searchValueField);
@@ -289,7 +289,7 @@ public class staffInfoPanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        //This will bring the frame which was implemented for add button into the screen in Nimbus look 
+        //This will bring the frame which was implemented for add button into the screen in Nimbus look
         String[] args = null;
         new addStaffInfoPanel().main(args);
     }//GEN-LAST:event_addButtonActionPerformed
@@ -317,35 +317,67 @@ public class staffInfoPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void searchButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchButtonActionPerformed
-        // TODO add your handling code here:
+         //getting "Search By" column name and value from the form
+        String strCol = searchCategoryField.getSelectedItem().toString();
+        String strVal = searchValueField.getText();
+
+        //changing column name to database's column name
+        if (strCol.equals("ID".trim())) {
+            strCol = "staff_id";
+        } else if (strCol.equals("Name".trim())) {
+            strCol = "staff_name";
+        } else if (strCol.equals("Phone".trim())) {
+            strCol = "staff_phone ";
+        } else if (strCol.equals("Sex".trim())) {
+            strCol = "staff_gender ";
+        } else if (strCol.equals("Age".trim())) {
+            strCol = "staff_age";
+        }
+
+        try {
+            if (strCol.equals("-")) {
+                throw new InvalidInputExceptions("Choose a column to search.");
+            }
+            if (strVal.trim().equals("")) {
+                throw new InvalidInputExceptions("Type a value to search.");
+            }
+
+            if(strCol == "staff_name")
+            {
+                queryString = "SELECT * FROM Staff_info WHERE staff_name Like '%" + strVal + "%'";
+
+            //This will bring the frame which was implemented for add button into the screen in Nimbus look
+            //passing query string through jframe form
+            String[] args = null;
+            searchStaffInfoPanel ob = new searchStaffInfoPanel(queryString);
+
+            //setting query string to desired frame's variable
+            ob.setQueryString(queryString);
+
+            //setting visible the jframe
+            ob.main(args);
+
+            }else{
+            //setting up the query string
+            queryString = "SELECT * FROM Staff_info WHERE " + strCol + " = " + "'" + strVal + "'";
+
+            //This will bring the frame which was implemented for add button into the screen in Nimbus look
+            //passing query string through jframe form
+            String[] args = null;
+            searchStaffInfoPanel ob = new searchStaffInfoPanel(queryString);
+
+            //setting query string to desired frame's variable
+            ob.setQueryString(queryString);
+
+            //setting visible the jframe
+            ob.main(args);
+            }
+        } catch (InvalidInputExceptions e) {
+            //catches the user defined input exception
+            JOptionPane.showMessageDialog(null, e);
+        }
+
     }//GEN-LAST:event_searchButtonActionPerformed
-
-    private void infoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_infoButtonActionPerformed
-       
-        
-        /*queryStaffInfoPanel ob = new queryStaffInfoPanel(queryString);
-            
-         ob.setQueryString(queryString); 
-         String[] args = null;
-        // ob.setvisible(true);*/
-        //queryStaffInfoPanel ob = new queryStaffInfoPanel(queryString);
-            
-        
-         String[] args = null;
-        // ob.setvisible(true);
-        
-         queryStaffInfoPanel.main(queryString);
-        
-        
-        
-        
-         
-    }//GEN-LAST:event_infoButtonActionPerformed
-
-    public void setQueryString(String queryString) {
-        this.queryString = queryString;
-        
-    }
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -2,6 +2,40 @@ package SearchButtonItems;
 
 import Mainpackage.*;
 import MenuItems.*;
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+class RideModel{
+    
+    private int sl_no,visitor_id,ride_id;
+    private String time;
+
+    public RideModel(int sl_no, int visitor_id, int ride_id, String time) {
+        this.sl_no = sl_no;
+        this.visitor_id = visitor_id;
+        this.ride_id = ride_id;
+        this.time = time;
+    }
+
+    public int getSl_no() {
+        return sl_no;
+    }
+
+    public int getVisitor_id() {
+        return visitor_id;
+    }
+
+    public int getRide_id() {
+        return ride_id;
+    }
+
+    public String getTime() {
+        return time;
+    }
+ 
+}
 
 public class searchRideCounterPanel extends javax.swing.JFrame {
     //variable declaration of query so that we can use it while passing into a method
@@ -11,14 +45,62 @@ public class searchRideCounterPanel extends javax.swing.JFrame {
     public void setQueryString(String qString) {
         this.queryString = qString;
     }
+    
+    private ArrayList<RideModel> RideCounterList(String qString) {
+        ArrayList<RideModel> rideList = new ArrayList<>();
+        DatabaseConnection dbc = new DatabaseConnection();
+        try {
+
+            ResultSet rs = dbc.resultSetQuery(qString);
+
+            RideModel rideCounter;
+            while (rs.next()) {
+                rideCounter = new RideModel(
+                        rs.getInt("rticket_sl_no"),
+                        rs.getInt("visitor_id"),
+                        rs.getInt("ride_id"),
+                        rs.getString("eticket_sold_time")     
+                );
+                rideList.add(rideCounter);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
+        }
+
+        //closing database
+        dbc.dbClose();
+
+        return rideList;
+    }
+
+    //showing values from database to the jtable
+    //qString is the String of Query operation
+    private void show_ride(String qString) {
+        ArrayList<RideModel> list = RideCounterList(qString);
+        DefaultTableModel model = (DefaultTableModel) dataTable.getModel();
+        Object[] row = new Object[6];
+        for (int i = 0; i < list.size(); i++) {
+            row[0] = list.get(i).getSl_no();
+            row[1] = list.get(i).getVisitor_id();
+            row[2] = list.get(i).getRide_id();
+            row[3] = list.get(i).getTime();
+            
+                    
+            model.addRow(row);
+        }
+    }
+    
     /**
-     * Creates new form searchVisitorInfoPanel
+     * Creates new form visitorInfoPanel
      */
     public searchRideCounterPanel(String queryString) {
         initComponents();
         //setting the screen in the middle of the screen
         setLocationRelativeTo(null);
+        show_ride(queryString);
     }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,7 +117,6 @@ public class searchRideCounterPanel extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        deleteButton = new javax.swing.JButton();
         tableScrollPanel = new javax.swing.JScrollPane();
         dataTable = new javax.swing.JTable();
 
@@ -78,13 +159,6 @@ public class searchRideCounterPanel extends javax.swing.JFrame {
         contentPanel.add(jPanel4);
         jPanel4.setBounds(10, 30, 150, 30);
 
-        deleteButton.setBackground(new java.awt.Color(65, 40, 107));
-        deleteButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        deleteButton.setForeground(new java.awt.Color(255, 255, 255));
-        deleteButton.setText("DELETE");
-        contentPanel.add(deleteButton);
-        deleteButton.setBounds(420, 400, 90, 33);
-
         tableScrollPanel.setBackground(new java.awt.Color(255, 255, 255));
         tableScrollPanel.setForeground(new java.awt.Color(255, 255, 255));
 
@@ -95,11 +169,11 @@ public class searchRideCounterPanel extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Sl. No", "Visitor ID", "Ride ID", "No of Ticket(s)", "Total Price", "Time"
+                "Sl. No", "Visitor ID", "Ride ID", "Time"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -155,7 +229,6 @@ public class searchRideCounterPanel extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel contentPanel;
     private javax.swing.JTable dataTable;
-    private javax.swing.JButton deleteButton;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
