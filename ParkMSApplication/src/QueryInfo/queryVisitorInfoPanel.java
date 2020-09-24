@@ -61,7 +61,7 @@ public class queryVisitorInfoPanel extends javax.swing.JFrame {
 
        
             while (rs.next()) {
-                queryAge2 = rs.getInt("Visitor_Info");
+                queryAge2 = rs.getInt("visitor_age");
                 
             }
         } catch (Exception e) {
