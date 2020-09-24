@@ -91,7 +91,7 @@ CREATE TABLE Feedback(
 	feedback_sl_no int IDENTITY(1,1) PRIMARY KEY,
 	visitor_id int NOT NULL FOREIGN KEY REFERENCES Visitor_Info(visitor_id),
 	feedback_time varchar(20) NOT NULL,
-	visitor_rating int NOT NULL,
+	visitor_rating int NOT NULL
 	comments varchar(100)
 )
 
